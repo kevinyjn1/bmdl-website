@@ -1,0 +1,214 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import { href, initials } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const profiles = await getCollection('profiles');
+  return profiles.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { name, role, photo, email, links, affiliation, focus } = entry.data;
+---
+
+<Base title={name} description={`${name} - ${role}, Biomedical Manufacturing and Design Lab.`}>
+  <PageHero title={name} crumbs={[{ label: 'People', path: '/people' }, { label: name }]} lead={role} />
+
+  <section class="section">
+    <div class="container layout">
+      <aside class="card side">
+        <div class="portrait">
+          {photo ? (
+            <Image src={photo} alt={`Portrait of ${name}`} width={640} loading="eager" />
+          ) : (
+            <span class="initials">{initials(name)}</span>
+          )}
+        </div>
+        <div class="side-body">
+          {focus && (
+            <div class="block">
+              <h2 class="label mono">Research focus</h2>
+              <ul class="focus">
+                {focus.split(/[,;]\s*/).map((topic) => (
+                  <li class="tag">{topic}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {(email || links.length > 0) && (
+            <div class="block">
+              <h2 class="label mono">Contact</h2>
+              <ul class="contact">
+                {email && (
+                  <li>
+                    <a href={`mailto:${email}`}>
+                      <Icon name="mail" size={16} /> {email}
+                    </a>
+                  </li>
+                )}
+                {links.map((link) => (
+                  <li>
+                    <a href={link.href} target="_blank" rel="noopener noreferrer">
+                      <Icon name="arrow-up-right" size={16} /> {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {affiliation.length > 0 && (
+            <div class="block">
+              <h2 class="label mono">Affiliation</h2>
+              <p class="affiliation">
+                {affiliation.map((line) => (
+                  <span>{line}</span>
+                ))}
+              </p>
+            </div>
+          )}
+        </div>
+      </aside>
+
+      <article class="prose">
+        <Content />
+        <p class="back">
+          <a class="link-arrow" href={href('/people')}>
+            <Icon name="arrow-left" /> All people
+          </a>
+        </p>
+      </article>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .side {
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+    overflow: hidden;
+  }
+
+  .portrait {
+    position: relative;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--blue-700), var(--blue-900));
+  }
+
+  .portrait :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 18%;
+  }
+
+  .initials {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .side-body {
+    display: grid;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.7rem;
+  }
+
+  .focus {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .focus .tag {
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+  }
+
+  .contact {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .contact a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-weight: 550;
+    font-size: 0.93rem;
+    color: var(--blue-700);
+    overflow-wrap: anywhere;
+  }
+
+  .contact a:hover {
+    color: var(--blue-500);
+  }
+
+  .affiliation {
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+
+  .prose {
+    max-width: 72ch;
+  }
+
+  .back {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .back a {
+    text-decoration: none;
+  }
+
+  @media (max-width: 860px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .side {
+      position: static;
+      display: grid;
+      grid-template-columns: minmax(0, 180px) minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .side {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,213 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Zoomable from '../../components/Zoomable.astro';
+import Icon from '../../components/Icon.astro';
+import { image } from '../../lib/images';
+import { href, rich } from '../../lib/site';
+import landing from '../../data/shaw/landing.json';
+import life from '../../data/shaw/life.json';
+import manuscripts from '../../data/shaw/manuscripts.json';
+
+const photoCount = life.reduce((n, block) => n + (block.type === 'gallery' ? block.items!.length : 0), 0);
+
+const parts = [
+  {
+    n: '1',
+    title: 'The Life of Professor Milton Shaw',
+    path: '/prof-milton-shaw/the-life-of-professor-milton-shaw',
+    note: `A biography with ${photoCount} photographs and documents, 1915 to 2006`,
+  },
+  {
+    n: '2',
+    title: 'Manuscripts of Prof. Milton Shaw',
+    path: '/prof-milton-shaw/manuscript-of-professor-milton-shaw',
+    note: `${manuscripts.volumes.length} binders of publications and manuscripts`,
+  },
+];
+---
+
+<Base
+  title="Prof. Milton Shaw"
+  description="An archive honoring Professor Milton C. Shaw, a giant in the manufacturing community: his life and his manuscripts."
+>
+  <PageHero title="Prof. Milton Shaw" crumbs={[{ label: 'Prof. Milton Shaw' }]} lead={landing.heading} />
+
+  <section class="section">
+    <div class="container">
+      <p class="intro rich" data-reveal set:html={rich(landing.intro)} />
+
+      <ul class="photos" data-lightbox-group>
+        {landing.photos.map((photo, i) => (
+          <li data-reveal style={`--reveal-i:${i}`}>
+            <figure>
+              <Zoomable src={image(photo.image)} alt={photo.caption} height={760} class="frame-img" />
+              <figcaption>
+                <span class="mono year">{photo.caption.slice(0, 4)}</span>
+                {photo.caption.slice(5)}
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--dark blueprint">
+    <div class="container">
+      <ul class="parts">
+        {parts.map((part, i) => (
+          <li data-reveal style={`--reveal-i:${i}`}>
+            <a class="part" href={href(part.path)}>
+              <span class="n">{part.n}</span>
+              <span class="text">
+                <span class="title">{part.title}</span>
+                <span class="note">{part.note}</span>
+              </span>
+              <Icon name="arrow-right" size={26} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    max-width: 34ch;
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 450;
+    line-height: 1.35;
+    letter-spacing: -0.012em;
+    max-width: 46ch;
+  }
+
+  .photos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    margin-top: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .photos figure {
+    margin: 0;
+    width: min-content;
+  }
+
+  .photos :global(img) {
+    height: clamp(220px, 30vw, 380px);
+    width: auto;
+    max-width: none;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    filter: saturate(0.9);
+  }
+
+  .photos li:nth-child(2) :global(img) {
+    height: clamp(180px, 25vw, 320px);
+  }
+
+  .photos figcaption {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+
+  .year {
+    color: var(--maize-600);
+    font-weight: 600;
+    padding-top: 0.15em;
+  }
+
+  .parts {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .part {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: clamp(1.25rem, 4vw, 3rem);
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    border: 1px solid var(--line-dark);
+    border-radius: calc(var(--radius) + 4px);
+    transition:
+      background 0.3s,
+      border-color 0.3s,
+      color 0.3s;
+  }
+
+  .part .n {
+    font-family: var(--font-display);
+    font-size: var(--step-5);
+    font-weight: 700;
+    line-height: 0.8;
+    color: var(--maize);
+    transition: color 0.3s;
+  }
+
+  .text {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 650;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .note {
+    color: var(--on-dark-muted);
+    transition: color 0.3s;
+  }
+
+  .part :global(svg) {
+    transition: transform 0.35s var(--ease);
+  }
+
+  .part:hover {
+    background: var(--maize);
+    border-color: var(--maize);
+    color: var(--blue-900);
+  }
+
+  .part:hover .n,
+  .part:hover .note {
+    color: inherit;
+  }
+
+  .part:hover :global(svg) {
+    transform: translateX(8px);
+  }
+
+  @media (max-width: 640px) {
+    .photos figure {
+      width: 100%;
+    }
+
+    .photos :global(img),
+    .photos li:nth-child(2) :global(img) {
+      height: auto;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .part {
+      grid-template-columns: auto 1fr;
+    }
+
+    .part :global(svg) {
+      display: none;
+    }
+  }
+</style>

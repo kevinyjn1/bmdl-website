@@ -1,0 +1,277 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import PersonCard from '../../components/PersonCard.astro';
+import Icon from '../../components/Icon.astro';
+import { SITE } from '../../lib/site';
+import people from '../../data/people.json';
+
+const decades = [...new Set(people.alumni.map((a) => Math.floor(a.year / 10) * 10))].sort((a, b) => b - a);
+const currentCount = people.groups.reduce((n, g) => n + g.members.length, 0);
+---
+
+<Base title="People" description="Current members and alumni of the Biomedical Manufacturing and Design Lab.">
+  <PageHero
+    title="People"
+    crumbs={[{ label: 'People' }]}
+    lead={`${currentCount} current members and ${people.alumni.length} alumni, many now faculty in leading universities around the world.`}
+  />
+
+  <section class="section">
+    <div class="container">
+      <article class="pi blueprint aurora on-dark" data-reveal>
+        <div>
+          <p class="eyebrow">Principal investigator</p>
+          <h2>{SITE.pi.name}</h2>
+          <p class="pi-role">
+            {SITE.pi.title}, {SITE.pi.institution}
+          </p>
+          <ul class="chips">
+            {SITE.pi.appointments.map((a) => (
+              <li>{a}</li>
+            ))}
+          </ul>
+        </div>
+        <ul class="pi-links">
+          <li>
+            <a href={SITE.pi.profileUrl} target="_blank" rel="noopener noreferrer">
+              Faculty profile <Icon name="arrow-up-right" size={16} />
+            </a>
+          </li>
+          <li>
+            <a href={SITE.pi.scholarUrl} target="_blank" rel="noopener noreferrer">
+              Google Scholar <Icon name="arrow-up-right" size={16} />
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${SITE.contact.email}`}>
+              {SITE.contact.email} <Icon name="mail" size={16} />
+            </a>
+          </li>
+        </ul>
+      </article>
+
+      {people.groups.map((group) => (
+        <section class="group">
+          <header class="group-head" data-reveal>
+            <h2>{group.title}</h2>
+            <span class="mono count">{String(group.members.length).padStart(2, '0')}</span>
+          </header>
+          <ul class="grid">
+            {group.members.map((member, i) => (
+              <li data-reveal style={`--reveal-i:${i % 5}`}>
+                <PersonCard {...member} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--surface" id="alumni">
+    <div class="container">
+      <header class="section-head">
+        <div data-reveal>
+          <p class="eyebrow">Since {Math.min(...people.alumni.map((a) => a.year))}</p>
+          <h2 class="h-section">Alumni</h2>
+        </div>
+        <div class="filters" role="group" aria-label="Filter alumni by graduation decade" data-reveal>
+          <button type="button" class="chip is-active" data-decade="all" aria-pressed="true">
+            All <span class="mono">{people.alumni.length}</span>
+          </button>
+          {decades.map((decade) => (
+            <button type="button" class="chip" data-decade={decade} aria-pressed="false">
+              {decade}s{' '}
+              <span class="mono">{people.alumni.filter((a) => Math.floor(a.year / 10) * 10 === decade).length}</span>
+            </button>
+          ))}
+        </div>
+      </header>
+      <ul class="grid grid--sm" data-alumni>
+        {people.alumni.map((member) => (
+          <li data-decade={Math.floor(member.year / 10) * 10}>
+            <PersonCard {...member} size="sm" />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.filters [data-decade]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-alumni] > li');
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const decade = chip.dataset.decade;
+      chips.forEach((other) => {
+        const active = other === chip;
+        other.classList.toggle('is-active', active);
+        other.setAttribute('aria-pressed', String(active));
+      });
+      cards.forEach((card) => {
+        card.hidden = decade !== 'all' && card.dataset.decade !== decade;
+      });
+    });
+  });
+</script>
+
+<style>
+  .pi {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem 3rem;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    border-radius: calc(var(--radius) + 4px);
+    background: radial-gradient(ellipse 60% 120% at 100% 0%, rgba(42, 109, 179, 0.5), transparent 60%), var(--blue-900);
+    color: var(--on-dark);
+    overflow: hidden;
+  }
+
+  .pi h2 {
+    margin-top: 0.9rem;
+    font-size: var(--step-4);
+  }
+
+  .pi-role {
+    margin-top: 0.6rem;
+    color: var(--on-dark-muted);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 1.25rem;
+  }
+
+  .chips li {
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--line-dark);
+    border-radius: 999px;
+    font-size: 0.82rem;
+  }
+
+  .pi-links {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .pi-links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-width: 16rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--line-dark);
+    border-radius: 10px;
+    font-weight: 550;
+    font-size: 0.95rem;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .pi-links a:hover {
+    background: var(--maize);
+    border-color: var(--maize);
+    color: var(--blue-900);
+  }
+
+  .group {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .group-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .group-head h2 {
+    font-size: var(--step-2);
+  }
+
+  .count {
+    color: var(--maize-600);
+    font-weight: 600;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 2rem 1.5rem;
+  }
+
+  .grid--sm {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1.75rem 1.25rem;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.95rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-weight: 550;
+    font-size: 0.9rem;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      border-color 0.2s;
+  }
+
+  .chip .mono {
+    opacity: 0.6;
+    font-size: 0.72rem;
+  }
+
+  .chip:hover {
+    border-color: var(--blue-800);
+  }
+
+  .chip.is-active {
+    background: var(--blue-800);
+    border-color: var(--blue-800);
+    color: #fff;
+  }
+
+  [data-alumni] > li[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 520px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid--sm {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem 0.9rem;
+    }
+
+    .pi-links a {
+      min-width: 0;
+    }
+
+    .pi-links {
+      width: 100%;
+    }
+  }
+</style>

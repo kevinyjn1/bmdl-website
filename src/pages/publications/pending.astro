@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { rich } from '../../lib/site';
+import pending from '../../data/publications/pending.json';
+
+const sections = [
+  { title: 'In Press', tag: 'Accepted', items: pending.inPress },
+  { title: 'Pending (under review)', tag: 'Under review', items: pending.underReview },
+];
+---
+
+<Base title="Pending Publications" description="Refereed journal papers in press and under review.">
+  <PageHero
+    title="Pending"
+    crumbs={[{ label: 'Publications', path: '/publications' }, { label: 'Pending' }]}
+    lead="Refereed journal papers that are in press or under review."
+  />
+  <section class="section">
+    <div class="container narrow">
+      {sections.map((section) => (
+        <section class="block" data-reveal>
+          <header>
+            <h2>{section.title}</h2>
+            <span class="tag">{section.items.length} papers</span>
+          </header>
+          <ol>
+            {section.items.map((item) => (
+              <li class="rich" set:html={rich(item)} />
+            ))}
+          </ol>
+        </section>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .narrow {
+    max-width: 900px;
+  }
+
+  .block + .block {
+    margin-top: 4rem;
+  }
+
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 2px solid var(--blue-800);
+  }
+
+  h2 {
+    font-size: var(--step-2);
+    color: var(--blue-800);
+  }
+
+  ol {
+    counter-reset: item;
+  }
+
+  li {
+    counter-increment: item;
+    position: relative;
+    padding: 1.1rem 0 1.1rem 2.75rem;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  li::before {
+    content: counter(item, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+</style>

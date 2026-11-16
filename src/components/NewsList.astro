@@ -1,0 +1,66 @@
+---
+/** Dated list of news items. */
+import Icon from './Icon.astro';
+import { formatDate, rich } from '../lib/site';
+
+interface Props {
+  items: { date: string; html: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<ol class="news-list">
+  {items.map((item, i) => (
+    <li class="item" data-reveal style={`--reveal-i:${Math.min(i, 6)}`}>
+      <time class="mono" datetime={item.date}>
+        {formatDate(item.date)}
+      </time>
+      <p class="rich" set:html={rich(item.html)} />
+      {item.html.includes('<a ') && <Icon name="arrow-up-right" size={18} class="ext" />}
+    </li>
+  ))}
+</ol>
+
+<style>
+  .item {
+    display: grid;
+    grid-template-columns: 8.5rem 1fr 1.5rem;
+    gap: 0.5rem 1.5rem;
+    align-items: baseline;
+    padding: 1.15rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  time {
+    color: var(--blue-600);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  p {
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .item :global(.ext) {
+    align-self: center;
+    color: var(--muted);
+    opacity: 0.6;
+  }
+
+  @media (max-width: 640px) {
+    .item {
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+    }
+
+    .item :global(.ext) {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,238 @@
+---
+/** Horizontal, swipeable photo filmstrip with captions. */
+import Icon from './Icon.astro';
+import Zoomable from './Zoomable.astro';
+import { image } from '../lib/images';
+
+interface Props {
+  slides: { image: string; caption: string }[];
+  label: string;
+}
+
+const { slides, label } = Astro.props;
+---
+
+<div class="carousel" data-carousel data-lightbox-group>
+  <ul class="track" data-track tabindex="0" role="group" aria-label={label}>
+    {slides.map((slide, i) => (
+      <li class="slide">
+        <figure>
+          <Zoomable src={image(slide.image)} alt={slide.caption} height={880} loading={i < 3 ? 'eager' : 'lazy'} />
+          <figcaption>
+            <span class="mono n">{String(i + 1).padStart(2, '0')}</span>
+            {slide.caption}
+          </figcaption>
+        </figure>
+      </li>
+    ))}
+  </ul>
+  <div class="container controls">
+    <div class="progress" aria-hidden="true">
+      <span data-progress></span>
+    </div>
+    <div class="buttons">
+      <button type="button" data-prev aria-label="Previous photos">
+        <Icon name="arrow-left" />
+      </button>
+      <button type="button" data-next aria-label="Next photos">
+        <Icon name="arrow-right" />
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]')!;
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const next = root.querySelector<HTMLButtonElement>('[data-next]')!;
+    const progress = root.querySelector<HTMLElement>('[data-progress]')!;
+
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      const ratio = max > 0 ? track.scrollLeft / max : 0;
+      const visible = track.scrollWidth > 0 ? track.clientWidth / track.scrollWidth : 1;
+      progress.style.width = `${Math.min(1, visible) * 100}%`;
+      progress.style.left = `${ratio * (1 - Math.min(1, visible)) * 100}%`;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+    };
+    const page = (dir: number) => track.scrollBy({ left: dir * track.clientWidth * 0.75, behavior: 'smooth' });
+
+    // Mouse users can grab the strip and drag it; a drag must not open the lightbox.
+    let dragStart: { x: number; left: number } | null = null;
+    let dragged = false;
+    track.addEventListener('pointerdown', (event) => {
+      if (event.pointerType !== 'mouse' || event.button !== 0) return;
+      dragStart = { x: event.clientX, left: track.scrollLeft };
+      dragged = false;
+    });
+    window.addEventListener('pointermove', (event) => {
+      if (!dragStart) return;
+      const dx = event.clientX - dragStart.x;
+      if (!dragged && Math.abs(dx) > 6) {
+        dragged = true;
+        track.classList.add('is-dragging');
+      }
+      if (dragged) track.scrollLeft = dragStart.left - dx;
+    });
+    window.addEventListener('pointerup', () => {
+      dragStart = null;
+      // Keep the flag for the click that follows this pointerup, then clear it.
+      setTimeout(() => {
+        dragged = false;
+        track.classList.remove('is-dragging');
+      }, 0);
+    });
+    track.addEventListener(
+      'click',
+      (event) => {
+        if (!dragged) return;
+        event.preventDefault();
+        event.stopPropagation();
+      },
+      true,
+    );
+    track.addEventListener('dragstart', (event) => event.preventDefault());
+
+    prev.addEventListener('click', () => page(-1));
+    next.addEventListener('click', () => page(1));
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    track.querySelectorAll('img').forEach((img) => img.addEventListener('load', update, { once: true }));
+    update();
+  });
+</script>
+
+<style>
+  .carousel {
+    --slide-h: clamp(240px, 36vw, 440px);
+    --edge: max(var(--gutter), calc((100vw - var(--container)) / 2));
+  }
+
+  .track {
+    display: flex;
+    gap: clamp(1rem, 2vw, 1.75rem);
+    overflow-x: auto;
+    padding-inline: var(--edge);
+    scroll-padding-inline: var(--edge);
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .track::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .track {
+      cursor: grab;
+    }
+
+    .track :global(.zoomable) {
+      cursor: inherit;
+    }
+  }
+
+  .track:global(.is-dragging) {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    user-select: none;
+  }
+
+  .slide {
+    flex: none;
+    scroll-snap-align: start;
+  }
+
+  figure {
+    margin: 0;
+    width: min-content;
+  }
+
+  .slide :global(img) {
+    height: var(--slide-h);
+    width: auto;
+    max-width: none;
+    border-radius: var(--radius);
+    background: var(--blue-800);
+  }
+
+  .slide :global(.zoomable) {
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .slide :global(.zoomable:hover) {
+    transform: translateY(-4px);
+  }
+
+  figcaption {
+    display: flex;
+    gap: 0.85rem;
+    margin-top: 1rem;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--on-dark-muted);
+  }
+
+  .n {
+    color: var(--maize);
+    padding-top: 0.15em;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2.25rem;
+  }
+
+  .progress {
+    position: relative;
+    flex: 1;
+    height: 2px;
+    background: var(--line-dark);
+    border-radius: 2px;
+  }
+
+  .progress span {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: var(--maize);
+    border-radius: 2px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 0.6rem;
+  }
+
+  .buttons button {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid var(--line-dark);
+    color: var(--on-dark);
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      opacity 0.2s;
+  }
+
+  .buttons button:hover:not(:disabled) {
+    background: var(--maize);
+    border-color: var(--maize);
+    color: var(--blue-900);
+  }
+
+  .buttons button:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+</style>

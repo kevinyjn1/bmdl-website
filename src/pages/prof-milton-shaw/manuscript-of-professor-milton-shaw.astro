@@ -1,0 +1,289 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Zoomable from '../../components/Zoomable.astro';
+import Icon from '../../components/Icon.astro';
+import { image } from '../../lib/images';
+import { href, plain, rich } from '../../lib/site';
+import manuscripts from '../../data/shaw/manuscripts.json';
+
+const pad = (n: number) => String(n).padStart(2, '0');
+const RESTRICTED = /\s*\[Restricted\]\s*/;
+---
+
+<Base
+  title="Publications and Manuscripts of Prof. Milton Shaw"
+  description="Index of the 24 binders of publications and manuscripts of Professor Milton C. Shaw."
+>
+  <PageHero
+    title="Publications and Manuscripts of Prof. Milton Shaw"
+    crumbs={[{ label: 'Prof. Milton Shaw', path: '/prof-milton-shaw' }, { label: 'Manuscripts' }]}
+    lead={plain(manuscripts.intro)}
+  />
+
+  <section class="section">
+    <div class="container">
+      <nav class="vol-nav" aria-label="Jump to volume">
+        <span class="mono">Volume</span>
+        <ul>
+          {manuscripts.volumes.map((v) => (
+            <li>
+              <a href={`#vol-${v.volume}`}>{pad(v.volume)}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="volumes">
+        {manuscripts.volumes.map((v) => (
+          <section class="volume" id={`vol-${v.volume}`} aria-labelledby={`vol-${v.volume}-title`} data-lightbox-group>
+            <header>
+              <h2 id={`vol-${v.volume}-title`}>
+                <span class="mono">Vol.</span>
+                {pad(v.volume)}
+              </h2>
+              <p class="mono meta">
+                {v.scans.length} index {v.scans.length === 1 ? 'page' : 'pages'}
+                {v.items.length > 0 && <> &middot; {v.items.length} entries</>}
+              </p>
+            </header>
+
+            <div class:list={['content', { 'has-items': v.items.length > 0 }]}>
+              {v.items.length > 0 && (
+                <ol class="entries">
+                  {v.items.map((item) => {
+                    const restricted = RESTRICTED.test(item.html);
+                    return (
+                      <li>
+                        <span class="mono num">{item.num}</span>
+                        <span class="rich entry">
+                          <Fragment set:html={rich(item.html.replace(RESTRICTED, ' ').trim())} />
+                          {restricted && (
+                            <span class="tag restricted">
+                              <Icon name="lock" size={11} /> Restricted
+                            </span>
+                          )}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ol>
+              )}
+              <ul class="scans">
+                {v.scans.map((scan, i) => (
+                  <li>
+                    <Zoomable
+                      src={image(scan)}
+                      alt={`Volume ${v.volume} index, page ${i + 1}`}
+                      caption={`Vol. ${v.volume} - index page ${i + 1} of ${v.scans.length}`}
+                      width={Math.min(image(scan).width, 900)}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <p class="back">
+        <a class="link-arrow" href={href('/prof-milton-shaw')}>
+          <Icon name="arrow-left" /> Prof. Milton Shaw
+        </a>
+        <a class="link-arrow" href={href('/prof-milton-shaw/the-life-of-professor-milton-shaw')}>
+          The life of Professor Shaw <Icon name="arrow-right" />
+        </a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .vol-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .vol-nav > .mono {
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  .vol-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .vol-nav a {
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.1rem;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .vol-nav a:hover {
+    background: var(--blue-800);
+    border-color: var(--blue-800);
+    color: #fff;
+  }
+
+  .volumes {
+    margin-top: 1rem;
+  }
+
+  .volume {
+    display: grid;
+    grid-template-columns: minmax(0, 170px) minmax(0, 1fr);
+    gap: 1.5rem clamp(1.5rem, 4vw, 3.5rem);
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+    border-bottom: 1px solid var(--line-strong);
+    scroll-margin-top: var(--header-h);
+  }
+
+  .volume header {
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+    align-self: start;
+  }
+
+  .volume h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: var(--step-4);
+    color: var(--blue-800);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .volume h2 .mono {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--maize-600);
+    font-weight: 600;
+  }
+
+  .meta {
+    margin-top: 0.6rem;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .content.has-items {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 220px);
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .entries li {
+    display: grid;
+    grid-template-columns: 2.75rem 1fr;
+    gap: 0.5rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .entries li:first-child {
+    padding-top: 0;
+  }
+
+  .num {
+    padding-top: 0.2em;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .entry :global(a) {
+    color: var(--ink);
+  }
+
+  .restricted {
+    gap: 0.3rem;
+    margin-left: 0.4rem;
+    padding: 0.12rem 0.5rem;
+    background: var(--paper-2);
+    color: var(--muted);
+    font-size: 0.62rem;
+    vertical-align: 0.1em;
+  }
+
+  .scans {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .has-items .scans {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .scans :global(.zoomable) {
+    padding: 0.6rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    transition:
+      box-shadow 0.35s var(--ease),
+      transform 0.35s var(--ease);
+  }
+
+  .scans :global(.zoomable:hover) {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .scans :global(img) {
+    width: 100%;
+  }
+
+  .back {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  @media (max-width: 860px) {
+    .volume {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .volume header {
+      position: static;
+    }
+
+    .content.has-items {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .has-items .scans {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+  }
+</style>

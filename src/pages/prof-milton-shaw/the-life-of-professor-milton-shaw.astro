@@ -1,0 +1,297 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Zoomable from '../../components/Zoomable.astro';
+import Icon from '../../components/Icon.astro';
+import { image } from '../../lib/images';
+import { href, rich } from '../../lib/site';
+import life from '../../data/shaw/life.json';
+
+type Photo = { caption: string; year: number | null; image: string };
+type Block = { type: 'heading'; text: string } | { type: 'p'; html: string } | { type: 'gallery'; items: Photo[] };
+
+const blocks = life as Block[];
+
+// Give every gallery an anchor and a year range, e.g. "1915 - 1921".
+let galleryIndex = 0;
+const sections = blocks.map((block) => {
+  if (block.type !== 'gallery') return { block, id: undefined, range: undefined };
+  const years = block.items.map((item) => item.year).filter((y): y is number => y !== null);
+  const [from, to] = [Math.min(...years), Math.max(...years)];
+  return { block, id: `photos-${++galleryIndex}`, range: from === to ? String(from) : `${from} - ${to}` };
+});
+const galleries = sections.filter((s) => s.block.type === 'gallery');
+const photoCount = galleries.reduce((n, s) => n + (s.block as { items: Photo[] }).items.length, 0);
+
+/** "1950s Shaw, Smith, and Assoc" -> ["1950s", "Shaw, Smith, and Assoc"] */
+const splitCaption = (caption: string) => {
+  const match = caption.match(/^(\d{4}s?)\s+(.*)$/);
+  return match ? [match[1], match[2]] : ['', caption];
+};
+---
+
+<Base
+  title="The Life of Prof. Milton Shaw"
+  description="The life of Professor Milton Clayton Shaw (1915-2006), a giant in manufacturing, told with photographs and documents kept by his family."
+>
+  <PageHero
+    title="The Life of Prof. Milton Shaw - A Giant in Manufacturing"
+    crumbs={[{ label: 'Prof. Milton Shaw', path: '/prof-milton-shaw' }, { label: 'Life' }]}
+  />
+
+  <section class="section">
+    <div class="container layout">
+      <aside class="rail">
+        <p class="mono rail-title">Photographs</p>
+        <ol>
+          {galleries.map((s) => (
+            <li>
+              <a href={`#${s.id}`}>
+                <span>{s.range}</span>
+                <span class="mono">{(s.block as { items: Photo[] }).items.length}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+        <p class="rail-note">{photoCount} photographs and documents. Select any image to enlarge it.</p>
+      </aside>
+
+      <article class="story" data-lightbox-group>
+        {sections.map(({ block, id, range }) => {
+          if (block.type === 'heading') return <h2>{block.text}</h2>;
+          if (block.type === 'p') return <p class="text rich" set:html={rich(block.html)} />;
+          return (
+            <section class="gallery" id={id} aria-label={`Photographs, ${range}`}>
+              <header>
+                <span class="mono">Photographs</span>
+                <span class="range">{range}</span>
+              </header>
+              <ul>
+                {block.items.map((item) => {
+                  const [year, text] = splitCaption(item.caption);
+                  return (
+                    <li>
+                      <figure>
+                        <Zoomable src={image(item.image)} alt={item.caption} width={360} />
+                        <figcaption>
+                          {year && <span class="mono year">{year}</span>}
+                          {text}
+                        </figcaption>
+                      </figure>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          );
+        })}
+        <p class="back">
+          <a class="link-arrow" href={href('/prof-milton-shaw')}>
+            <Icon name="arrow-left" /> Prof. Milton Shaw
+          </a>
+          <a class="link-arrow" href={href('/prof-milton-shaw/manuscript-of-professor-milton-shaw')}>
+            Manuscripts <Icon name="arrow-right" />
+          </a>
+        </p>
+      </article>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 210px) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .rail {
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+  }
+
+  .rail-title {
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 0.9rem;
+  }
+
+  .rail ol {
+    border-left: 2px solid var(--line-strong);
+  }
+
+  .rail a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-left: -2px;
+    padding: 0.45rem 0 0.45rem 1rem;
+    border-left: 2px solid transparent;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.98rem;
+    font-variant-numeric: tabular-nums;
+    transition:
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .rail a .mono {
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  .rail a:hover {
+    border-left-color: var(--maize-600);
+    color: var(--blue-600);
+  }
+
+  .rail-note {
+    margin-top: 1.25rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .story > h2 {
+    font-size: var(--step-3);
+    margin: 3rem 0 1.5rem;
+  }
+
+  .story > h2:first-child {
+    margin-top: 0;
+  }
+
+  .text {
+    max-width: 70ch;
+    color: var(--ink-2);
+    font-size: 1.06rem;
+    line-height: 1.78;
+  }
+
+  .text + .text {
+    margin-top: 1.3em;
+  }
+
+  .gallery {
+    margin: 2.75rem 0;
+    padding: clamp(1.1rem, 2.5vw, 1.75rem);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
+  }
+
+  .gallery header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .gallery header .mono {
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  .range {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 650;
+    color: var(--blue-800);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .gallery ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem 1rem;
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  .gallery :global(.zoomable) {
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+  }
+
+  .gallery :global(img) {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: 50% 20%;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .gallery :global(.zoomable:hover img) {
+    transform: scale(1.06);
+  }
+
+  figcaption {
+    margin-top: 0.6rem;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+
+  .year {
+    display: block;
+    color: var(--maize-600);
+    font-weight: 600;
+    font-size: 0.72rem;
+  }
+
+  .back {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .rail {
+      position: static;
+    }
+
+    .rail ol {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      border-left: 0;
+    }
+
+    .rail a {
+      margin: 0;
+      padding: 0.4rem 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gallery ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

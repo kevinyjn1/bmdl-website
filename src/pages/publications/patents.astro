@@ -1,0 +1,231 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { rich } from '../../lib/site';
+import patents from '../../data/publications/patents.json';
+---
+
+<Base
+  title="Patents and Licensed Innovations"
+  description="Patents awarded, patents pending, and inventions from the Biomedical Manufacturing and Design Lab licensed to industry."
+>
+  <PageHero
+    title="Patents and Licensed Innovations"
+    crumbs={[{ label: 'Publications', path: '/publications' }, { label: 'Patents' }]}
+  >
+    <dl class="summary">
+      <div>
+        <dd>{patents.licensed.length}</dd>
+        <dt>Inventions licensed to industry</dt>
+      </div>
+      <div>
+        <dd>{patents.awarded.length}</dd>
+        <dt>Patents awarded</dt>
+      </div>
+      <div>
+        <dd>{patents.pending.length}</dd>
+        <dt>Patents pending</dt>
+      </div>
+    </dl>
+  </PageHero>
+
+  <section class="section section--surface">
+    <div class="container">
+      <header class="section-head" data-reveal>
+        <div>
+          <p class="eyebrow">From lab to market</p>
+          <h2 class="h-section">Invention Licensed to Industry</h2>
+        </div>
+      </header>
+      <ul class="licensed">
+        {patents.licensed.map((item, i) => (
+          <li class="license" data-reveal data-spot style={`--reveal-i:${i % 3}`}>
+            <span class="mono year">{item.year}</span>
+            <h3>{item.name}</h3>
+            <p>
+              <span class="mono to">Licensed to</span>
+              {item.licensee}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <header class="list-head" data-reveal>
+        <h2>Patent awarded</h2>
+        <span class="tag">{patents.awarded.length} patents</span>
+      </header>
+      <ol class="list">
+        {patents.awarded.map((item) => (
+          <li class="rich" set:html={rich(item)} />
+        ))}
+      </ol>
+
+      <header class="list-head second" data-reveal>
+        <h2>Patent pending</h2>
+        <span class="tag">{patents.pending.length} applications</span>
+      </header>
+      <ol class="list">
+        {patents.pending.map((item) => (
+          <li class="rich" set:html={rich(item)} />
+        ))}
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3.5rem;
+    margin: 2.25rem 0 0;
+  }
+
+  .summary dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 650;
+    line-height: 1;
+    color: var(--maize);
+  }
+
+  .summary dt {
+    margin-top: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+  }
+
+  .licensed {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .license {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    border-top: 3px solid var(--maize);
+    transition:
+      transform 0.35s var(--ease),
+      box-shadow 0.35s var(--ease);
+  }
+
+  .license:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .year {
+    color: var(--blue-600);
+    font-weight: 600;
+  }
+
+  .license h3 {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+
+  .license p {
+    margin-top: auto;
+    display: grid;
+    gap: 0.2rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .to {
+    font-size: 0.66rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+
+  .narrow {
+    max-width: 900px;
+  }
+
+  .list-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 2px solid var(--blue-800);
+  }
+
+  .list-head.second {
+    margin-top: 4.5rem;
+  }
+
+  .list-head h2 {
+    font-size: var(--step-2);
+    color: var(--blue-800);
+  }
+
+  .list {
+    counter-reset: item;
+  }
+
+  .list li {
+    counter-increment: item;
+    position: relative;
+    padding: 1.05rem 0 1.05rem 2.75rem;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .list li::before {
+    content: counter(item, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 1.2rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  .list :global(a) {
+    color: var(--ink);
+    text-decoration-color: transparent;
+  }
+
+  .list :global(a:hover) {
+    color: var(--blue-600);
+    text-decoration-color: var(--maize-600);
+  }
+
+  .list :global(a)::after {
+    content: '\2197';
+    display: inline-block;
+    margin-left: 0.35em;
+    font-size: 0.85em;
+    color: var(--blue-500);
+  }
+
+  @media (max-width: 900px) {
+    .licensed {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .licensed {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

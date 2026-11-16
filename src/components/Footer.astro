@@ -1,0 +1,250 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { SITE, href } from '../lib/site';
+import { image } from '../lib/images';
+import home from '../data/home.json';
+
+const quickLinks = [
+  { label: 'News', path: '/news' },
+  { label: 'People', path: '/people' },
+  { label: 'Research', path: '/research' },
+  { label: 'Publications', path: '/publications' },
+  { label: 'Contact', path: '/contact' },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer blueprint">
+  <div class="container">
+    <div class="top">
+      <div class="col about">
+        <h2 class="col-title">About</h2>
+        <p class="pi-name">
+          <a href={SITE.pi.profileUrl} target="_blank" rel="noopener noreferrer">
+            {SITE.pi.name}
+            <Icon name="arrow-up-right" size={16} />
+          </a>
+        </p>
+        <p>{SITE.pi.title}</p>
+        <p>{SITE.pi.institution}</p>
+        <ul class="appointments">
+          {SITE.pi.appointments.map((a) => (
+            <li>{a}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="col">
+        <h2 class="col-title">Quick Links</h2>
+        <ul class="links">
+          {quickLinks.map((l) => (
+            <li>
+              <a href={href(l.path)}>{l.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="col">
+        <h2 class="col-title">Connect</h2>
+        <ul class="links">
+          <li>
+            <a href={SITE.pi.scholarUrl} target="_blank" rel="noopener noreferrer">
+              Google Scholar
+              <Icon name="arrow-up-right" size={14} />
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col">
+        <h2 class="col-title">Contact</h2>
+        <address>
+          Professor {SITE.pi.name}
+          <br />
+          {SITE.contact.addressLines.map((line) => (
+            <>
+              {line}
+              <br />
+            </>
+          ))}
+        </address>
+        <ul class="links contact-links">
+          <li>
+            <a href={`mailto:${SITE.contact.email}`}>
+              <Icon name="mail" size={16} />
+              {SITE.contact.email}
+            </a>
+          </li>
+          <li>
+            <a href={SITE.contact.phoneHref}>
+              <Icon name="phone" size={16} />
+              {SITE.contact.phone}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <a class="brand" href={href('/')}>
+        <Image
+          src={image('brand/block-m.png')}
+          alt="University of Michigan"
+          width={72}
+          height={72}
+          class="brand-mark"
+        />
+        <span>
+          <strong>{SITE.name}</strong>
+          <br />
+          University of Michigan
+        </span>
+      </a>
+      <Image
+        src={image(home.campusBanner)}
+        alt="University of Michigan campus landmarks"
+        width={640}
+        class="campus"
+        loading="lazy"
+      />
+      <p class="copyright mono">
+        &copy; {year} {SITE.short}
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--blue-950);
+    color: var(--on-dark-muted);
+    padding-block: clamp(3.5rem, 7vw, 5.5rem) 2rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.4fr;
+    gap: 2.5rem 2rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .col-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--maize);
+    margin-bottom: 1.1rem;
+  }
+
+  .pi-name {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 650;
+    color: #fff;
+    margin-bottom: 0.3rem;
+  }
+
+  .pi-name a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .pi-name a:hover {
+    color: var(--maize);
+  }
+
+  .appointments {
+    margin-top: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .appointments li {
+    padding: 0.25rem 0.65rem;
+    border: 1px solid var(--line-dark);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    color: var(--on-dark);
+  }
+
+  .links {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--on-dark);
+    transition: color 0.2s;
+  }
+
+  .links a:hover {
+    color: var(--maize);
+  }
+
+  address {
+    font-style: normal;
+    margin-bottom: 1rem;
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem 2rem;
+    padding-top: 2rem;
+    font-size: 0.85rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    line-height: 1.35;
+  }
+
+  .brand strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+  }
+
+  .campus {
+    width: min(100%, 320px);
+    border-radius: 6px;
+    opacity: 0.9;
+  }
+
+  .copyright {
+    color: var(--on-dark-muted);
+  }
+
+  @media (max-width: 900px) {
+    .top {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .top {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

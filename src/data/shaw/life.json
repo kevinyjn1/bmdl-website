@@ -1,0 +1,827 @@
+[
+  {
+    "type": "heading",
+    "text": "Preface"
+  },
+  {
+    "type": "p",
+    "html": "Working together with Barbara Zitzewitz, the daughter of late Professor Milton Shaw, we have created this web-site to honor and celebrate the life of one of the giants in our manufacturing community. Professor Shaw passed away on September 7, 2006. During the 2006 ASME Manufacturing Science and Engineering Conference (MSEC) at Michigan on Oct. 8-11, 2016, the late Professor Ranga Komanduri presented a wonderful and heart-felt <a href=\"https://drive.google.com/file/d/1ab_yxZB9GvvXfuKA5QSsnUaDITYuCqoz/view?usp=sharing\">tribute</a> to honor the late Professor Shaw."
+  },
+  {
+    "type": "p",
+    "html": "Barbara kept <a href=\"/prof-milton-shaw/manuscript-of-professor-milton-shaw\">24 volumes of research file folders</a> of late Professor Shaw. She approached me hoping to share the wisdom and life (including many unpublished manuscripts of the late Professor Shaw) with our manufacturing community. Members of the Biomedical Manufacturing and Design Lab at the University of Michigan are honored to make this possible. Thanks to Profs. Yuan Li and Lulu Jing for their tireless effort scanning the document and to Lori Luo for her dedication to design this web-site with Barbara Zitzewitz."
+  },
+  {
+    "type": "p",
+    "html": "For more information and comments on this web-site, please contact Barbara Zitzewitz (<a href=\"mailto:bzitzewitz@gmail.com\">bzitzewitz@gmail.com</a>) or Albert Shih (<a href=\"mailto:shiha@umich.edu\">shiha@umich.edu</a>)."
+  },
+  {
+    "type": "p",
+    "html": "Let's celebrate the life of late Professor Shaw - a giant in manufacturing."
+  },
+  {
+    "type": "heading",
+    "text": "The Life of Milton Clayton Shaw"
+  },
+  {
+    "type": "p",
+    "html": "Milton Clayton Shaw was born in Philadelphia on May 27, 1915, the first child and only son of Nellie Edith Clayton and Milton Frederic Shaw. His father was a quiet, decent man who worked for a dairy, delivering milk, to support his family. His mother was an energetic, hardworking, talkative woman, who was an exceptional house keeper. His younger sister Ethel was born when he was five years old and because of the large difference in their ages, he did not interact much with her. His parents never had much money and neither of them had a formal education beyond the sixth grade. They had very strong values that they imparted to their son--honesty, humor, hard work, self-help and a sense of order."
+  },
+  {
+    "type": "gallery",
+    "items": [
+      {
+        "caption": "1915 born year",
+        "year": 1915,
+        "image": "shaw/life/001-1915-born-year.jpg"
+      },
+      {
+        "caption": "1915 with parents",
+        "year": 1915,
+        "image": "shaw/life/002-1915-with-parents.jpg"
+      },
+      {
+        "caption": "1918 childhood",
+        "year": 1918,
+        "image": "shaw/life/003-1918-childhood.jpg"
+      },
+      {
+        "caption": "1919 childhood",
+        "year": 1919,
+        "image": "shaw/life/004-1919-childhood.jpg"
+      },
+      {
+        "caption": "1921 childhood",
+        "year": 1921,
+        "image": "shaw/life/005-1921-childhood.jpg"
+      },
+      {
+        "caption": "1921 childhood",
+        "year": 1921,
+        "image": "shaw/life/006-1921-childhood.jpg"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "html": "Shaw started school when he was seven and attended Lawton School and Frankford High School, from which he graduated in 1933. During his school years, he joined the Boy Scouts of America, worked his way up to the Eagle rank, and became a Sea Scout, sailing with his friends on the Delaware River. He showed some interest in music: in grammar school, he learned to play the violin and in high school he took up the harmonica and played with a band on the radio. His mother remembered that he spent long hours during his childhood working quietly in his room and often had to be extracted to join his friends. His wife and mother-in-law have both indicated that he was a shy, good-looking young man who was hard to draw into a conversation."
+  },
+  {
+    "type": "gallery",
+    "items": [
+      {
+        "caption": "1929 Lawton School",
+        "year": 1929,
+        "image": "shaw/life/007-1929-lawton-school.jpg"
+      },
+      {
+        "caption": "1930 high school",
+        "year": 1930,
+        "image": "shaw/life/008-1930-high-school.jpg"
+      },
+      {
+        "caption": "1931 high school",
+        "year": 1931,
+        "image": "shaw/life/009-1931-high-school.jpg"
+      },
+      {
+        "caption": "1932 high school",
+        "year": 1932,
+        "image": "shaw/life/010-1932-high-school.jpg"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "html": "During his public school years, Shaw had not been a particularly outstanding student; but in college, where the work became more interesting, he excelled. He graduated at the top of his class at Drexel and was hired to fill one of two jobs offered by the Cincinnati Milling Machine Company. The company paid him $100 per month, a very generous offer in those times, and sent him to the University of Cincinnati for four years of graduate study. There he encountered a physicist who was looking for a trained engineer interested in supplementing research in the development of a new line of cutting fluids with coursework in mathematics, chemistry, and physics taken in the College of Liberal Arts. In his first year, he took all the chemistry courses that an undergraduate major in chemistry would take and in the following three years, all of the graduate courses in chemistry along with several in physics and mathematics."
+  },
+  {
+    "type": "p",
+    "html": "Shaw left Philadelphia in 1938, but returned in September 1939 to marry Mary Jane Greeninger, an honor graduate of Temple University working as a foreign-language secretary for a large firm in Philadelphia. He and his bride returned to Cincinnati immediately after their wedding. She set up housekeeping in their small apartment and found a series of part-time jobs while he continued his graduate studies, earning a Master of Science degree in 1940 and a Doctor of Science degree in 1942."
+  },
+  {
+    "type": "p",
+    "html": "Shaw’s doctoral dissertation concerned the chemical aspects of cutting fluid action. His thesis advisor was a world renowned organic chemist who had worked in Germany for the Nazis but managed to escape on a consulting visit to the Netherlands. When he arrived in the United States, the Proctor and Gamble Company tried to hire him but the U. S. government prevented them from doing so because of the classified research they were doing. The government allowed the company to pay his salary as long as he conducted his research at the University of Cincinnati. As his student, Shaw was able to learn state of the art techniques in organic chemistry."
+  },
+  {
+    "type": "p",
+    "html": "As he was finishing his work at Cincinnati in the fall of 1941, the Massachusetts Institute of Technology (MIT) offered him a position as Assistant Professor of Mechanical Engineering. MIT planned to launch a doctoral program in Mechanical Engineering and wanted to hire faculty with doctoral degrees in engineering before doing so. At that time, only physicists, chemists, and mathematicians with doctoral degrees were available on their faculty. Two days after the Japanese attacked Pearl Harbor on December 7, Professor Hunsacker, Head of the Mechanical and Aeronautical Engineering Department at MIT and the National Advisory Committee for Aeronautics (NACA) informed him that in a few days, the United States would be at war. He also told him that he should immediately begin work for the NACA at Langley Field in Virginia and plan to remain there until the war was over. To ensure that he would not try to leave the NACA prematurely, Prof. Hunsacker cancelled his commission as 1<sup>st</sup> Lieutenant in the Infantry Reserve and had him inducted into the Army as a Private. In 1944, after serving three years at the NACA, he received his honorable discharge."
+  },
+  {
+    "type": "p",
+    "html": "In the summer of 1942, Shaw was assigned to the Lewis Laboratory in Cleveland. There he gained valuable experience working on a variety of problems. By the end of the war, he was Chief of the Materials Branch (supervising research in Mechanics, Materials Science and Tribology). In early 1946, he called Professor Hunsacker and was invited to go to MIT, where he had hoped to be four years earlier. During the war years, the Shaws had two children, daughter Barbara Jane born in September 1942, and son Milton Stanley born in July 1946."
+  },
+  {
+    "type": "gallery",
+    "items": [
+      {
+        "caption": "1938 Bachelor of Science in Mechanical Engineering from Drexel Institute of Technology",
+        "year": 1938,
+        "image": "shaw/life/011-1938-bachelor-of-science-in-mechanical-engineering-from-drex.jpg"
+      },
+      {
+        "caption": "1938 Shaw",
+        "year": 1938,
+        "image": "shaw/life/012-1938-shaw.jpg"
+      },
+      {
+        "caption": "1940 Cutting Fluid Research",
+        "year": 1940,
+        "image": "shaw/life/013-1940-cutting-fluid-research.jpg"
+      },
+      {
+        "caption": "1941 Mechanical Activation",
+        "year": 1941,
+        "image": "shaw/life/014-1941-mechanical-activation.jpg"
+      },
+      {
+        "caption": "1942 Doctor of Science from University of Cincinnati",
+        "year": 1942,
+        "image": "shaw/life/015-1942-doctor-of-science-from-university-of-cincinnati.jpg"
+      },
+      {
+        "caption": "1943 Piston Ring Gage",
+        "year": 1943,
+        "image": "shaw/life/016-1943-piston-ring-gage.jpg"
+      },
+      {
+        "caption": "1944 Honorable Discharge from the US Army",
+        "year": 1944,
+        "image": "shaw/life/017-1944-honorable-discharge-from-the-us-army.jpg"
+      },
+      {
+        "caption": "1944 Honorable Discharge from the US Army",
+        "year": 1944,
+        "image": "shaw/life/018-1944-honorable-discharge-from-the-us-army.jpg"
+      },
+      {
+        "caption": "1945 drawing by T.P.C.T",
+        "year": 1945,
+        "image": "shaw/life/019-1945-drawing-by-t-p-c-t.jpg"
+      },
+      {
+        "caption": "1946 MIT",
+        "year": 1946,
+        "image": "shaw/life/020-1946-mit.jpg"
+      },
+      {
+        "caption": "1946 Glass Cylinder Engine",
+        "year": 1946,
+        "image": "shaw/life/021-1946-glass-cylinder-engine.jpg"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "html": "At MIT Shaw decided to concentrate on the basic aspects of materials processing and with help from several industrial companies was able to establish a first-class laboratory. He had many outstanding graduate students who went on to make important contributions in industry and at other universities. Shaw rose quickly through the ranks at MIT, becoming Associate Professor in 1949 and Full Professor in 1953. In addition to a heavy teaching load and the work associated with starting a research laboratory, he was primary author of a textbook, Analysis and Lubrication of Bearings, published in 1949. A year later, with a colleague and two graduate students, he formed a small consulting company, Shaw, Smith, and Associates, which operated on Saturdays. He had several graduate students in those early years and taught a summer program for foreign students that put him in contact with people from other nations for the first time. In 1952, accompanied by his wife, he made a three-month tour of the Netherlands, Sweden, Belgium, Germany, France, and England, delivering lectures on lubrication, friction, wear, and machine-tool technology. During this trip, he became one of the first Americans elected to membership in the International Institute for Production Engineering Research (CIRP). This was the beginning of his involvement in international engineering education and research that took him to six continents and put him in contact with world leaders in engineering."
+  },
+  {
+    "type": "p",
+    "html": "In the early fifties, Shaw’s main contributions were in lubrication, friction and wear, and bearing design. Then in the middle fifties, his principal activities were in metal cutting. He became involved in consulting with industry, solving problems brought to his attention on company visits. He participated in a televised series of engineering lectures aired on the Boston educational television channel, planned two-week refresher courses for industrial engineers, attended professional meetings, and continued his regular teaching and research activities. He put in long hours throughout the fifties: it was not unusual for him to work most of seven days a week from morning until after midnight. Recreation was photography, gardening, and keeping the house and yard in good condition. Every summer, he and his family made a one- or two-week visit to his parent’s home, first in Philadelphia and later in Wildwood Crest, on the southern New Jersey shore."
+  },
+  {
+    "type": "p",
+    "html": "In the early MIT years, Shaw undertook two major building projects at his home on Grant Street in Lexington. In 1948 he constructed an underground one-car garage accessible from the street. A year or so later, he modified the Cape-Cod-style house he had purchased in 1946, adding a second floor consisting of two large bedrooms and a bath. He designed these projects with the help of his students, sought approvals from the Lexington Board of Selectmen and completed the building with only the help of his wife. In 1953, the Shaws sold his dynamometer patent and Grant Street house in order to purchase a more substantial Dutch colonial on Berwick Road on Meriam Hill, a neighborhood populated by many faculty from MIT and Harvard. One of the first projects he completed in this new home, was the conversion of its screened porch into a pine-paneled study followed by a total redecoration of the interior. In 1955 he purchased the fiberglass hull for a 16-foot boat and fitted it with a fiberglass deck, mahogany seats and trim, and a 20-hp outboard motor. By 1956 he was ready to take the boat on family outings on the Charles River, Lake Winnepesaukee (New Hampshire), and the New Jersey shore. The Shaws used the boat for years to water ski and entertain visiting students."
+  },
+  {
+    "type": "gallery",
+    "items": [
+      {
+        "caption": "1950 Erwin Loewen",
+        "year": 1950,
+        "image": "shaw/life/022-1950-erwin-loewen.jpg"
+      },
+      {
+        "caption": "1950 E. Robert Marshall",
+        "year": 1950,
+        "image": "shaw/life/023-1950-e-robert-marshall.jpg"
+      },
+      {
+        "caption": "1950 Jacques Moulin",
+        "year": 1950,
+        "image": "shaw/life/024-1950-jacques-moulin.jpg"
+      },
+      {
+        "caption": "1950 MIT",
+        "year": 1950,
+        "image": "shaw/life/025-1950-mit.jpg"
+      },
+      {
+        "caption": "1951 Metal Cutting Summer Session",
+        "year": 1951,
+        "image": "shaw/life/026-1951-metal-cutting-summer-session.jpg"
+      },
+      {
+        "caption": "1951 Metal Cutting Summer Session",
+        "year": 1951,
+        "image": "shaw/life/027-1951-metal-cutting-summer-session.jpg"
+      },
+      {
+        "caption": "1950s Shaw, Smith, and Assoc",
+        "year": 1950,
+        "image": "shaw/life/028-1950s-shaw-smith-and-assoc.jpg"
+      },
+      {
+        "caption": "1952 European Itinerary",
+        "year": 1952,
+        "image": "shaw/life/029-1952-european-itinerary.jpg"
+      },
+      {
+        "caption": "1952 European Itinerary",
+        "year": 1952,
+        "image": "shaw/life/030-1952-european-itinerary.jpg"
+      },
+      {
+        "caption": "1953 Elected Fellow of the American Academy of Arts and Sciences",
+        "year": 1953,
+        "image": "shaw/life/031-1953-elected-fellow-of-the-american-academy-of-arts-and-scie.jpg"
+      },
+      {
+        "caption": "1954 MIT",
+        "year": 1954,
+        "image": "shaw/life/032-1954-mit.jpg"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "html": "The 1956-57 academic year was an especially busy one. That fall, Shaw went to Brazil to teach a four-week course. Later he received the George Westinghouse Award for Excellence in Teaching from the American Society for Engineering Education, a John Simon Guggenheim Research Fellowship, and a Fulbright Guest Professorship, which he used to finance his sabbatical leave at the Aachen Technische Hochschule from January through July, 1957. His wife and children accompanied him on this trip. His daughter and son attended German schools during the stay in Aachen and then the entire family toured Europe for six weeks by car before returning home."
+  },
+  {
+    "type": "p",
+    "html": "Shaw continued in his position as Head of the Materials Processing Division of the Mechanical Engineering Department until 1960. At that time, he realized that he had accomplished what he had set out to do in that position and he resigned as Division Head, turning over his research laboratory to one of his former graduate students who had become his close associate over the years. He became a University Professor and spent the 1960-61 academic year teaching general chemistry and developing an engineering elective for freshmen while he looked for a new direction for his research. In the spring of 1961, he accepted a position as Head of the Mechanical Engineering Department at Carnegie Institute of Technology (now Carnegie Mellon University). In August, 1961, he and his family moved to Pittsburgh."
+  },
+  {
+    "type": "gallery",
+    "items": [
+      {
+        "caption": "1956 GM Research",
+        "year": 1956,
+        "image": "shaw/life/033-1956-gm-research.jpg"
+      },
+      {
+        "caption": "1956 Drexel 65th Anniversary Alumni Citation",
+        "year": 1956,
+        "image": "shaw/life/034-1956-drexel-65th-anniversary-alumni-citation.jpg"
+      },
+      {
+        "caption": "1956 Guggenheim Fellowship Announcement",
+        "year": 1956,
+        "image": "shaw/life/035-1956-guggenheim-fellowship-announcement.jpg"
+      },
+      {
+        "caption": "1956 Drexel 65th Anniversary Convocation Program",
+        "year": 1956,
+        "image": "shaw/life/036-1956-drexel-65th-anniversary-convocation-program.jpg"
+      },
+      {
+        "caption": "1957 Recognition of Contributions at Aachen TH",
+        "year": 1957,
+        "image": "shaw/life/037-1957-recognition-of-contributions-at-aachen-th.jpg"
+      },
+      {
+        "caption": "1958 Discussion with Nate Cook",
+        "year": 1958,
+        "image": "shaw/life/038-1958-discussion-with-nate-cook.jpg"
+      },
+      {
+        "caption": "1958 ASTE Gold Medal",
+        "year": 1958,
+        "image": "shaw/life/039-1958-aste-gold-medal.jpg"
+      },
+      {
+        "caption": "1958 ASTE Gold Medal",
+        "year": 1958,
+        "image": "shaw/life/040-1958-aste-gold-medal.jpg"
+      },
+      {
+        "caption": "1958 ASTE Gold Medal",
+        "year": 1958,
+        "image": "shaw/life/041-1958-aste-gold-medal.jpg"
+      },
+      {
+        "caption": "1960 MIT",
+        "year": 1960,
+        "image": "shaw/life/042-1960-mit.jpg"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "html": "At Carnegie, Shaw inherited a small teaching-oriented department with an inbred faculty. The president of the institute asked him to improve the prestige of the Mechanical Engineering Department. Recognizing that this meant improving the research output of the department, he worked hard during his first five years to increase the size of the department by hiring faculty interested in doing research. He acquired grant money from the government and industry and used it to pay half of the salary of any faculty member with a viable research plan. Carnegie paid the remaining half of a professor’s salary for teaching and service. These teaching/research positions were attractive to incoming and existing faculty alike. They began to attract grant support of their own and over time sustained the desired expansion of the department. At the end of five years, Shaw had doubled its size, increasing the research productivity of the faculty and opening new research opportunities for graduate students and upper-division undergraduate students. Shaw’s success at running the department was recognized and his contract as Department Head, originally for five years, was renewed."
+  },
+  {
+    "type": "p",
+    "html": "Shaw’s involvement abroad continued throughout the sixties and seventies. In the summers of 1960, 1961, and 1964, he presented month-long lecture series at the University of Birmingham, England; and in 1964, he did the same at the Technische Hochschule in Munich, Germany. He became the president of CIRP in 1961 and co-hosted the first annual meeting in the United States, with Gene Merchant in Pittsburgh and Cincinnati in 1963. He continued to travel to many countries as a guest lecturer, touring universities and industries, visiting former graduate students, lecturing and problem solving along the way. In 1967, 1974, 1980, 1981, and 1999 he went to Japan, in 1971 to Russia and Australia, in 1980 to the People’s Republic of China, and in 1982 to Denmark. In 1972 he spent the spring quarter on sabbatical as Springer Professor at the University of California at Berkeley."
+  },
+  {
+    "type": "p",
+    "html": "During his tenure at Carnegie, Shaw’s primary research interest was grinding. He chaired CIRP’s grinding section and coordinated the work of 15 experts from several countries in studying fundamental and practical problems, including such things as compiling recommended starting conditions for grinding (feeds, speeds, and wheel selection for internal, cylindrical, and surface grinding) and measuring the number of cutting points per square inch on a grinding wheel. The research needs identified by this group of international experts provided research problems for his graduate students and led to the formulation of a new theory of grinding, an outgrowth of his consideration of the differences between grinding and metal cutting. His work with the fundamental principles of grinding bore fruit when he designed a segmented grinding wheel for high-speed applications. Having noted that grinding wheel failure occurred when radial cracks, running from bore to the rim, formed as the wheel was rotated at high speed, and knowing that grinding wheels were six times stronger in compression as in tension, he designed a segmented wheel in which the grinding segments were clamped to the hub of the wheel by a wedge arrangement that gripped the segments with a compressive force, tightening its grip as the wheel speed increased. He patented the wheel in several countries and it was so successful in tests that no existing grinders had enough power to drive the wheel to its full capabilities."
+  },
+  {
+    "type": "p",
+    "html": "In an effort to restore engineering education from a post-Sputnik emphasis on pure science, to the application of scientific principles in industrial problem-solving, Shaw succeeded in obtaining a $2 million grant from the National Science Foundation to establish the Production Research Institute (PRI) at Carnegie Mellon University. The Institute, an interdisciplinary organization created to study problems of importance to basic industries, while providing meaningful educational experience for students, accomplished its goals in several ways: 1.) by offering to share the start-up costs of a university research project with a sponsoring company or group of companies, 2.) by holding conferences designed to stimulate an exchange of ideas between academic and industrial engineers, experienced practitioners and students, 3.) by forming seminar groups in which faculty and students from different disciplines worked together with engineers from industry to solve specific practical problems, and 4.) by sponsoring senior research projects in which groups of five students under the supervision of a professor tackled a design problem, made plant visits, conducted laboratory research, and presented findings in written form and at a simulated technical society meeting. Shaw served as Director of the Institute for two years in addition to his duties as Department Head and became Associate Director in 1973."
+  },
+  {
+    "type": "p",
+    "html": "Many institutions recognized Shaw’s accomplishments in education, research, industrial problem solving, and invention. During the 1960s, he received distinguished alumnus awards from both Drexel University and the University of Cincinnati. In 1970, the University of Louvain, Belgium, conferred an honorary degree on him. In 1968, he was elected to membership in the United States National Academy of Engineering and in 1977 he became a foreign member of the Polish Academy of Arts and Sciences. He received numerous awards from the professional organizations associated with his several interests: the American Society of Lubrication Engineers, the American Society for Metals, the American Society of Mechanical Engineers, the Society of Manufacturing Engineers, and the American Abrasive Society. In addition to these honorary memberships, Shaw was a Fellow of the American Academy of Arts and Sciences, the Japanese Society of Mechanical Engineers, and the Japan Society of Precision Engineering. He served on the Board of Directors of the Engineering Foundation and the North American Manufacturing Research Institute. Near the end of his career, Shaw received the Georg Schlesinger Prize from Germany, the Presidential Medal from Drexel University, the ASME Gold Medal, and honorary doctorates from Carnegie Mellon University and the University of Cincinnati. In 1975, at the age of 60, Shaw resigned as Head of the Department of Mechanical Engineering and accepted a position as University Professor at CMU. He had grown tired of his administrative duties and wanted to spend more time teaching, doing research, and writing."
+  },
+  {
+    "type": "gallery",
+    "items": [
+      {
+        "caption": "1961 Appointment to Carnegie Institute of Technology",
+        "year": 1961,
+        "image": "shaw/life/043-1961-appointment-to-carnegie-institute-of-technology.jpg"
+      },
+      {
+        "caption": "1963 CIRP Meeting Visit to Cincinnati Milling Machine Company",
+        "year": 1963,
+        "image": "shaw/life/044-1963-cirp-meeting-visit-to-cincinnati-milling-machine-compan.jpg"
+      },
+      {
+        "caption": "1963 Ford Motor Company",
+        "year": 1963,
+        "image": "shaw/life/045-1963-ford-motor-company.jpg"
+      },
+      {
+        "caption": "1963 Shaw with Peklenik and Sata",
+        "year": 1963,
+        "image": "shaw/life/046-1963-shaw-with-peklenik-and-sata.jpg"
+      },
+      {
+        "caption": "1963 CIRP Meeting Attendees in Pittsburgh",
+        "year": 1963,
+        "image": "shaw/life/047-1963-cirp-meeting-attendees-in-pittsburgh.jpg"
+      },
+      {
+        "caption": "1965 CIRP Medal Commemorating Meeting in Liege Belgium",
+        "year": 1965,
+        "image": "shaw/life/048-1965-cirp-medal-commemorating-meeting-in-liege-belgium.jpg"
+      },
+      {
+        "caption": "1965 CIRP Medal Commemorating Meeting in Liege Belgium",
+        "year": 1965,
+        "image": "shaw/life/049-1965-cirp-medal-commemorating-meeting-in-liege-belgium.jpg"
+      },
+      {
+        "caption": "1967 Mayo Hershey Award for Metal Cutting Lubrication",
+        "year": 1967,
+        "image": "shaw/life/050-1967-mayo-hershey-award-for-metal-cutting-lubrication.jpg"
+      },
+      {
+        "caption": "1968 National Academy of Engineering Diploma",
+        "year": 1968,
+        "image": "shaw/life/051-1968-national-academy-of-engineering-diploma.jpg"
+      },
+      {
+        "caption": "1970 Election as Honorary Member of the Society for Manufacturing Engineers 2",
+        "year": 1970,
+        "image": "shaw/life/052-1970-election-as-honorary-member-of-the-society-for-manufact.jpg"
+      },
+      {
+        "caption": "1970 Election as Honorary Member of the Society for Manufacturing Engineers 1",
+        "year": 1970,
+        "image": "shaw/life/053-1970-election-as-honorary-member-of-the-society-for-manufact.jpg"
+      },
+      {
+        "caption": "1970 Election as Fellow of the American Society of Lubrication Engineers",
+        "year": 1970,
+        "image": "shaw/life/054-1970-election-as-fellow-of-the-american-society-of-lubricati.jpg"
+      },
+      {
+        "caption": "1970 Honorary Doctorate from University of Louvain, Belgium",
+        "year": 1970,
+        "image": "shaw/life/055-1970-honorary-doctorate-from-university-of-louvain-belgium.jpg"
+      },
+      {
+        "caption": "1971 Attendees at ASME Thurston Lecture",
+        "year": 1971,
+        "image": "shaw/life/056-1971-attendees-at-asme-thurston-lecture.jpg"
+      },
+      {
+        "caption": "1971 ASME Thurston Lecture",
+        "year": 1971,
+        "image": "shaw/life/057-1971-asme-thurston-lecture.jpg"
+      },
+      {
+        "caption": "1971 American Society for Metals Wilson Award",
+        "year": 1971,
+        "image": "shaw/life/058-1971-american-society-for-metals-wilson-award.jpg"
+      },
+      {
+        "caption": "1972 GWI_AGA Grinding Conference",
+        "year": 1972,
+        "image": "shaw/life/059-1972-gwi-aga-grinding-conference.jpg"
+      },
+      {
+        "caption": "1972 GWI_AGA Grinding Conference",
+        "year": 1972,
+        "image": "shaw/life/060-1972-gwi-aga-grinding-conference.jpg"
+      },
+      {
+        "caption": "1972 GWI_AGA Grinding Conference",
+        "year": 1972,
+        "image": "shaw/life/061-1972-gwi-aga-grinding-conference.jpg"
+      },
+      {
+        "caption": "1972 A M National Award",
+        "year": 1972,
+        "image": "shaw/life/062-1972-a-m-national-award.jpg"
+      },
+      {
+        "caption": "1972 GWI_AGA Grinding Conference",
+        "year": 1972,
+        "image": "shaw/life/063-1972-gwi-aga-grinding-conference.jpg"
+      },
+      {
+        "caption": "1972 GWI_AGA Grinding Conference",
+        "year": 1972,
+        "image": "shaw/life/064-1972-gwi-aga-grinding-conference.jpg"
+      },
+      {
+        "caption": "1972 A M National Award",
+        "year": 1972,
+        "image": "shaw/life/065-1972-a-m-national-award.jpg"
+      },
+      {
+        "caption": "1972 A M National Award",
+        "year": 1972,
+        "image": "shaw/life/066-1972-a-m-national-award.jpg"
+      },
+      {
+        "caption": "1972 A M National Award",
+        "year": 1972,
+        "image": "shaw/life/067-1972-a-m-national-award.jpg"
+      },
+      {
+        "caption": "1972 A M National Award",
+        "year": 1972,
+        "image": "shaw/life/068-1972-a-m-national-award.jpg"
+      },
+      {
+        "caption": "1973 Shaw Lecturing",
+        "year": 1973,
+        "image": "shaw/life/069-1973-shaw-lecturing.jpg"
+      },
+      {
+        "caption": "1973 Grinding Wheel Institute (GWI) Scroll",
+        "year": 1973,
+        "image": "shaw/life/070-1973-grinding-wheel-institute-gwi-scroll.jpg"
+      },
+      {
+        "caption": "1973 Shaw Lecturing",
+        "year": 1973,
+        "image": "shaw/life/071-1973-shaw-lecturing.jpg"
+      },
+      {
+        "caption": "1973 Shaw Lecturing",
+        "year": 1973,
+        "image": "shaw/life/072-1973-shaw-lecturing.jpg"
+      },
+      {
+        "caption": "1973 Shaw with Student",
+        "year": 1973,
+        "image": "shaw/life/073-1973-shaw-with-student.jpg"
+      },
+      {
+        "caption": "1973 Shaw with Student",
+        "year": 1973,
+        "image": "shaw/life/074-1973-shaw-with-student.jpg"
+      },
+      {
+        "caption": "1973 Shaw with Student",
+        "year": 1973,
+        "image": "shaw/life/075-1973-shaw-with-student.jpg"
+      },
+      {
+        "caption": "1974 Second Visit to Japan",
+        "year": 1974,
+        "image": "shaw/life/076-1974-second-visit-to-japan.jpg"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "html": "Throughout his years at Carnegie Mellon, as was the case before at MIT, Shaw continued to be active on government committees (NASA, National Materials Advisory Board, and the National Research Council), writing papers, editing journals, and reviewing research proposals. The workload was heavy and in 1965, Shaw and his wife established a second residence on Indian Lake in the Laurel Mountains, 90 miles east of Pittsburgh, as a weekend and summer retreat. Although a summer home meant more work, it provided a restful place for writing and thinking and a place where he could use the motor boat and later a canoe and sailing dinghy."
+  },
+  {
+    "type": "p",
+    "html": "An active, healthy man, Shaw had no history of illness except for the keratoconus in both eyes that he contracted when he was a graduate student. He was able to restore his vision by wearing contact lenses: in the 1940’s he wore large lenses that completely covered each eye; but as contact lens technology improved, he was able to wear smaller lenses that only covered the corneas. By the late sixties, the constant wearing of lenses made it necessary for him to have cornea transplants on both eyes. Three transplants were required because one operation was unsuccessful and later he had to have a cataract removed. The four eye surgeries greatly improved his vision, correcting it to the point where he only needed to wear reading glasses. They were experimental procedures but the recuperation each time had gone ahead of schedule and Shaw, with the help of his wife, had been able to maintain his work schedule."
+  },
+  {
+    "type": "p",
+    "html": "About a month after he resigned as Head of the Department at CMU, however, he learned that he would need surgery to remove a brain tumor pressing on his right auditory nerve. It was necessary for the surgeon to cut the nerve and he lost hearing in his right ear. He was optimistic about the surgery and confident that he would get through it as well as he had the eye operations. That was not the case, however. Because of a post-operative hemorrhage, the surgeons had to remove part of his cerebellum. He had a long, complicated recuperation. The surgery was performed in early September, 1975. By Christmas that year, he had learned to walk again and his speech was only slightly slurred. His sense of humor and desire to get back to work had returned and with the help of Ranga Komanduri he returned to teaching one course in the winter term of 1976."
+  },
+  {
+    "type": "p",
+    "html": "In the spring of that year, Shaw and his wife took a vacation to Sun City, Arizona. They both fell in love with the climate, finding it a vast improvement over the ice and snow they had left behind in Pittsburgh. Before returning home, Shaw visited with the Dean of Engineering at Arizona State University (ASU) and arranged to spend his upcoming sabbatical leave on that campus. ASU appointed him Distinguished Guest Professor for the 1977 winter term and offered him a full professorship without tenure in Metallurgy to begin in January 1978. Shaw returned to CMU for the summer and fall of 1977 and prepared to move to Arizona permanently. He was able to resume almost all of his previous activities by the time he arrived at ASU. The brain surgery left him with no hearing in his right ear and a slight tremor in his left hand that made small motor activity a challenge. He did not let these difficulties slow him down, however."
+  },
+  {
+    "type": "p",
+    "html": "At ASU he started from scratch in a new field without tenure. The university took a risk in providing him this opportunity and he gratefully set out to earn their trust. He began by offering a design course for freshmen based on the introduction to engineering courses he had offered at MIT and CMU. The high point of this course was always a design contest involving a different problem each year. One year he asked students to design a toy boat powered by a mousetrap—the student whose boat traveled farthest won a prize; another year students designed nozzles to make balloons blown up with air to equal diameters to travel the greatest distance along a guiding string. A third year, the contest involved designing a container to protect an egg dropped off the roof of the football stadium, preventing it from breaking. This course was popular among the students and industrial engineers recognized it nationally as a valuable educational experience."
+  },
+  {
+    "type": "p",
+    "html": "A sudden drying up of grant sources initially slowed his progress in research at ASU. What caused this is difficult to say—whether it was the fact that Shaw was approaching 65 (normal retirement age), that he had been seriously ill, that he had moved from one university to another, or that he had changed his research field from grinding to metallurgy—the effect was the same: for the first time in his career, he experienced real difficulty obtaining support for his research. Fortunately, that did not last long. By 1981, he felt as though his position at ASU was better than if he had remained at CMU. ASU had granted him tenure and presented him with their first Outstanding Research Award. In addition, he had garnered enough research money to support the work of seven graduate students and pay 45% of his salary. Shaw continued teaching and working with graduate students, mostly from India, until 2000. During his tenure at ASU, Shaw was associated with many departments: Engineering Science, Mechanical and Aerospace Engineering, Chemical Engineering, and Industrial Engineering. Somewhere along the way, he received the title of Emeritus Professor."
+  },
+  {
+    "type": "gallery",
+    "items": [
+      {
+        "caption": "1975 Outstanding Engineer Recognition by Pittsburgh Section of ASME",
+        "year": 1975,
+        "image": "shaw/life/077-1975-outstanding-engineer-recognition-by-pittsburgh-section.jpg"
+      },
+      {
+        "caption": "1976 Birthday with Karin",
+        "year": 1976,
+        "image": "shaw/life/078-1976-birthday-with-karin.jpg"
+      },
+      {
+        "caption": "1977 with MSS, PWZ, MJS, Eric, Karin",
+        "year": 1977,
+        "image": "shaw/life/079-1977-with-mss-pwz-mjs-eric-karin.jpg"
+      },
+      {
+        "caption": "1978 Election as Foreign Member of Polish Academy",
+        "year": 1978,
+        "image": "shaw/life/080-1978-election-as-foreign-member-of-polish-academy.jpg"
+      },
+      {
+        "caption": "1979 Election as Member of the Japan Society of Mechanical Engineers",
+        "year": 1979,
+        "image": "shaw/life/081-1979-election-as-member-of-the-japan-society-of-mechanical-e.jpg"
+      },
+      {
+        "caption": "1980 ASME Centennial Award",
+        "year": 1980,
+        "image": "shaw/life/082-1980-asme-centennial-award.jpg"
+      },
+      {
+        "caption": "1980 ASME Centennial Award",
+        "year": 1980,
+        "image": "shaw/life/083-1980-asme-centennial-award.jpg"
+      },
+      {
+        "caption": "1980 ASME Centennial Award",
+        "year": 1980,
+        "image": "shaw/life/084-1980-asme-centennial-award.jpg"
+      },
+      {
+        "caption": "1980 ASME Centennial Award",
+        "year": 1980,
+        "image": "shaw/life/085-1980-asme-centennial-award.jpg"
+      },
+      {
+        "caption": "1980 SME International Education Honor Award",
+        "year": 1980,
+        "image": "shaw/life/086-1980-sme-international-education-honor-award.jpg"
+      },
+      {
+        "caption": "1980 ASME Long-Term Membership Award",
+        "year": 1980,
+        "image": "shaw/life/087-1980-asme-long-term-membership-award.jpg"
+      },
+      {
+        "caption": "1980 SME International Education Honor Award",
+        "year": 1980,
+        "image": "shaw/life/088-1980-sme-international-education-honor-award.jpg"
+      },
+      {
+        "caption": "1980 Visit with Clyde Sluhan",
+        "year": 1980,
+        "image": "shaw/life/089-1980-visit-with-clyde-sluhan.jpg"
+      },
+      {
+        "caption": "1981 Election as Fellow of the American Society for Metals",
+        "year": 1981,
+        "image": "shaw/life/090-1981-election-as-fellow-of-the-american-society-for-metals.jpg"
+      },
+      {
+        "caption": "1981 Fourth Visit to Japan",
+        "year": 1981,
+        "image": "shaw/life/091-1981-fourth-visit-to-japan.jpg"
+      },
+      {
+        "caption": "1981 SME 25 Year Award",
+        "year": 1981,
+        "image": "shaw/life/092-1981-sme-25-year-award.jpg"
+      },
+      {
+        "caption": "1981 Election as Fellow of the American Society for Metals",
+        "year": 1981,
+        "image": "shaw/life/093-1981-election-as-fellow-of-the-american-society-for-metals.jpg"
+      },
+      {
+        "caption": "1982 ASU Distinguished Research Award",
+        "year": 1982,
+        "image": "shaw/life/094-1982-asu-distinguished-research-award.jpg"
+      },
+      {
+        "caption": "1982 ASU Distinguished Research Award",
+        "year": 1982,
+        "image": "shaw/life/095-1982-asu-distinguished-research-award.jpg"
+      },
+      {
+        "caption": "1985 ASME Medal",
+        "year": 1985,
+        "image": "shaw/life/096-1985-asme-medal.jpg"
+      },
+      {
+        "caption": "1985 ASME Medal Press Release",
+        "year": 1985,
+        "image": "shaw/life/097-1985-asme-medal-press-release.jpg"
+      },
+      {
+        "caption": "1985 ASME Medal Press Release",
+        "year": 1985,
+        "image": "shaw/life/098-1985-asme-medal-press-release.jpg"
+      },
+      {
+        "caption": "1986 Election as Fellow of the SME",
+        "year": 1986,
+        "image": "shaw/life/099-1986-election-as-fellow-of-the-sme.jpg"
+      },
+      {
+        "caption": "1986 Election as Fellow of the SME",
+        "year": 1986,
+        "image": "shaw/life/100-1986-election-as-fellow-of-the-sme.jpg"
+      },
+      {
+        "caption": "1987 Alcoa 100th Anniversary Research Conference in Hilton Head, SC 1",
+        "year": 1987,
+        "image": "shaw/life/101-1987-alcoa-100th-anniversary-research-conference-in-hilton-h.jpg"
+      },
+      {
+        "caption": "1987 Alcoa 100th Anniversary Research Conference in Hilton Head, SC 2",
+        "year": 1987,
+        "image": "shaw/life/102-1987-alcoa-100th-anniversary-research-conference-in-hilton-h.jpg"
+      },
+      {
+        "caption": "1989 Member of the Hamerschlag Heritage",
+        "year": 1989,
+        "image": "shaw/life/103-1989-member-of-the-hamerschlag-heritage.jpg"
+      },
+      {
+        "caption": "1993 Symposium on US Contributions to Machining and Grinding Research in the 20th Century",
+        "year": 1993,
+        "image": "shaw/life/104-1993-symposium-on-us-contributions-to-machining-and-grinding.jpg"
+      },
+      {
+        "caption": "1993 Symposium on US Contributions to Machining and Grinding Research in the 20th Century",
+        "year": 1993,
+        "image": "shaw/life/105-1993-symposium-on-us-contributions-to-machining-and-grinding.jpg"
+      },
+      {
+        "caption": "1993 Symposium on US Contributions to Machining and Grinding Research in the 20th Century",
+        "year": 1993,
+        "image": "shaw/life/106-1993-symposium-on-us-contributions-to-machining-and-grinding.jpg"
+      },
+      {
+        "caption": "1993 Symposium on US Contributions to Machining and Grinding Research in the 20th Century",
+        "year": 1993,
+        "image": "shaw/life/107-1993-symposium-on-us-contributions-to-machining-and-grinding.jpg"
+      },
+      {
+        "caption": "1993 Symposium on US Contributions to Machining and Grinding Research in the 20th Century",
+        "year": 1993,
+        "image": "shaw/life/108-1993-symposium-on-us-contributions-to-machining-and-grinding.jpg"
+      },
+      {
+        "caption": "1993 Mary Jane and Milton Shaw",
+        "year": 1993,
+        "image": "shaw/life/109-1993-mary-jane-and-milton-shaw.jpg"
+      },
+      {
+        "caption": "1995 R.L.Kegg, M. C. Shaw, and Tetsuo Matsuo at CIRP Meeting in the Netherlands",
+        "year": 1995,
+        "image": "shaw/life/110-1995-r-l-kegg-m-c-shaw-and-tetsuo-matsuo-at-cirp-meeting-in.jpg"
+      },
+      {
+        "caption": "1996 Honorary Doctorate from Drexel University",
+        "year": 1996,
+        "image": "shaw/life/111-1996-honorary-doctorate-from-drexel-university.jpg"
+      },
+      {
+        "caption": "1997 Georg Schlesinger Prize",
+        "year": 1997,
+        "image": "shaw/life/112-1997-georg-schlesinger-prize.jpg"
+      },
+      {
+        "caption": "1997 Georg Schlesinger Prize",
+        "year": 1997,
+        "image": "shaw/life/113-1997-georg-schlesinger-prize.jpg"
+      },
+      {
+        "caption": "1998 Presidential Medal from Drexel University",
+        "year": 1998,
+        "image": "shaw/life/114-1998-presidential-medal-from-drexel-university.jpg"
+      },
+      {
+        "caption": "1998 Presidential Medal from Drexel University",
+        "year": 1998,
+        "image": "shaw/life/115-1998-presidential-medal-from-drexel-university.jpg"
+      },
+      {
+        "caption": "1998 Presidential Medal from Drexel University",
+        "year": 1998,
+        "image": "shaw/life/116-1998-presidential-medal-from-drexel-university.jpg"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "html": "During his academic career, Shaw had the opportunity to consult with over 150 companies on a variety of subjects. Some of these involved extended periods of time, for example 40 years for Corning Glass and 10 years each for Dupont, Cabot, Gleason, and Hitchener. After the move to Arizona, Shaw maintained many of his consulting relationships on the East coast. He returned every summer to his home on Indian Lake in Pennsylvania and made many consulting trips from there. Trips during the academic year, not as frequent as before, were longer and coincided with ASU vacations."
+  },
+  {
+    "type": "p",
+    "html": "At the end of August or beginning of September, he and his wife usually attended the CIRP annual meeting, held each year in a different country. They both enjoyed travel and valued their friendships with colleagues all over the world. In 1999, Shaw traveled on his own to Japan to meet with his former students who arranged to present him with the JSPE Award. Later that year, he and his wife celebrated their 60<sup>th</sup> wedding anniversary by taking a transatlantic cruise following the CIRP meeting from Europe to Boston, where their family took them to dinner at Longfellow’s Wayside Inn in Sudbury, Massachusetts. Two years later they returned to Cambridge to see their grandson Eric receive his Ph. D. in Economics from MIT. This afforded them the opportunity to visit with Nam Suh, one of his former students, then Chair of the Mechanical Engineering Department at MIT."
+  },
+  {
+    "type": "gallery",
+    "items": [
+      {
+        "caption": "1999 Fifth Visit to Japan",
+        "year": 1999,
+        "image": "shaw/life/117-1999-fifth-visit-to-japan.jpg"
+      },
+      {
+        "caption": "1999 Fifth Visit to Japan",
+        "year": 1999,
+        "image": "shaw/life/118-1999-fifth-visit-to-japan.jpg"
+      },
+      {
+        "caption": "1999 Fifth Visit to Japan",
+        "year": 1999,
+        "image": "shaw/life/119-1999-fifth-visit-to-japan.jpg"
+      },
+      {
+        "caption": "1999 Fifth Visit to Japan",
+        "year": 1999,
+        "image": "shaw/life/120-1999-fifth-visit-to-japan.jpg"
+      },
+      {
+        "caption": "1999 Fifth Visit to Japan",
+        "year": 1999,
+        "image": "shaw/life/121-1999-fifth-visit-to-japan.jpg"
+      },
+      {
+        "caption": "1999 The JSPE Prize Attendees",
+        "year": 1999,
+        "image": "shaw/life/122-1999-the-jspe-prize-attendees.jpg"
+      },
+      {
+        "caption": "1999 The Japan Society for Precision Engineering Prize",
+        "year": 1999,
+        "image": "shaw/life/123-1999-the-japan-society-for-precision-engineering-prize.jpg"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "html": "About that time, it became evident that Shaw was developing short-term memory problems. He would repeat himself frequently but still functioned well recalling facts and solving problems. He decided that he should stop teaching and accepted no new graduate students but allowed those who had research projects underway to finish. He retained an office at ASU, attended lectures and seminars, and continued writing papers for submission to journals, and completed a revision of his Metal Cutting Principles book released by Oxford Press in 2005. In May of that year, he and Mary Jane attended the wedding of their granddaughter Karin in Dearborn, Michigan. That was the last trip he made. In January 2006, his memory problems became so severe that he could no longer continue to live with Mary Jane in their cottage at Friendship Village. He was admitted to the Memory Care unit at the village, where he received palliative care until he passed away on September 7, 2006."
+  },
+  {
+    "type": "gallery",
+    "items": [
+      {
+        "caption": "2004 Tempe",
+        "year": 2004,
+        "image": "shaw/life/124-2004-tempe.jpg"
+      },
+      {
+        "caption": "2004 in Tempe with Great Grandchildren, Zachary and Zoe",
+        "year": 2004,
+        "image": "shaw/life/125-2004-in-tempe-with-great-grandchildren-zachary-and-zoe.jpg"
+      },
+      {
+        "caption": "2005 at Karin's Wedding to Sean Pue: Milton, Sean, Barbara, Mary Jane, and Eric",
+        "year": 2005,
+        "image": "shaw/life/126-2005-at-karin-s-wedding-to-sean-pue-milton-sean-barbara-mary.jpg"
+      },
+      {
+        "caption": "2005 Friendship Village",
+        "year": 2005,
+        "image": "shaw/life/127-2005-friendship-village.jpg"
+      },
+      {
+        "caption": "2006 Japanese Student Timeline",
+        "year": 2006,
+        "image": "shaw/life/128-2006-japanese-student-timeline.jpg"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "html": "Shaw was able to sustain a high level of productivity for over sixty years. The self-reliance, order, and importance of hard work that he learned as a child, combined with his native intelligence and creativity produced an individual with sufficient drive and ability to sustain productivity in the face of adversity and obstacles. Although his record shows that he had numerous opportunities presented to him, he always accepted the challenges they presented and made the most of them. When asked how he would characterize his career, he cited his wide educational background and wide range of experience and employment that allowed him to bring the content of many disciplines and practices to bear on the solution of problems. Throughout his career, he always had many projects in progress at the same time. He worked on each a bit, came back to each repeatedly until it was complete, learning details from each that could be applied to others."
+  },
+  {
+    "type": "p",
+    "html": "There were four major stages in Shaw’s career: 1) war-time research at NACA, 2) research and teaching in lubrication, friction and wear, bearing design, and metal cutting at MIT, 3) administration, problem-solving education, and grinding research at CMU, and 4) teaching and research in metallurgy at ASU. Although he felt that his tenures at MIT and CMU could have been ten years each instead of fifteen; the fact that each required a steep learning curve and significant changes in direction, it is not surprising that those stages required more time. In a brief autobiography that he wrote in 1999, he stated that he found it stimulating to work closely with young people and to see them mature and go on to take an important place in society. He believed this was the most satisfying aspect of his career."
+  },
+  {
+    "type": "p",
+    "html": "Link to access the <a href=\"/prof-milton-shaw/manuscript-of-professor-milton-shaw\">24 volumes of late Professor Shaw's personal research folders</a>."
+  }
+]

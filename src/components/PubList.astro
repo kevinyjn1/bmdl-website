@@ -1,0 +1,295 @@
+---
+/** Searchable list of publications grouped by year, with a sticky year index. */
+import Icon from './Icon.astro';
+import { rich } from '../lib/site';
+
+interface Props {
+  groups: { label: string; items: string[] }[];
+  noun: string;
+}
+
+const { groups, noun } = Astro.props;
+const total = groups.reduce((n, g) => n + g.items.length, 0);
+const anchor = (label: string) => 'y-' + label.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+---
+
+<div class="pubs" data-pubs>
+  <aside class="index">
+    <label class="search">
+      <Icon name="search" size={18} />
+      <span class="visually-hidden">Search {noun}</span>
+      <input
+        type="search"
+        placeholder="Search by title, author, journal..."
+        autocomplete="off"
+        spellcheck="false"
+        data-search
+      />
+    </label>
+    <p class="status mono" aria-live="polite" data-status>
+      {total} {noun}
+    </p>
+    <nav aria-label="Jump to year">
+      <ul class="years">
+        {groups.map((group) => (
+          <li>
+            <a href={`#${anchor(group.label)}`} data-year-link={anchor(group.label)}>
+              {group.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="groups">
+    {groups.map((group) => (
+      <section class="group" id={anchor(group.label)} data-group>
+        <h2>
+          <span>{group.label}</span>
+          <span class="mono count" data-count>
+            {group.items.length}
+          </span>
+        </h2>
+        <ol>
+          {group.items.map((item) => (
+            <li class="pub rich" data-pub set:html={rich(item)} />
+          ))}
+        </ol>
+      </section>
+    ))}
+    <p class="empty" hidden data-empty>
+      No {noun} match your search.
+    </p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-pubs]').forEach((root) => {
+    const input = root.querySelector<HTMLInputElement>('[data-search]')!;
+    const status = root.querySelector<HTMLElement>('[data-status]')!;
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+    const groups = Array.from(root.querySelectorAll<HTMLElement>('[data-group]'));
+    const initialStatus = status.textContent ?? '';
+    const noun = initialStatus.replace(/^\d+\s*/, '');
+    const index = groups.map((group) => ({
+      group,
+      count: group.querySelector<HTMLElement>('[data-count]')!,
+      link: root.querySelector<HTMLElement>(`[data-year-link="${group.id}"]`)?.parentElement ?? null,
+      pubs: Array.from(group.querySelectorAll<HTMLElement>('[data-pub]')).map((el) => ({
+        el,
+        text: (el.textContent ?? '').toLowerCase(),
+      })),
+    }));
+
+    const filter = () => {
+      const terms = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+      let shown = 0;
+      for (const { group, count, link, pubs } of index) {
+        let inGroup = 0;
+        for (const pub of pubs) {
+          const match = terms.every((term) => pub.text.includes(term));
+          pub.el.hidden = !match;
+          if (match) inGroup++;
+        }
+        group.hidden = inGroup === 0;
+        if (link) link.hidden = inGroup === 0;
+        count.textContent = String(inGroup);
+        shown += inGroup;
+      }
+      empty.hidden = shown > 0;
+      status.textContent = terms.length ? `${shown} matching ${noun}` : initialStatus;
+    };
+
+    input.addEventListener('input', filter);
+    if (input.value) filter();
+  });
+</script>
+
+<style>
+  .pubs {
+    display: grid;
+    grid-template-columns: minmax(0, 250px) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .index {
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+    max-height: calc(100dvh - var(--header-h) - 3rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0 0.9rem;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: 12px;
+    color: var(--muted);
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .search:focus-within {
+    border-color: var(--blue-600);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--blue-500) 18%, transparent);
+  }
+
+  .search input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.8rem 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    outline: none;
+  }
+
+  .status {
+    color: var(--muted);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+  }
+
+  .index nav {
+    overflow-y: auto;
+    padding-right: 0.25rem;
+    scrollbar-width: thin;
+  }
+
+  .years {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .years li[hidden] {
+    display: none;
+  }
+
+  .years a {
+    display: block;
+    padding: 0.4rem 0;
+    text-align: center;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .years a:hover {
+    background: var(--blue-800);
+    border-color: var(--blue-800);
+    color: #fff;
+  }
+
+  /* Wide labels ("Prior to 1998") take the full row */
+  .years li:has(a:not(:where([href^='#y-1'], [href^='#y-2']))) {
+    grid-column: 1 / -1;
+  }
+
+  .group + .group {
+    margin-top: 3rem;
+  }
+
+  .group[hidden] {
+    display: none;
+  }
+
+  .group h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-size: var(--step-3);
+    color: var(--blue-800);
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--blue-800);
+  }
+
+  .count {
+    color: var(--maize-600);
+    font-weight: 600;
+  }
+
+  ol {
+    counter-reset: pub;
+  }
+
+  .pub {
+    counter-increment: pub;
+    position: relative;
+    padding: 1rem 0 1rem 2.75rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.97rem;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .pub[hidden] {
+    display: none;
+  }
+
+  .pub::before {
+    content: counter(pub, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 1.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  .pub :global(a) {
+    color: var(--ink);
+    text-decoration-color: transparent;
+  }
+
+  .pub :global(a:hover) {
+    color: var(--blue-600);
+    text-decoration-color: var(--maize-600);
+  }
+
+  .pub :global(a)::after {
+    content: '\2197';
+    display: inline-block;
+    margin-left: 0.35em;
+    font-size: 0.85em;
+    color: var(--blue-500);
+  }
+
+  .empty {
+    padding: 3rem 0;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .pubs {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .index {
+      position: static;
+      max-height: none;
+    }
+
+    .years {
+      grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
+    }
+  }
+</style>

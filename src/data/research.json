@@ -1,0 +1,146 @@
+{
+  "projects": [
+    {
+      "id": "melt-blown-nonwovens",
+      "short": "Melt-blown nonwovens",
+      "title": "High-Performance Biodegradable Melt-Blown Nonwovens for Next Generation Filter",
+      "description": [
+        "To protect public health and promote sustainability, our society needs advanced air filtration materials that efficiently capture airborne viruses and fine particles while minimizing energy use. This project explores the potential of bio-sourced, biodegradable polymers—such as polylactic acid (PLA)—as eco-friendly alternatives for high-performance filters. We have been developing melt-blown techniques for these green materials, focusing on the key factors that influence nonwoven performance, with the goal of creating effective, biodegradable air filtration media."
+      ],
+      "links": [
+        "<a href=\"https://news.umich.edu/u-m-researchers-helping-to-develop-a-machine-for-on-demand-n95-mask-manufacturing/\">U-M researchers helping to develop a machine for on-demand N95 mask manufacturing</a>",
+        "<a href=\"https://www.detroitnews.com/story/news/local/michigan/2023/03/12/n95-nask-respirator-manufacture-university-michigan/69915720007/\">UM project aims to locally manufacture N95 respirators</a>"
+      ],
+      "image": "research/high-performance-biodegradable-melt-blown-nonwovens-for-next.jpg"
+    },
+    {
+      "id": "mechanical-thrombectomy",
+      "short": "Mechanical thrombectomy",
+      "title": "Mechanical Thrombectomy - Cutting of Clots",
+      "description": [],
+      "links": [
+        "<a href=\"https://www.sciencedirect.com/science/article/abs/pii/S0007850619300514\">Cutting forces in thrombectomy of blood clots</a>",
+        "<a href=\"https://www.sciencedirect.com/science/article/abs/pii/S1052305720306236\">Human blood clot analog fabrication and tensile characterization</a>",
+        "<a href=\"https://thejns.org/view/journals/j-neurosurg/134/3/article-p893.xml?body=pdf-16286\">Human blood clot tensile characterization and force in thrombectomy</a>",
+        "<a href=\"https://thejns.org/view/journals/j-neurosurg/aop/article-10.3171-2020.11.JNS203684/article-10.3171-2020.11.JNS203684.xml\">Failure modes and effects analysis of mechanical thrombectomy for stroke discovered in human brains</a>"
+      ],
+      "image": "research/mechanical-thrombectomy-cutting-of-clots.png"
+    },
+    {
+      "id": "atherectomy",
+      "short": "Atherectomy",
+      "title": "Atherectomy - Grinding of Calcified Plaque",
+      "description": [],
+      "links": [
+        "<a href=\"https://link.springer.com/article/10.1007/s10439-018-1984-z\">CFD modeling of the burr orbital motion in atherectomy with particle image velocimetry validation</a>",
+        "<a href=\"https://energyresources.asmedigitalcollection.asme.org/manufacturingscience/article-abstract/141/4/041015/475087/Multigrain-Smoothed-Particle-Hydrodynamics-and\">Smoothed particle hydrodynamics and Hertzian contact modeling of the grinding force in atherectomy</a>",
+        "<a href=\"https://www.sciencedirect.com/science/article/abs/pii/S1350453319301080\">Heat generation in atherectomy</a>",
+        "<a href=\"https://www.sciencedirect.com/science/article/abs/pii/S0007850617300902\">Experiment and smooth particle hydrodynamics simulation of debris size in atherectomy</a>",
+        "<a href=\"http://www.sciencedirect.com/science/article/pii/S0007850616300129\">Grinding wheel motion, force, temperature, and material removal in rotational atherectomy of calcified plaque</a>"
+      ],
+      "image": "research/atherectomy-grinding-of-calcified-plaque.png"
+    },
+    {
+      "id": "silicone-3d-printing",
+      "short": "Silicone 3D printing",
+      "title": "Silicone 3D printing",
+      "description": [],
+      "links": [
+        "<a href=\"https://asmedigitalcollection.asme.org/manufacturingscience/article/140/9/091009/368744/Measurement-and-Modeling-of-Forces-in-Extrusion\">Measurement and modeling of forces in extrusion-based additive manufacturing of flexible silicone elastomer with thin wall structures</a>",
+        "<a href=\"https://www.sciencedirect.com/science/article/pii/S2214860417302804\">Voids and tensile properties in extrusion-based additive manufacturing of moisture-cured silicone elastomer</a>",
+        "<a href=\"https://www.sciencedirect.com/science/article/pii/S2214860417300088\">The extrusion-based additive manufacturing of moisture-cured silicone elastomer with minimal void for pneumatic actuators</a>"
+      ],
+      "image": "research/silicone-3d-printing.jpg"
+    },
+    {
+      "id": "sic-grinding",
+      "short": "SiC/SiC grinding",
+      "title": "Grinding of silicon carbide fiber reinforced silicon carbide (SiCf/SiC)",
+      "description": [],
+      "links": [
+        "<a href=\"https://www.sciencedirect.com/science/article/pii/S0007850623001099\">Experiment and smooth particle hydrodynamic modeling of single-grain diamond scribing of silicon carbide fiber reinforced silicon carbide (SiCf/SiC)</a>"
+      ],
+      "image": "research/grinding-of-silicon-carbide-fiber-reinforced-silicon-carbide.png"
+    },
+    {
+      "id": "custom-orthoses",
+      "short": "Custom orthoses",
+      "title": "Additive Manufacturing of Custom Orthoses",
+      "description": [],
+      "links": [
+        "<a href=\"https://www.sciencedirect.com/science/article/pii/S2214860416300550\">Additive manufacturing of custom orthoses and prostheses—A review</a>",
+        "<a href=\"https://journals.lww.com/poijournal/Fulltext/2022/02000/Design_of_a_segmented_custom_ankle_foot_orthosis.7.aspx?context=FeaturedArticles&amp;collectionId=1\">Design of a segmented custom ankle foot orthosis with custom-made metal strut and 3D-printed footplate and calf shell</a>"
+      ],
+      "image": "research/additive-manufacturing-of-custom-orthoses.jpg"
+    },
+    {
+      "id": "bone-drilling",
+      "short": "Bone drilling",
+      "title": "Bone drilling",
+      "description": [],
+      "links": [
+        "<a href=\"http://www.medengphys.com/article/S1350-4533%2817%2930102-9/fulltext\">Notched K-wire</a>",
+        "<a href=\"http://onlinelibrary.wiley.com/doi/10.1002/jor.23044/full\">Heat accumulation in sequential bone drilling</a>",
+        "<a href=\"http://www.sciencedirect.com/science/article/pii/S1350453315001502\">Numerical modeling of heat accumulation in sequential bone drilling</a>"
+      ],
+      "image": "research/bone-drilling.png"
+    },
+    {
+      "id": "soft-robotics",
+      "short": "Soft robotics",
+      "title": "Soft, Flexible Assistive Devices and Robotics",
+      "description": [],
+      "links": [
+        "Additive manufacturing of silicone pneumatic actuators",
+        "<a href=\"http://sffsymposium.engr.utexas.edu/sites/default/files/2015/2015-25-Jin.pdf\">Extrusion-based additive manufacturing of moisture-cured silicone</a>"
+      ],
+      "image": "research/soft-flexible-assistive-devices-and-robotics.png"
+    }
+  ],
+  "past": [
+    {
+      "title": "Tissue-Mimicking Material",
+      "href": "http://onlinelibrary.wiley.com/doi/10.1118/1.4962649/abstract",
+      "image": "research/past-tissue-mimicking-material.png"
+    },
+    {
+      "title": "Clinical Simulators",
+      "href": "/research/clinical-simulators",
+      "image": "research/past-clinical-simulators.gif"
+    },
+    {
+      "title": "Skull Base Bone Grinding in Brain Surgery",
+      "href": "http://www.sciencedirect.com/science/article/pii/S0007850613001261",
+      "image": "research/past-skull-base-bone-grinding-in-brain-surgery.png"
+    },
+    {
+      "title": "Tissue Contact Stress in the Shoulder Bone",
+      "href": "http://www.sciencedirect.com/science/article/pii/S135045331400294X",
+      "image": "research/past-tissue-contact-stress-in-the-shoulder-bone.png"
+    },
+    {
+      "title": "Needle - Tissue Cutting Mechanics",
+      "href": "http://www.tandfonline.com/doi/full/10.1080/10910344.2015.1133917",
+      "image": "research/past-needle-tissue-cutting-mechanics.png"
+    },
+    {
+      "title": "Needle - Tissue Cutting Mechanics",
+      "href": "http://www.tandfonline.com/doi/full/10.1080/10910344.2015.1133917",
+      "image": "research/past-needle-tissue-cutting-mechanics-2.png"
+    },
+    {
+      "title": "Drilling - Metal",
+      "href": "/research/drilling-metal",
+      "image": "research/past-drilling-metal.png"
+    },
+    {
+      "title": "Grinding - Ceramic",
+      "href": "/research/grinding-ceramic",
+      "image": "research/past-grinding-ceramic.png"
+    }
+  ],
+  "positionPapers": [
+    "<a href=\"http://manufacturingscience.asmedigitalcollection.asme.org/article.aspx?articleid=1452024\">Biomedical manufacturing (ASME J of Mfg Sci and Eng)</a>",
+    "<a href=\"http://www.sciencedirect.com/science/article/pii/S0007850613001911\">Biomanufacturing (CIRP keynote)</a>"
+  ]
+}

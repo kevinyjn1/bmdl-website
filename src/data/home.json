@@ -1,0 +1,48 @@
+{
+  "campusBanner": "brand/campus-banner.png",
+  "intro": [
+    "Welcome to our lab website! We strive to be the Leaders &amp; Best in manufacturing research and education by providing innovative and multidisciplinary solutions for our partners. Our foundation is science and engineering knowledge in manufacturing, dedication, diversity, and team spirit. The lab is recognized as a leader in <a href=\"http://manufacturingscience.asmedigitalcollection.asme.org/article.aspx?articleid=1452024\">biomedical manufacturing</a>, semiconductor manufacturing, and machining (particularly in abrasive grinding and polishing process innovations). We have a rich tradition of training leaders in partnership with clinicians and industry (medical device, semiconductor, and automative) in research and education.",
+    "In biomedical manufacturing, we have invented minimally invasive interventional devices (e.g. atherectomy <a href=\"https://asmedigitalcollection.asme.org/manufacturingscience/article/141/4/041015/475087?casa_token=ZOqxU9OhBpQAAAAA:_hpjloIsGI4Mx2UfS4Ko7o7zXA4K0tEdm4zvYuMYMAOg0OP2UUjtgchWwovtmjPD_j9vbhRw\">(plaque grinding</a>, thrombectomy <a href=\"https://www.sciencedirect.com/science/article/pii/S0007850619300514?casa_token=-yZfq4IQT4gAAAAA:LwL8FouC5YxAQJ7hoV0txFaC_2xHEMCtT6cmAofi92AtRdlSnCAIPvtwXvNHIO3t_xCzfmwtJA\">(clot cutting and removal)</a>, and discectomy (for cartilage removal)), <a href=\"https://www.youtube.com/watch?v=5p2WCNDrhd4\">additive manufacturing of custom orthotics and prosthetics</a>, soft tissue-mimicking materials, <a href=\"https://www.mibluesperspectives.com/2016/10/26/residents-perfect-neurosurgery-skills-with-u-of-m-simulators/\">clinical simulators</a>, and many medical devices. Grinding/polising, drilling, and cutting of soft biomaterials are three machining processes that we have a long tradition of excellence and impacts in industry and healthcare.",
+    "In semiconductor manufacturing, as a Yushan Scholar in National Tsing Hua University in Hsinchu, Taiwan, Professor Shih has worked closely with Taiwan's semiconductor industry to study impacts of manufacturing in global IC supply chains and train a new generation of manufacturing leaders.",
+    "Our lab is also devoted to manufacturing education innovation, e.g. <a href=\"https://www.sciencedirect.com/science/article/pii/S2351978921000895\">flipped classroom for manufacturing processes</a>, <a href=\"http://www.sciencedirect.com/science/article/pii/S2351978916301032\">video-enhanced pedagogy</a>, <a href=\"https://www.sciencedirect.com/science/article/pii/S2351978920316061\">freshman manufacturing and society</a>, and two textbooks in <a href=\"http://www.springer.com/us/book/9781489976437http://www.springer.com/us/book/9781489976437\">machining and machine tools</a> and <a href=\"https://www.amazon.com/Metal-Bone-Drilling-Thermal-Aspects-ebook/dp/B07YD8TSVC/ref=tmm_kin_swatch_0\">drilling to link healthcare and aerospace/automotive industry</a>. We also collaborate with <a href=\"http://www.wccnet.edu/\">Washtenaw Community College</a>'s <a href=\"http://departments.wccnet.edu/advanced-technology/\">Advanced Manufacturing Technology</a> on manufacturing education.",
+    "We train students in undergraduate and graduate engineering, students who seek to enter medical school, residents and fellows who want to work with engineers on innovative medical devices. Many of our graduates are now faculty in leading universities around the world. Every summer, we sponsor several undergraduate and medical school students as research assistants."
+  ],
+  "slides": [
+    {
+      "image": "lab/hansen-li-phd-defense-2025.jpg",
+      "caption": "Hansen Li passed his PhD dissertation defense on April 25th 2025! Congratulations to Dr. Li"
+    },
+    {
+      "image": "lab/group-winter-2025.jpg",
+      "caption": "Group picture of winter 2025"
+    },
+    {
+      "image": "lab/namrc51-ruitao-su.jpg",
+      "caption": "Ruitao Su presented our work \"FFF of Nylon beyond the Glass Transition Temperature in a Thermally-Insulated Machine\" at NAMRC51 conference"
+    },
+    {
+      "image": "lab/graduation-2023.jpg",
+      "caption": "Lab members Ruitao Su (left), Austin Vensko (middle), and Su Sung Kim (right) graduated."
+    },
+    {
+      "image": "lab/n95-mask-machine.jpg",
+      "caption": "U-M researchers helping to develop a machine for on-demand N95 mask manufacturing."
+    },
+    {
+      "image": "lab/n95-leadership-team.jpg",
+      "caption": "Members of the leadership team for the N95 project. Devansh Tharnari, Luis Esparza, Laura Estrella, Litsa Rubino, Albert Shih, Luis Arguello"
+    },
+    {
+      "image": "lab/me481-abb-robot-class.jpg",
+      "caption": "Lab class for ME481: Dr. Miguel Funes teaches students how to use the ABB robot."
+    },
+    {
+      "image": "lab/clot-buster-pryor-hale-award.jpg",
+      "caption": "Clot Buster Wins the 35th Annual Pryor-Hale Award at the Michigan Business Challenge."
+    },
+    {
+      "image": "lab/calcium-solutions-mbc-win.jpg",
+      "caption": "BMDL Calcium Solutions team wins the 36th Annual Michigan Business Competition and $30,000 cash"
+    }
+  ]
+}

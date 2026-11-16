@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import PubList from '../../components/PubList.astro';
+import conference from '../../data/publications/conference.json';
+
+const total = conference.reduce((n, g) => n + g.items.length, 0);
+---
+
+<Base
+  title="Conference Papers"
+  description={`${total} conference papers from the Biomedical Manufacturing and Design Lab.`}
+>
+  <PageHero
+    title="Conference Papers"
+    crumbs={[{ label: 'Publications', path: '/publications' }, { label: 'Conference Papers' }]}
+    lead={`${total} conference papers, newest first.`}
+  />
+  <section class="section">
+    <div class="container">
+      <PubList groups={conference} noun="conference papers" />
+    </div>
+  </section>
+</Base>

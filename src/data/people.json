@@ -1,0 +1,370 @@
+{
+  "groups": [
+    {
+      "title": "Assistant Research Scientist",
+      "members": [
+        {
+          "name": "Karl Song",
+          "image": "people/karl-song.png",
+          "profile": null,
+          "link": "https://me.engin.umich.edu/people/faculty/c-karl-song/"
+        }
+      ]
+    },
+    {
+      "title": "Ph.D.",
+      "members": [
+        {
+          "name": "James Lorenz",
+          "image": "people/james-lorenz.jpg",
+          "profile": "james-lorenz",
+          "link": null
+        },
+        {
+          "name": "Raj Kachhadiya",
+          "image": "people/raj-kachhadiya.jpg",
+          "profile": null,
+          "link": "https://www.linkedin.com/in/raj-kachhadiya-a68317226/"
+        },
+        {
+          "name": "Kevin Xu",
+          "image": "people/kevin-xu.png",
+          "profile": null,
+          "link": null
+        }
+      ]
+    },
+    {
+      "title": "M.S. Students",
+      "members": [
+        {
+          "name": "Nathan Ng",
+          "image": null,
+          "profile": null,
+          "link": null
+        },
+        {
+          "name": "Luis Ramirez",
+          "image": "people/luis-ramirez.png",
+          "profile": null,
+          "link": null
+        },
+        {
+          "name": "Dennis Wang",
+          "image": "people/dennis-wang.jpg",
+          "profile": null,
+          "link": null
+        },
+        {
+          "name": "Aarav Shah",
+          "image": null,
+          "profile": null,
+          "link": null
+        }
+      ]
+    }
+  ],
+  "alumni": [
+    {
+      "name": "Hansen Li",
+      "year": 2025,
+      "image": "people/hansen-li.jpg",
+      "profile": "hansen-li",
+      "link": null
+    },
+    {
+      "name": "William van den Bogert",
+      "year": 2025,
+      "image": "people/william-van-den-bogert.jpg",
+      "profile": "william-van-den-bogert",
+      "link": null
+    },
+    {
+      "name": "Christian Argenti",
+      "year": 2024,
+      "image": "people/christian-argenti.jpg",
+      "profile": "christian-argenti",
+      "link": null
+    },
+    {
+      "name": "Reid Backus",
+      "year": 2024,
+      "image": "people/reid-backus.jpg",
+      "profile": null,
+      "link": null
+    },
+    {
+      "name": "Nathan Montgomery",
+      "year": 2023,
+      "image": "people/nathan-montgomery.jpg",
+      "profile": "nathan-montgomery",
+      "link": null
+    },
+    {
+      "name": "Yue Zhang",
+      "year": 2022,
+      "image": "people/yue-zhang.jpg",
+      "profile": "yue-zhang",
+      "link": null
+    },
+    {
+      "name": "Jingxuan (Jessie) Lyu",
+      "year": 2022,
+      "image": "people/jingxuan-jessie-lyu.jpg",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/jingxuan-lyu-700663a1/"
+    },
+    {
+      "name": "Tianshu (Kelly) Dong",
+      "year": 2022,
+      "image": "people/tianshu-kelly-dong.jpg",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/tianshu-dong-835196bb/"
+    },
+    {
+      "name": "Matthew Hildner",
+      "year": 2021,
+      "image": "people/matthew-hildner.jpg",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/mhildner/"
+    },
+    {
+      "name": "Albert Qianyi Fu",
+      "year": 2020,
+      "image": "people/albert-qianyi-fu.jpg",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/albert-qianyi-fu/"
+    },
+    {
+      "name": "Ketut Bagus Putra",
+      "year": 2020,
+      "image": "people/ketut-bagus-putra.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/ketutputra/"
+    },
+    {
+      "name": "Dr. Annie Dian-Ru Li",
+      "year": 2019,
+      "image": "people/dr-annie-dian-ru-li.jpg",
+      "profile": null,
+      "link": "http://www.me.ntu.edu.tw/main.php?mod=adv_custom_page&func=show_page&site_id%200&page_id=306"
+    },
+    {
+      "name": "Yang Liu",
+      "year": 2019,
+      "image": "people/yang-liu.jpg",
+      "profile": null,
+      "link": "https://gift.sjtu.edu.cn/en/faculty/40885"
+    },
+    {
+      "name": "Robert Chisena",
+      "year": 2019,
+      "image": "people/robert-chisena.jpg",
+      "profile": "robert-chisena",
+      "link": "https://www.linkedin.com/in/robert-chisena-72aa2339/"
+    },
+    {
+      "name": "Jeff Plott",
+      "year": 2017,
+      "image": "people/jeff-plott.jpg",
+      "profile": "jeff-plott",
+      "link": "https://bme.umich.edu/people/jeff-plott/"
+    },
+    {
+      "name": "Lei Chen",
+      "year": 2017,
+      "image": "people/lei-chen.jpg",
+      "profile": null,
+      "link": "https://sites.google.com/view/leichen"
+    },
+    {
+      "name": "Yihao Zheng",
+      "year": 2016,
+      "image": "people/yihao-zheng.jpg",
+      "profile": null,
+      "link": "https://www.wpi.edu/people/faculty/yzheng8"
+    },
+    {
+      "name": "Barry Belmont",
+      "year": 2015,
+      "image": "people/barry-belmont.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/barry-belmont/"
+    },
+    {
+      "name": "Mathieu Davis",
+      "year": 2013,
+      "image": "people/mathieu-davis.png",
+      "profile": null,
+      "link": "https://www.exponent.com/professionals/d/davis-mathieu"
+    },
+    {
+      "name": "Tina Hsiao",
+      "year": 2013,
+      "image": "people/tina-hsiao.jpg",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/tina-yi-sing-hsiao-23ab1625/"
+    },
+    {
+      "name": "Kuen-Ren Chen",
+      "year": 2012,
+      "image": "people/kuen-ren-chen.png",
+      "profile": null,
+      "link": "http://www.mme.wsu.edu/people/faculty/faculty.html?chen"
+    },
+    {
+      "name": "Carl McGill",
+      "year": 2012,
+      "image": "people/carl-mcgill.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/carl-mcgill-ph-d-4834053b/"
+    },
+    {
+      "name": "Dae Woo Park",
+      "year": 2012,
+      "image": "people/dae-woo-park.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/dae-woo-park-0b848882/"
+    },
+    {
+      "name": "Dan Johnson",
+      "year": 2012,
+      "image": "people/dan-johnson.png",
+      "profile": null,
+      "link": "http://mdp.engin.umich.edu/our_team/dan-johnson/"
+    },
+    {
+      "name": "Bruce Tai",
+      "year": 2011,
+      "image": "people/bruce-tai.png",
+      "profile": null,
+      "link": "https://engineering.tamu.edu/mechanical/people/tai-bruce"
+    },
+    {
+      "name": "Robert Dodde",
+      "year": 2011,
+      "image": "people/robert-dodde.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/robert-dodde-587b0a3b/"
+    },
+    {
+      "name": "Matthew Chastagner",
+      "year": 2010,
+      "image": "people/matthew-chastagner.jpg",
+      "profile": null,
+      "link": "https://www.facebook.com/people/Matt-Chastagner/2251132"
+    },
+    {
+      "name": "Steven White",
+      "year": 2010,
+      "image": "people/steven-white.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/whitestevenb/"
+    },
+    {
+      "name": "Jason Moore",
+      "year": 2010,
+      "image": "people/jason-moore.png",
+      "profile": null,
+      "link": "http://www.mne.psu.edu/department/directory-detail.aspx?LandOn=Gen&q=jzm14"
+    },
+    {
+      "name": "Masahiro Fujiki",
+      "year": 2009,
+      "image": "people/masahiro-fujiki.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/masahiro-fujiki-259832132/"
+    },
+    {
+      "name": "Senthil Arul",
+      "year": 2009,
+      "image": "people/senthil-arul.jpg",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/senthil-arul-3a973a4/"
+    },
+    {
+      "name": "Yuanyuan Zhou",
+      "year": 2008,
+      "image": "people/yuanyuan-zhou.jpg",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/yuanyuan-zhou-ph-d-5558166/"
+    },
+    {
+      "name": "Jie Zhu",
+      "year": 2008,
+      "image": "people/jie-zhu.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/jie-zhu-752882a/"
+    },
+    {
+      "name": "Bin Shen",
+      "year": 2008,
+      "image": "people/bin-shen.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/bin-shen-b7b778a/"
+    },
+    {
+      "name": "Jia Tao",
+      "year": 2008,
+      "image": "people/jia-tao.jpg",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/jia-tao-a9888434/"
+    },
+    {
+      "name": "ChenChun Kao",
+      "year": 2007,
+      "image": "people/chenchun-kao.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/chenchun-kao-63893b8/"
+    },
+    {
+      "name": "Rui Li",
+      "year": 2007,
+      "image": "people/rui-li.jpg",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/rui-li-02a9b8a/"
+    },
+    {
+      "name": "Scott Miller",
+      "year": 2006,
+      "image": "people/scott-miller.png",
+      "profile": null,
+      "link": "https://me.hawaii.edu/people/miller/"
+    },
+    {
+      "name": "Zhenhua Huang",
+      "year": 2006,
+      "image": "people/zhenhua-huang.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/zhenhua-huang-4787859/"
+    },
+    {
+      "name": "Jie Luo",
+      "year": 2005,
+      "image": "people/jie-luo.jpg",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/jie-luo-973a696/"
+    },
+    {
+      "name": "Mustafa Bakkal",
+      "year": 2004,
+      "image": "people/mustafa-bakkal.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/mustafa-bakkal-a2752771/"
+    },
+    {
+      "name": "Jian Kong",
+      "year": 2003,
+      "image": "people/jian-kong.jpg",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/gerald-kong-254a2523/"
+    },
+    {
+      "name": "Jun Qu",
+      "year": 2002,
+      "image": "people/jun-qu.png",
+      "profile": null,
+      "link": "https://www.linkedin.com/in/jun-qu-72024912/"
+    }
+  ]
+}

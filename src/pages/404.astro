@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { href } from '../lib/site';
+---
+
+<Base title="Page not found">
+  <section class="nf blueprint on-dark">
+    <div class="container">
+      <p class="eyebrow">Error 404</p>
+      <h1>This page was machined away.</h1>
+      <p class="lead">The page you are looking for does not exist or has moved.</p>
+      <a class="btn btn--primary" href={href('/')}>
+        Back to the home page <Icon name="arrow-right" />
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    background: linear-gradient(180deg, var(--blue-900), var(--blue-800));
+    color: var(--on-dark);
+    padding-block: clamp(5rem, 14vw, 10rem);
+  }
+
+  h1 {
+    margin-top: 1.25rem;
+    font-size: var(--step-4);
+  }
+
+  .lead {
+    margin: 1.25rem 0 2.25rem;
+    color: var(--on-dark-muted);
+  }
+</style>

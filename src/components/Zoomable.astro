@@ -1,0 +1,32 @@
+---
+/** An optimized image that opens full-size in the lightbox when clicked. */
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+  sizes?: string;
+  widths?: number[];
+  loading?: 'lazy' | 'eager';
+  class?: string;
+}
+
+const { src, alt, caption, width, height, sizes, widths, loading = 'lazy', class: className } = Astro.props;
+const large = await getImage({ src, width: Math.min(src.width, 2000) });
+const dims = width || height ? { width, height } : { width: Math.min(src.width, 1200) };
+---
+
+<a class:list={['zoomable', className]} href={large.src} data-lightbox data-caption={caption ?? alt}>
+  <Image src={src} alt={alt} {...dims} sizes={sizes} widths={widths?.filter((w) => w <= src.width)} loading={loading} />
+</a>
+
+<style>
+  .zoomable {
+    display: block;
+    cursor: zoom-in;
+  }
+</style>

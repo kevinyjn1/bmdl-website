@@ -1,0 +1,144 @@
+---
+/**
+ * Two oversized rows of linked words drifting in opposite directions.
+ * The rows also slide with the page scroll, so the band feels tied to the visitor's motion.
+ */
+import { href } from '../lib/site';
+
+interface Props {
+  items: { label: string; path: string }[];
+}
+
+const { items } = Astro.props;
+const reversed = [...items].reverse();
+const COPIES = 3; // enough repeats to cover wide screens seamlessly
+---
+
+<div class="marquee" data-marquee>
+  {[items, reversed].map((row, rowIndex) => (
+    <div class:list={['row', { outline: rowIndex === 1 }]} data-marquee-row={rowIndex === 0 ? 1 : -1}>
+      <div class="belt">
+        {Array.from({ length: COPIES }, (_, copy) => (
+          <ul aria-hidden={copy > 0 || rowIndex > 0 ? 'true' : undefined}>
+            {row.map((item) => (
+              <li>
+                <a href={href(item.path)} tabindex={copy > 0 || rowIndex > 0 ? -1 : undefined}>
+                  {item.label}
+                </a>
+                <span class="sep" aria-hidden="true" />
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>
+
+<script>
+  const rows = document.querySelectorAll<HTMLElement>('[data-marquee-row]');
+  if (rows.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      rows.forEach((row) => {
+        const direction = Number(row.dataset.marqueeRow);
+        row.style.transform = `translate3d(${(-window.scrollY * 0.22 * direction).toFixed(1)}px, 0, 0)`;
+      });
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      },
+      { passive: true },
+    );
+    update();
+  }
+</script>
+
+<style>
+  .marquee {
+    padding-block: clamp(1.5rem, 3vw, 2.5rem);
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    overflow: clip;
+  }
+
+  .row {
+    will-change: transform;
+  }
+
+  .row + .row {
+    margin-top: clamp(0.25rem, 1vw, 0.75rem);
+  }
+
+  .belt {
+    display: flex;
+    width: max-content;
+    animation: marquee 46s linear infinite;
+  }
+
+  .outline .belt {
+    animation-direction: reverse;
+    animation-duration: 58s;
+  }
+
+  .marquee:hover .belt {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translate3d(-33.3333%, 0, 0);
+    }
+  }
+
+  ul {
+    display: flex;
+    flex: none;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+
+  a {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5.2vw, 4.6rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    color: var(--blue-800);
+    transition: color 0.25s;
+  }
+
+  .outline a {
+    color: transparent;
+    -webkit-text-stroke: 1.5px color-mix(in srgb, var(--blue-800) 55%, transparent);
+  }
+
+  a:hover {
+    color: var(--maize-600);
+    -webkit-text-stroke-color: transparent;
+  }
+
+  .sep {
+    width: clamp(0.7rem, 1.2vw, 1.1rem);
+    aspect-ratio: 1;
+    margin-inline: clamp(1.25rem, 3vw, 2.75rem);
+    background: var(--maize);
+    transform: rotate(45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .belt {
+      animation: none;
+    }
+  }
+</style>

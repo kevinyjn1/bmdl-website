@@ -1,0 +1,88 @@
+{
+  "licensed": [
+    {
+      "name": "Pylorus Clamp",
+      "licensee": "Karl Storz",
+      "year": 2009
+    },
+    {
+      "name": "Pathology Trays",
+      "licensee": "MarketLab",
+      "year": 2009
+    },
+    {
+      "name": "Clinical Simulators",
+      "licensee": "Artisan Medical Display",
+      "year": 2014
+    },
+    {
+      "name": "Neuroma Surgical Tool",
+      "licensee": "RLS Interventional",
+      "year": 2016
+    },
+    {
+      "name": "Arterial Everter",
+      "licensee": "Baxter",
+      "year": 2018
+    },
+    {
+      "name": "Brain Clot Cutting Device",
+      "licensee": "Endovascular Engineering",
+      "year": 2019
+    },
+    {
+      "name": "Cyclic pressure for fatigue fracture of calcified plaque",
+      "licensee": "Amplitude Vascular System",
+      "year": 2019
+    },
+    {
+      "name": "Simple-to-use Tourniquet",
+      "licensee": "Precision Trauma",
+      "year": 2020
+    },
+    {
+      "name": "Grinding of Calcified Plaque in an Artery",
+      "licensee": "Guangdong Baoxin",
+      "year": 2020
+    },
+    {
+      "name": "Operating Room Patient Condition Monitoring under Anesthesia",
+      "licensee": "AlertWatch LLC, Ann Arbor, MI",
+      "year": 2015
+    },
+    {
+      "name": "Pain Testing Device",
+      "licensee": "Arbor Medical Innovations, Saline, MI",
+      "year": 2014
+    }
+  ],
+  "awarded": [
+    "Langhals NB, Chestek CA, Cederna PS, Shih AJ,. Urbanchek MG, Kruger GH, Plott JS, Kreda JT,<a href=\"https://patents.google.com/patent/US20220022906A1\"> Tool for neuroma treatment and nerve regeneration procedures</a>. US Patent 12,478,397, November 25, 2025.",
+    "<a href=\"https://patentimages.storage.googleapis.com/4f/d4/9f/352a6b9317993f/US11267193.pdf\">Plott J, Jin Y, Tian X, Wang H, Shih AJ, 3D printing method utilizing controlled coiling of viscous jets for porous materials and objects. US Patent 11,267,193, March 8, 2022.</a>",
+    "<a href=\"https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/11464949\">Chisena R, Gurm HS, Hildner M, Zheng Y, Shih A, System for effecting and controlling oscillatory pressure within balloon catheters for fatigue fracture of calculi, US Patent 11,464,949 B2, Oct 11, 2022</a>.",
+    "<a href=\"https://patentimages.storage.googleapis.com/0e/b8/09/41c67e9ca10d81/US20210129443A1.pdf\">Plott J, Shih AJ, Zhu R, Method of forming a three-dimensional (3D) article, US Patent 2021/0129443 A1, May 6, 2021.</a>",
+    "<a href=\"https://patents.google.com/patent/US20210045770A1/en\">Savastano L, Liu Y, Zheng Y, Plott J, Shih AJ, Hydrodynamic vortex aspiration catheter, US Patent 2021/0045770 A1, March 30, 2021.</a>",
+    "<a href=\"https://patents.google.com/patent/US10945757B2/en?q=Two-Phase+Technique+to+Restore+Artery+Patency+and+Catheter+Temperature+Control+System+in+Atherectomy&amp;oq=Two-Phase+Technique+to+Restore+Artery+Patency+and+a+Catheter+Temperature+Control+System+in+Atherectomy\">Gurm H, Zheng Y, Liu Y, Shih AJ, Two-Phase Technique to Restore Artery Patency and a Catheter Temperature Control System in Atherectomy, US Patent 10,945,757, March 16, 2021</a>.",
+    "<a href=\"https://patents.google.com/patent/US10926529B2/en?q=Method+of+Additive+Manufacturing+an+Internal+Wave+Sparse+Structure+with+Varying+Geometry+Localized+Tunable+Structural+Properties+throughout+Part&amp;oq=Method+of+Additive+Manufacturing+an+Internal+Wave+Sparse+Structure+with+Varying+Geometry+for+Localized+Tunable+Structural+Properties+throughout+a+Part\"> Chisena R, Funes-Lora M, Shih AJ, Bolger D, Wensman J, Hansen A, Larson G, Holshouser C, Method of Additive Manufacturing an Internal Wave Sparse Structure with Varying Geometry for Localized Tunable Structural Properties throughout a Part, US Patent</a> 10,926,529 B2, Feb 23, 2021.",
+    "<a href=\"https://patents.google.com/patent/US10842493B2/en?oq=10%2c842%2c493\"> Plott J, Cederna P, Boelkins K, Kozlow J, Zwier J, Mahajan K, Lubrand K, Sisolak M, Kwon S, Farberg A, Shih AJ, Device to Aid in Arterial Microvascular Anastomosis, US Patent Number 10,842,493, November 24, 2020</a>.",
+    "<a href=\"https://patents.google.com/patent/US10695071B2/en?oq=10%2c695%2c071\"> Ward KR, Shih AJ, Plott JS, Doan T, Tourniquet, US Patent Number 10,695,071, June 30, 2020</a>.",
+    "<a href=\"https://patents.google.com/patent/US10299820B2/en?oq=US10299820\"> Kohler RE, Martinsen BJ, Yang MX, Zheng Y, Shih AJ, Deokar R, Methods and systems for disrupting calcified walls of biological conduits and calcified lesions therein, US Patent Number 10,299,820 B2, May 28, 2019.</a>",
+    "<a href=\"https://www.google.ch/patents/US9415181\"> Patak L, Kileny J, Tremper K, Plott JS, Shih AJ. Ambidextrous Ergonomic Face Mask, US Patent Number 9,415,181, Aug 16, 2016.</a>",
+    "<a href=\"https://www.google.com/patents/US8845566\"> Johnson D, Ashton-Miller J, Shih AJ. Active Spinal Orthotic Treatment Method and Device. US Patent Number 8,845,566, Sep 30, 2014.</a>",
+    "<a href=\"https://www.google.com/patents/US8629368?dq=High-speed,+ultra+precision+manufacturing+station+that+combines+direct+metal+deposition+and+EDM.+US+Patent+Number+8,629,368&amp;hl=en&amp;sa=X&amp;ved=0ahUKEwj1xsrU29nUAhWGaz4KHa5oC50Q6AEIJjAA\"> Mazumder J, Ni J, Shih AJ, High-speed, Ultra Precision Manufacturing Station that Combines Direct Metal Deposition and EDM. US Patent Number 8,629,368, Jan 14, 2014.</a>",
+    "<a href=\"http://www.google.ch/patents/US7992948\"> Swain D, Mauer F, Moore J, Shih AJ, Two-Stage Hydraulic Regenerative Braking for a Bike. US Patent Number 7,992,948, Aug 9, 2011</a>",
+    "<a href=\"https://www.google.com/patents/US7815641\"> Shih AJ, Geiger JD, Advincular A, Roberts W, Dodde R, Pipe K. Surgical Instrument and Method for Use Thereof. US Patent Number 7,815,641, Oct.19, 2010.</a>",
+    "<a href=\"https://www.google.ch/patents/US7083663?dq=7,083,663&amp;hl=de&amp;sa=X&amp;ved=0ahUKEwiyg5HH3NnUAhUCZj4KHdANBAgQ6AEIJjAA\"> Shih AJ, Cookson EJ. Active Filtration of Airborne Biological and Chemical Agents and Diesel Particulates using Heated Porous Foam Filters. US Patent Number 7,083,663, Aug 1, 2006.</a>",
+    "<a href=\"https://www.google.com/patents/US6220933\"> Shih AJ, Yonushonis TM. High Infeed Rate Method for Grinding Ceramic Workpiece with Silicon Carbide Grinding Wheels. US Patent Number 6,220,933, Apr. 24, 2001.</a> [successful commercial product]",
+    "<a href=\"https://www.google.com/patents/US6113474?dq=Constant+force+truing+and+dressing+apparatus+and+method.+US+Patent+Number+6,113,474&amp;hl=en&amp;sa=X&amp;ved=0ahUKEwjR5Z_u3NnUAhWJWj4KHb8UAb8Q6AEIJjAA\"> Shih AJ, Grant MB, Yonushonis TM. Constant Force Truing and Dressing Apparatus and Method. US Patent Number 6,113,474, Sep. 5, 2000.</a>",
+    "<a href=\"https://www.google.com/patents/US6030277\"> Shih AJ, Yonushonis TM. High Infeed Rate Method for Grinding Ceramic Workpiece with Silicon Carbide Grinding Wheels. US Patent Number 6,030,277, Feb. 29, 2000.</a> [successful commercial product]",
+    "<a href=\"http://www.google.ch/patents/US5928065\"> Shih AJ. Centerless Grinding Machine with Optimal Regulating Wheel Truing and Dressing. US Patent Number 5,928,065, July 27, 1999.</a>"
+  ],
+  "pending": [
+    "<a href=\"https://patents.google.com/patent/US20230271386A1/en\">Zhu B, Yee S, Koppi K, Degroot JV, Shih AJ, Hildner M, van den Bogert W, Lorenz J, Method of forming a three-dimensional (3d) pattern or article, U.S. Patent Application No. US20230271386A1</a>.",
+    "<a href=\"https://patents.google.com/patent/US20210129443A1/en?inventor=Albert+J.+Shih\">Plott J, Shih AJ, Zhu B, Method of forming a three-dimensional (3d) article, U.S. Patent Application No. US20210129443A1</a>.",
+    "<a href=\"https://patents.google.com/patent/US20210220590A1/en?inventor=Albert+J.+Shih\">Zopf D, Li DR, Powell A, Plott J, Shih A. Nasal Airway Device and Kit. U.S. Patent Application No. US20210129443A1.</a>",
+    "Shih AJ, Chisena R, Posh R, Funes M, Bolger D, Wensman J, System and method for additively manufacturing an ankle foot orthosis,<a href=\"https://patents.google.com/patent/US20220339017A1/en?inventor=Albert+J.+Shih\"> US Patent application 20220339017A1</a>",
+    "Zhu B, Yee S, Hildner M, Plott J, Shih AJ, Static mixer,<a href=\"https://www.freepatentsonline.com/y2022/0410094.html\"> US Patent application 20220410094</a>."
+  ]
+}

@@ -1,0 +1,456 @@
+---
+/**
+ * Home page showpiece: an interactive 3D particle sketch of abrasive grinding.
+ *
+ * A grinding wheel made of a few thousand points assembles from scattered particles,
+ * spins up, and throws sparks off a workpiece that ripples underneath it. Moving the
+ * pointer orbits the camera; hovering (or tapping) the wheel pushes the speed up.
+ * It is a nod to the lab's particle-based (SPH / SPG) models of grinding and scribing.
+ *
+ * Rendering is plain Canvas 2D with a hand-rolled perspective projection - no
+ * dependencies. The loop pauses when the hero is off screen or the tab is hidden, and
+ * visitors who prefer reduced motion get a single still frame.
+ *
+ * Expects to live inside an element marked [data-hero] that also contains a
+ * [data-hero-stage] element: the scene is centred on that stage.
+ */
+---
+
+<canvas class="hero-scene" data-hero-scene aria-hidden="true"></canvas>
+
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-hero-scene]');
+  const host = canvas?.closest<HTMLElement>('[data-hero]');
+  const stage = host?.querySelector<HTMLElement>('[data-hero-stage]');
+  const ctx = canvas?.getContext('2d');
+
+  if (canvas && host && stage && ctx) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const compact = window.innerWidth < 760;
+    const TAU = Math.PI * 2;
+
+    // ---- Geometry (world units: wheel radius = 1, wheel sits on the plane y = 0) ----
+    const WHEEL_HALF_WIDTH = 0.17;
+    const PLATE_X = 3.4;
+    const PLATE_Z = 1.36;
+    const IDLE_SPEED = 1.5; // rad/s
+    const BOOST_SPEED = 6.5;
+
+    // Deterministic pseudo-random numbers so the wheel looks the same on every visit.
+    let seed = 20260;
+    const rand = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+
+    interface Scatter {
+      ox: number;
+      oy: number;
+      oz: number;
+      delay: number;
+    }
+    interface WheelPoint extends Scatter {
+      r: number;
+      a: number;
+      z: number;
+      size: number;
+    }
+    interface PlatePoint extends Scatter {
+      x: number;
+      z: number;
+      d: number;
+    }
+
+    const scatter = (delay: number): Scatter => ({
+      ox: (rand() - 0.5) * 10,
+      oy: (rand() - 0.5) * 7,
+      oz: (rand() - 0.5) * 10,
+      delay,
+    });
+
+    // Abrasive grains on the rim (drawn as maize streaks).
+    const grains: WheelPoint[] = [];
+    for (let i = 0, n = compact ? 520 : 960; i < n; i++) {
+      grains.push({
+        r: 1 + (rand() - 0.5) * 0.03,
+        a: rand() * TAU,
+        z: (rand() * 2 - 1) * WHEEL_HALF_WIDTH,
+        size: 1 + rand() * 1.5,
+        ...scatter(0.35 + rand() * 0.9),
+      });
+    }
+
+    // Structure: crisp rim edges, concentric rings, flange and bore on both faces.
+    const edges: WheelPoint[] = [];
+    const rings: WheelPoint[] = [];
+    for (const z of [-WHEEL_HALF_WIDTH, WHEEL_HALF_WIDTH]) {
+      const ring = (list: WheelPoint[], r: number, count: number, size: number) => {
+        for (let i = 0; i < count; i++) {
+          list.push({ r, a: (i / count) * TAU, z, size, ...scatter(r * 0.5 + rand() * 0.5) });
+        }
+      };
+      ring(edges, 1, compact ? 120 : 190, 1.4);
+      ring(edges, 0.2, 44, 1.5);
+      ring(edges, 0.09, 22, 1.3);
+      for (const r of [0.36, 0.52, 0.68, 0.84]) ring(rings, r, Math.round((TAU * r) / (compact ? 0.075 : 0.052)), 1.1);
+      for (let bolt = 0; bolt < 6; bolt++) {
+        for (let k = 0; k < 5; k++) {
+          edges.push({
+            r: 0.275 + (rand() - 0.5) * 0.02,
+            a: (bolt / 6) * TAU + (rand() - 0.5) * 0.07,
+            z,
+            size: 1.7,
+            ...scatter(0.2 + rand() * 0.4),
+          });
+        }
+      }
+    }
+
+    // The workpiece: a plate of lattice points under the wheel.
+    const plate: PlatePoint[] = [];
+    const step = compact ? 0.21 : 0.16;
+    for (let x = -PLATE_X; x <= PLATE_X + 0.001; x += step) {
+      for (let z = -PLATE_Z; z <= PLATE_Z + 0.001; z += step) {
+        plate.push({ x, z, d: Math.hypot(x, z * 1.25), ...scatter(rand() * 0.8) });
+      }
+    }
+
+    // Sparks: x, y, z, vx, vy, vz, life, maxLife
+    const SPARK_STRIDE = 8;
+    const SPARK_COUNT = compact ? 170 : 340;
+    const sparks = new Float32Array(SPARK_COUNT * SPARK_STRIDE);
+    let sparkCursor = 0;
+    let sparkDebt = 0;
+
+    // ---- Camera & simulation state ----
+    const REST_YAW = -0.52;
+    const REST_PITCH = 0.3;
+    let yaw = REST_YAW;
+    let pitch = REST_PITCH;
+    let yawTarget = REST_YAW;
+    let pitchTarget = REST_PITCH;
+    let phi = 0;
+    let omega = 0;
+    let boost = false;
+    let boostUntil = 0;
+
+    let width = 0;
+    let height = 0;
+    let originX = 0;
+    let originY = 0;
+    let unit = 100; // pixels per world unit at the focal distance
+    const CAMERA_DISTANCE = 7;
+
+    let cosY = 1;
+    let sinY = 0;
+    let cosP = 1;
+    let sinP = 0;
+    let sx = 0;
+    let sy = 0;
+    let ss = 1; // projected x, y and scale of the last projected point
+
+    const project = (x: number, y: number, z: number) => {
+      const x1 = x * cosY + z * sinY;
+      const z1 = -x * sinY + z * cosY;
+      const y2 = y * cosP - z1 * sinP;
+      const z2 = y * sinP + z1 * cosP;
+      ss = CAMERA_DISTANCE / Math.max(0.6, CAMERA_DISTANCE - z2);
+      sx = originX + x1 * unit * ss;
+      sy = originY - y2 * unit * ss;
+    };
+
+    const layout = () => {
+      const hostRect = host.getBoundingClientRect();
+      const stageRect = stage.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = hostRect.width;
+      height = hostRect.height;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      unit = Math.min(stageRect.width, stageRect.height) * (compact ? 0.3 : 0.31);
+      originX = stageRect.left - hostRect.left + stageRect.width * (compact ? 0.44 : 0.46);
+      originY = stageRect.top - hostRect.top + stageRect.height * (compact ? 0.4 : 0.5) + unit * 0.92;
+    };
+
+    const easeOut = (p: number) => 1 - (1 - p) ** 3;
+    const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
+
+    const hudSpeed = host.querySelector<HTMLElement>('[data-hud-speed]');
+    const hudCount = host.querySelector<HTMLElement>('[data-hud-count]');
+    if (hudCount)
+      hudCount.textContent = (grains.length + edges.length + rings.length + plate.length).toLocaleString('en-US');
+    let hudTick = 0;
+
+    const spawnSpark = () => {
+      const i = sparkCursor * SPARK_STRIDE;
+      sparkCursor = (sparkCursor + 1) % SPARK_COUNT;
+      const speed = omega * (1 + rand() * 0.95) * 1.1;
+      const lift = rand() ** 2 * 0.62;
+      const life = 0.45 + rand() * 0.95;
+      sparks[i] = (rand() - 0.5) * 0.05;
+      sparks[i + 1] = 0.012;
+      sparks[i + 2] = (rand() * 2 - 1) * WHEEL_HALF_WIDTH;
+      sparks[i + 3] = speed * Math.cos(lift);
+      sparks[i + 4] = speed * Math.sin(lift) + 0.25;
+      sparks[i + 5] = (rand() - 0.5) * 0.95;
+      sparks[i + 6] = life;
+      sparks[i + 7] = life;
+    };
+
+    let start = 0;
+    let last = 0;
+
+    const draw = (time: number, still = false) => {
+      if (!start) start = last = time;
+      const t = still ? 60 : (time - start) / 1000;
+      const dt = still ? 0 : Math.min(0.05, (time - last) / 1000);
+      last = time;
+
+      // The wheel spins up once it has assembled.
+      const spinUp = still ? 0 : clamp01((t - 1.5) / 1.8);
+      if (boost && time > boostUntil && boostUntil) boost = false;
+      omega += ((boost ? BOOST_SPEED : IDLE_SPEED) * spinUp - omega) * Math.min(1, dt * 2.4);
+      phi += omega * dt;
+      yaw += (yawTarget - yaw) * Math.min(1, dt * 3.5);
+      pitch += (pitchTarget - pitch) * Math.min(1, dt * 3.5);
+      cosY = Math.cos(yaw);
+      sinY = Math.sin(yaw);
+      cosP = Math.cos(pitch);
+      sinP = Math.sin(pitch);
+      const heat = Math.min(1, omega / IDLE_SPEED);
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.globalCompositeOperation = 'lighter';
+
+      // Soft glow behind the wheel.
+      project(0, 1, 0);
+      const halo = ctx.createRadialGradient(sx, sy, 0, sx, sy, unit * 1.9);
+      halo.addColorStop(0, 'rgba(42, 109, 179, 0.26)');
+      halo.addColorStop(1, 'rgba(42, 109, 179, 0)');
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = halo;
+      ctx.fillRect(sx - unit * 1.9, sy - unit * 1.9, unit * 3.8, unit * 3.8);
+
+      // Workpiece: ripples travel outward from the contact point.
+      for (const p of plate) {
+        const k = easeOut(clamp01((t - p.delay) / 1.4));
+        if (k <= 0) continue;
+        const away = 1 - k;
+        const ripple = 0.04 * Math.sin(p.d * 7 - t * (2 + omega * 1.3)) * Math.exp(-p.d * 0.85) * heat;
+        project(p.x + p.ox * away, ripple + p.oy * away, p.z + p.oz * away);
+        const glow = Math.exp(-p.d * 1.35) * heat;
+        const size = (1.3 + glow * 1.6) * ss;
+        ctx.globalAlpha = k * (0.34 + glow * 0.66);
+        ctx.fillStyle = glow > 0.18 ? '#ffcb05' : '#9fbfe6';
+        ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
+      }
+
+      // A fixed protractor ring around the wheel, like a gauge on a drawing.
+      ctx.globalAlpha = 0.2 * easeOut(clamp01((t - 1) / 1.2));
+      ctx.strokeStyle = '#9fbfe6';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let i = 0; i < 72; i++) {
+        const a = (i / 72) * TAU - t * 0.04;
+        const outer = i % 6 === 0 ? 1.34 : 1.27;
+        project(1.2 * Math.cos(a), 1 + 1.2 * Math.sin(a), 0);
+        ctx.moveTo(sx, sy);
+        project(outer * Math.cos(a), 1 + outer * Math.sin(a), 0);
+        ctx.lineTo(sx, sy);
+      }
+      ctx.stroke();
+
+      // Wheel structure.
+      const drawPoints = (points: WheelPoint[], color: string, alpha: number) => {
+        ctx.fillStyle = color;
+        for (const p of points) {
+          const k = easeOut(clamp01((t - p.delay) / 1.5));
+          if (k <= 0) continue;
+          const away = 1 - k;
+          const a = p.a + phi;
+          project(p.r * Math.cos(a) + p.ox * away, 1 + p.r * Math.sin(a) + p.oy * away, p.z + p.oz * away);
+          const size = p.size * ss;
+          ctx.globalAlpha = k * alpha * (0.55 + (ss - 0.86) * 1.6);
+          ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
+        }
+      };
+      drawPoints(rings, '#7fa9dd', 0.62);
+      drawPoints(edges, '#e8f1fb', 0.85);
+
+      // Abrasive grains: streaks along their direction of travel.
+      ctx.strokeStyle = '#ffcb05';
+      ctx.fillStyle = '#ffcb05';
+      const trail = Math.min(0.09, omega * 0.016);
+      for (const p of grains) {
+        const k = easeOut(clamp01((t - p.delay) / 1.5));
+        if (k <= 0) continue;
+        const away = 1 - k;
+        const a = p.a + phi;
+        project(p.r * Math.cos(a) + p.ox * away, 1 + p.r * Math.sin(a) + p.oy * away, p.z + p.oz * away);
+        const size = p.size * ss;
+        ctx.globalAlpha = k * (0.42 + (ss - 0.86) * 2.2);
+        if (trail > 0.012) {
+          const x1 = sx;
+          const y1 = sy;
+          project(p.r * Math.cos(a - trail), 1 + p.r * Math.sin(a - trail), p.z);
+          ctx.lineWidth = size;
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(sx, sy);
+          ctx.stroke();
+        } else {
+          ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
+        }
+      }
+
+      // Sparks.
+      if (!still) {
+        sparkDebt += omega * (boost ? 44 : 26) * dt * (compact ? 0.6 : 1);
+        while (sparkDebt >= 1) {
+          sparkDebt -= 1;
+          if (omega > 0.5) spawnSpark();
+        }
+      }
+      ctx.lineCap = 'round';
+      for (let i = 0; i < sparks.length; i += SPARK_STRIDE) {
+        let life = sparks[i + 6];
+        if (life <= 0) continue;
+        life -= dt;
+        sparks[i + 6] = life;
+        let y = sparks[i + 1];
+        let vy = sparks[i + 4] - 5.6 * dt;
+        const x = sparks[i] + sparks[i + 3] * dt;
+        const z = sparks[i + 2] + sparks[i + 5] * dt;
+        y += vy * dt;
+        if (y < 0 && x < PLATE_X && Math.abs(z) < PLATE_Z) {
+          y = 0;
+          vy *= -0.36;
+          sparks[i + 3] *= 0.72;
+        }
+        sparks[i] = x;
+        sparks[i + 1] = y;
+        sparks[i + 2] = z;
+        sparks[i + 4] = vy;
+
+        const age = life / sparks[i + 7];
+        project(x, y, z);
+        const x1 = sx;
+        const y1 = sy;
+        const scale = ss;
+        project(x - sparks[i + 3] * 0.03, y - vy * 0.03, z - sparks[i + 5] * 0.03);
+        ctx.globalAlpha = Math.min(1, age * 1.6);
+        ctx.strokeStyle = age > 0.7 ? '#fff6d6' : age > 0.35 ? '#ffcb05' : '#ff8a1f';
+        ctx.lineWidth = Math.max(1, 1.7 * scale);
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(sx, sy);
+        ctx.stroke();
+      }
+
+      // Flare at the contact point.
+      if (heat > 0.05) {
+        project(0, 0.02, 0);
+        const flicker = 0.75 + 0.25 * Math.sin(t * 37) * Math.sin(t * 23);
+        const radius = unit * (0.2 + omega * 0.035) * flicker;
+        const flare = ctx.createRadialGradient(sx, sy, 0, sx, sy, radius);
+        flare.addColorStop(0, 'rgba(255, 246, 214, 0.95)');
+        flare.addColorStop(0.25, 'rgba(255, 203, 5, 0.55)');
+        flare.addColorStop(1, 'rgba(255, 138, 31, 0)');
+        ctx.globalAlpha = heat;
+        ctx.fillStyle = flare;
+        ctx.fillRect(sx - radius, sy - radius, radius * 2, radius * 2);
+      }
+      ctx.globalAlpha = 1;
+
+      if (hudSpeed && time - hudTick > 120) {
+        hudTick = time;
+        hudSpeed.textContent = Math.round(omega * 800).toLocaleString('en-US');
+      }
+    };
+
+    // ---- Run loop ----
+    let frame = 0;
+    let visible = true;
+    const loop = (time: number) => {
+      draw(time);
+      frame = visible && !document.hidden ? requestAnimationFrame(loop) : 0;
+    };
+    const resume = () => {
+      if (frame || reduceMotion || !visible || document.hidden) return;
+      last = performance.now();
+      frame = requestAnimationFrame(loop);
+    };
+
+    layout();
+    if (reduceMotion) draw(0, true);
+    else resume();
+
+    new ResizeObserver(() => {
+      layout();
+      if (reduceMotion) draw(0, true);
+    }).observe(host);
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      resume();
+    }).observe(host);
+    document.addEventListener('visibilitychange', resume);
+
+    // The scene sinks slightly as the page scrolls, so the hero has depth against the content.
+    if (!reduceMotion) {
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (visible) canvas.style.transform = `translate3d(0, ${(window.scrollY * 0.16).toFixed(1)}px, 0)`;
+        },
+        { passive: true },
+      );
+    }
+
+    // ---- Interaction ----
+    host.addEventListener('pointermove', (event) => {
+      if (event.pointerType === 'touch') return;
+      const rect = host.getBoundingClientRect();
+      const nx = (event.clientX - rect.left) / rect.width - 0.5;
+      const ny = (event.clientY - rect.top) / rect.height - 0.5;
+      yawTarget = REST_YAW + nx * 0.42;
+      pitchTarget = REST_PITCH + ny * 0.2;
+      const stageRect = stage.getBoundingClientRect();
+      boostUntil = 0;
+      boost =
+        event.clientX > stageRect.left &&
+        event.clientX < stageRect.right &&
+        event.clientY > stageRect.top &&
+        event.clientY < stageRect.bottom;
+      host.classList.toggle('is-boosting', boost);
+    });
+    host.addEventListener('pointerleave', () => {
+      yawTarget = REST_YAW;
+      pitchTarget = REST_PITCH;
+      boost = false;
+      host.classList.remove('is-boosting');
+    });
+    // Touch: a tap on the stage spins the wheel up for a few seconds.
+    stage.addEventListener('pointerdown', (event) => {
+      if (event.pointerType !== 'touch') return;
+      boost = true;
+      boostUntil = performance.now() + 2600;
+    });
+  }
+</script>
+
+<style>
+  .hero-scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    /* Keep the headline side calm: the scene fades out toward the left edge. */
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.28) 34%, #000 58%);
+  }
+
+  @media (max-width: 960px) {
+    .hero-scene {
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.3) 42%, #000 62%);
+    }
+  }
+</style>

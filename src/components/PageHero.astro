@@ -1,0 +1,232 @@
+---
+/** Dark title band used at the top of every inner page. */
+import { href } from '../lib/site';
+
+interface Crumb {
+  label: string;
+  path?: string;
+}
+
+interface Props {
+  title: string;
+  crumbs?: Crumb[];
+  lead?: string;
+}
+
+const { title, crumbs = [], lead } = Astro.props;
+---
+
+<section class="page-hero blueprint on-dark">
+  <svg class="dial" viewBox="-300 -300 600 600" aria-hidden="true">
+    <g class="ring ring-a">
+      {Array.from({ length: 120 }, (_, i) => {
+        const long = i % 10 === 0;
+        return (
+          <line x1="0" y1={long ? -264 : -276} x2="0" y2="-288" transform={`rotate(${i * 3})`} class:list={{ long }} />
+        );
+      })}
+    </g>
+    <circle class="ring ring-b" r="236" />
+    <g class="ring ring-c">
+      <circle r="176" />
+      <path class="arc" d="M 0 -176 A 176 176 0 0 1 152.4 -88" />
+      <circle class="node" cx="0" cy="-176" r="5" />
+    </g>
+    <g class="cross">
+      <line x1="-120" y1="0" x2="120" y2="0" />
+      <line x1="0" y1="-120" x2="0" y2="120" />
+      <circle r="58" />
+      <circle r="6" class="hub" />
+    </g>
+  </svg>
+  <div class="container inner">
+    <nav class="crumbs mono" aria-label="Breadcrumb">
+      <ol>
+        <li>
+          <a href={href('/')}>Home</a>
+        </li>
+        {crumbs.map((crumb) => (
+          <li>
+            {crumb.path ? <a href={href(crumb.path)}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>}
+          </li>
+        ))}
+      </ol>
+    </nav>
+    <h1>
+      <span>{title}</span>
+    </h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    background:
+      radial-gradient(ellipse 60% 90% at 85% 0%, rgba(42, 109, 179, 0.35), transparent 60%),
+      linear-gradient(180deg, var(--blue-900), var(--blue-800));
+    color: var(--on-dark);
+    padding-block: clamp(3rem, 7vw, 5.5rem) clamp(3rem, 6vw, 4.5rem);
+    border-bottom: 3px solid var(--maize);
+  }
+
+  .page-hero {
+    position: relative;
+    overflow: clip;
+  }
+
+  .inner {
+    position: relative;
+  }
+
+  /* A slowly turning gauge, as on an engineering drawing. */
+  .dial {
+    position: absolute;
+    top: 50%;
+    right: max(-6rem, calc((100vw - var(--container)) / 2 - 9rem));
+    width: clamp(320px, 38vw, 560px);
+    translate: 0 -50%;
+    fill: none;
+    stroke: rgba(159, 191, 230, 0.3);
+    stroke-width: 1.2;
+    pointer-events: none;
+    mask-image: radial-gradient(circle, #000 55%, transparent 72%);
+  }
+
+  .dial .long {
+    stroke: rgba(159, 191, 230, 0.6);
+    stroke-width: 1.6;
+  }
+
+  .ring-b {
+    stroke-dasharray: 2 10;
+  }
+
+  .ring-c .arc {
+    stroke: var(--maize);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  .ring-c .node,
+  .cross .hub {
+    fill: var(--maize);
+    stroke: none;
+  }
+
+  .cross {
+    stroke: rgba(159, 191, 230, 0.22);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ring {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: dial-spin 90s linear infinite;
+    }
+
+    .ring-b {
+      animation-duration: 60s;
+      animation-direction: reverse;
+    }
+
+    .ring-c {
+      animation-duration: 16s;
+    }
+
+    .dial {
+      animation: dial-in 1.4s var(--ease) both;
+    }
+
+    h1 > span {
+      animation: title-rise 1s var(--ease) 0.1s both;
+    }
+
+    .crumbs,
+    .lead,
+    .inner > :global(:not(.crumbs, h1, .lead)) {
+      animation: hero-fade 0.9s var(--ease) 0.35s both;
+    }
+
+    .crumbs {
+      animation-delay: 0s;
+    }
+  }
+
+  @keyframes dial-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes dial-in {
+    from {
+      opacity: 0;
+      scale: 0.86;
+      rotate: -25deg;
+    }
+  }
+
+  @keyframes title-rise {
+    from {
+      transform: translateY(105%);
+    }
+  }
+
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+  }
+
+  .crumbs li + li::before {
+    content: '/';
+    margin-right: 0.5rem;
+    opacity: 0.5;
+  }
+
+  .crumbs a:hover {
+    color: var(--maize);
+  }
+
+  .crumbs [aria-current] {
+    color: var(--maize);
+  }
+
+  h1 {
+    margin-top: 1.1rem;
+    font-size: var(--step-4);
+    max-width: 22ch;
+    overflow: hidden;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+  }
+
+  h1 > span {
+    display: block;
+  }
+
+  @media (max-width: 760px) {
+    .dial {
+      right: -9rem;
+      opacity: 0.55;
+    }
+  }
+
+  .lead {
+    margin-top: 1.25rem;
+    max-width: 62ch;
+    color: var(--on-dark-muted);
+  }
+</style>

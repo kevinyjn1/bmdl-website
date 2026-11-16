@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import PubList from '../../components/PubList.astro';
+import journal from '../../data/publications/journal.json';
+
+const total = journal.reduce((n, g) => n + g.items.length, 0);
+---
+
+<Base
+  title="Journal Papers"
+  description={`${total} refereed journal papers from the Biomedical Manufacturing and Design Lab.`}
+>
+  <PageHero
+    title="Journal Papers"
+    crumbs={[{ label: 'Publications', path: '/publications' }, { label: 'Journal Papers' }]}
+    lead={`${total} refereed journal papers, newest first.`}
+  />
+  <section class="section">
+    <div class="container">
+      <PubList groups={journal} noun="journal papers" />
+    </div>
+  </section>
+</Base>

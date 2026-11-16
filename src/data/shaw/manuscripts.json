@@ -1,0 +1,348 @@
+{
+  "intro": "We have received 24 well-organized three-ring binders from Barbara Zitzewitz, daughter of late Professor Milton Shaw. Each binder has an index page, which is marked by the Volume number and lists publications and manuscripts in this binder/volume. We have scanned all 24 Volumes.",
+  "volumes": [
+    {
+      "volume": 1,
+      "scans": [
+        "shaw/manuscripts/vol-01-index-1.png"
+      ],
+      "items": [
+        {
+          "num": "1",
+          "html": "<a href=\"https://drive.google.com/file/d/1qvtdE2Kg08Ob__2_xWLAro_FgnwHl9x1/view\">\"The Chemicao-Physical Role of the Cutting Fluid\", by M.C.Shaw,Metal Progress, 42, 85 (1942)</a>"
+        },
+        {
+          "num": "2",
+          "html": "\"Action of n-Primary Alcohols as Metal Cutting Fluids-Alternationg Properties with Chain Length\", by M.C. Shaw, Jour.Amer. Chem. Soc. 66, 2057 (1944) [Restricted]"
+        },
+        {
+          "num": "2a",
+          "html": "\"The Effect of Tetraethyl Lead upon the Bench-Test Performance of Navy 1120 Oil\", by M.C. Shaw, W.T. Olson and E. Meyrowit [Restricted]"
+        },
+        {
+          "num": "3",
+          "html": "<a href=\"https://digital.library.unt.edu/ark%3A/67531/metadc62509/m1/\">\"Investigation of a Method of Comparison of Metallic Surface Contours by Means of Stereoscope Electron Micrographs\", by A.S. Powell,T.P. Clark amd M.C. Shaw, NACA, A.R.R., E5A95a 1945</a>"
+        },
+        {
+          "num": "4",
+          "html": "\"In -Line Aircraft-Engine Bearing Loads -ⅠCrankpin-Bearing Loads\",by M.C. Shaw and E.F. Macks, NACA A.R.R. E5G10b 1945 [Restricted]"
+        },
+        {
+          "num": "5",
+          "html": "\"In -Line Aircraft-Engine Bearing Loads -Ⅱ Blade-Bearing Loads\", M.C. Shaw and E.F. Macks, NACA A.R.R. ESHlOb 1945 [Restricted]"
+        },
+        {
+          "num": "6",
+          "html": "\"Radial Aircraft Engine Bearing Loads -Ⅰ Crankpin Bearing Loads for Engine Having Nine Cylinders per Crankpin\", by M.C. Shaw and E.F. Macks, NACA, A.R.R. E5H04 1945 . [Restricted]"
+        }
+      ]
+    },
+    {
+      "volume": 2,
+      "scans": [
+        "shaw/manuscripts/vol-02-index-1.png"
+      ],
+      "items": [
+        {
+          "num": "7",
+          "html": "<a href=\"https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19930081752.pdf\">\"Load Capacity of Aluminum Alloy Crankpin Bearings as Determined in a Centrifugal Bearing Test Machine\", by E.F. Macks and M.C. Shaw, NACA Tech. Note 1108 (1946)</a>"
+        },
+        {
+          "num": "7a",
+          "html": "<a href=\"https://drive.google.com/file/d/1Lh_ZDFyylXcjwvHCvhYREn5uacjRtus0/view\">\"Corrosion Tests on Aircraft Bearings\", by Allen S. Powell, Samuel Murrow and Milton C. Shaw</a>"
+        },
+        {
+          "num": "8",
+          "html": "<a href=\"https://drive.google.com/file/d/19dmaA9OxnGcSG2zgWop-eOybnD1LtFq1/view\">\"Camera Techniques Expose Oil Film Behavior\", by M.C. Shaw and T. J. Nussdorfer, SAE Jour. 54, 68-72, Oct. 1946. Also SAE Preprint. \"A Visual Study of Cylinder Lubrication\", June 1946</a>"
+        },
+        {
+          "num": "9",
+          "html": "<a href=\"http://naca.central.cranfield.ac.uk/reports/1946/naca-report-850.pdf\">\"A Visual and Photographic Study of Cylinder Lubrication\", by M.C. Shaw and T.J. Nussdorfer, NACA Report No. 850 (1946)</a>"
+        },
+        {
+          "num": "10",
+          "html": "<a href=\"https://www.nature.com/articles/158452a0\">\"Role of Inertia in Hydrodynamic Lubrication\", by M.C. Shaw and C.D. Strang, Nature (London), 158, 452 (1946)</a>"
+        },
+        {
+          "num": "11",
+          "html": "<a href=\"https://drive.google.com/file/d/1WYcb86zR_dsKbqq6Lv670wIfxnszw_jw/view\">\"An Analysis of the Parallel Surface Thrust Bearing\", by M.C. Shaw, Trans. ASME 69, 381 (1947)</a>"
+        },
+        {
+          "num": "12",
+          "html": "<a href=\"http://aip.scitation.org/doi/pdf/10.1063/1.1697827\">\"The Mechanism of Cutting Fluid Action\" by M.C. Shaw, Jour. Applied Physics, 18, 683 (1947)</a>"
+        },
+        {
+          "num": "13",
+          "html": "<a href=\"https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19930081879.pdf\">\"In-Line Aircraft Engine Bearing Loads - III. Main Bearing Loads\", by M.C. Shaw and E.F. Macks, NACA Tech. Note 1206 (1947)</a>"
+        },
+        {
+          "num": "14",
+          "html": "<a href=\"https://ntrs.nasa.gov/search.jsp?R=19930091939\">\"An Analysis of the Full Floating Bearing\", by M.C. Shaw and T. J. Nussdorfer, NACA RM No. 866 (unrestricted) 1947</a>"
+        }
+      ]
+    },
+    {
+      "volume": 3,
+      "scans": [
+        "shaw/manuscripts/vol-03-index-1.png",
+        "shaw/manuscripts/vol-03-index-2.png"
+      ],
+      "items": [
+        {
+          "num": "15",
+          "html": "<a href=\"https://saemobilus.sae.org/content/480185\">\"Measurement of Piston Ring Radial Pressure Distribution\", by M.C. Shaw, C.D. Strang and O.W.Hart, SAE Quarterly Trans. 2, 169(1948)</a>"
+        },
+        {
+          "num": "16",
+          "html": "<a href=\"https://drive.google.com/file/d/1IavGvRO2UOTFljipbs-dF8juzCwjhIk8/view\">\"The Hydrosphere\" - A New Hydrodynamic Bearing\", by M.C. Shaw and C.D. Strang, Trans. ASME 70, A-137, (Jour. of Applied Mech) vol.15, No. 2, 137 (1948)</a>"
+        },
+        {
+          "num": "17",
+          "html": "<a href=\"https://drive.google.com/file/d/1ljxmFNzNl3TWd8cpcIRAJ96n3ettzJdu/view\">\"Mechanical Activation - A Newly Developed Chemical Process\", by M.C. Shaw, Trans. ASME 70A -137 (1948) . (Jour. App. Mech.) vol 15, 37, (1948)</a>"
+        },
+        {
+          "num": "18",
+          "html": "<a href=\"https://drive.google.com/file/d/1XuRAs3H8kAt-JjF3wSUwLh2lnrhvIx_Q/view\">\"The Application of the Metal Cutting Process in the Chemical Industry\", by M.C. Shaw (Guest Editorial) The Engineer’s Digest, 5, 160, (1948)</a>"
+        },
+        {
+          "num": "18a",
+          "html": "<a href=\"https://drive.google.com/file/d/1rIfXdihyaDO2eoVhkifvVnrBomUS4ja2/view\">\"A New Thrust Bearing\", by M.C. Shaw and C.D. Strang</a>"
+        },
+        {
+          "num": "18b",
+          "html": "<a href=\"https://drive.google.com/file/d/1PtKwl7b7DNsvE8ehXPV7B9ykO2GM7dJ2/view\">\"The Reduction of Friction in the Metal Cutting Process\", by M.C. Shaw</a>"
+        },
+        {
+          "num": "19",
+          "html": "<a href=\"https://drive.google.com/file/d/1RjGTTT5ltWwSP0-fyBqZqAinlbsH1cAP/view\">\"Dynamically Loaded Bearings\", by M.C. Shaw, Lub Eng 5, 218 ,(1949)</a>"
+        },
+        {
+          "num": "19a",
+          "html": "<a href=\"https://drive.google.com/file/d/1wuwmXdL4Vsni7zpYowwHt2etXb8HW7d6/view\">\"Design of Bearings for Sodium Potassium Alloy Pump\", by M.C. Shaw and C.D. Strang</a>"
+        },
+        {
+          "num": "20",
+          "html": "<a href=\"http://aip.scitation.org/doi/pdf/10.1063/1.1699667\">\"Metal Transfer in the Cutting Process\", by M.C. Shaw and C.D. Strang, Jour. of App. Phys, 21, 349, (1950)</a>"
+        },
+        {
+          "num": "21",
+          "html": "<a href=\"http://aip.scitation.org/doi/abs/10.1063/1.1699714\">\"A Quantized Theory of Strain Hardening as Applied to the Cutting of Metals\", by M.C. Shaw, Jour. of App. Phys. 21, 599-606 (1950)</a>"
+        },
+        {
+          "num": "22",
+          "html": "<a href=\"https://drive.google.com/file/d/1XThHFWFyvh0NzTHW2CRDA_R2Z40cSNRn/view\">\"A Dynamometer for Measuring Forces on a Drill\" , by E.G. Loewen and M.C. Shaw, lnstruments, 23, 560 (1950)</a>"
+        },
+        {
+          "num": "23",
+          "html": "<a href=\"https://drive.google.com/file/d/1-wqKPz_IUZXpjZfmqxOXU3vyVYEfTKKQ/view\">\"The Effect of the Cutting Fluid upon Chip-Tool Interface Temperature\", by M.C. Shaw, J. D. Pigott and L.P. Richardson,Trans. ASME, 73, 45 (1951 )</a>"
+        },
+        {
+          "num": "24",
+          "html": "<a href=\"http://www.sid.ir/En/Journal/ViewPaper.aspx?ID=158195\">\"Electric Strain Gage Tool Dynamometers\", by E.G. Loewen, E.R. Marshall and M.C. Shaw, Proc. Soc. for Exper. Stress Anal. 8,1 (1951)</a>"
+        },
+        {
+          "num": "25",
+          "html": "<a href=\"http://onlinelibrary.wiley.com/doi/10.1111/j.1749-6632.1951.tb54247.x/full\">\"The Metal Cutting Process as a Means of Studying the Proper of Extreme Pressure Lubricants\", by M.C. Shaw, Annals of the New York Academy of Sciences 53, Art.5,962 (1951)</a>"
+        },
+        {
+          "num": "26",
+          "html": "<a href=\"https://drive.google.com/file/d/1MLDw2JcOj0lGG_pyhqEmn-VAjS-YZIKT/view\">\"Metallurgical Considerations in Machining\", by M.C. Shaw and P.A. Smith, Seriesof five articles\" in American Machinist: 1-Aug. 20, 1951, p.89; II - Sept. 17, 1951, p.139; III-Ocr. 15, 1951, p.139; IV -Oct. 29,1951, p.100; V-Nov. 12, 1951, p.138</a>"
+        },
+        {
+          "num": "27",
+          "html": "<a href=\"https://drive.google.com/file/d/1ESzd5ZCcfD1ResfJSrHFYYFE-bR_kTpJ/view\">\"Visual Metal Cutting Study\", by N.H. Cook and M.C. Shaw, Mechanical Engineering 73, 922, 1951</a>"
+        }
+      ]
+    },
+    {
+      "volume": 4,
+      "scans": [
+        "shaw/manuscripts/vol-04-index-1.png",
+        "shaw/manuscripts/vol-04-index-2.png"
+      ],
+      "items": [
+        {
+          "num": "28",
+          "html": "\"Force in Dry Surface Grinding\", E.R. Marshall and M.C. Shaw, Tras. ASME, 74, 51 (1952)"
+        },
+        {
+          "num": "29",
+          "html": "\"The Size Effect in Metal Cutting\", W.R. Backer, E.R. Marshall, and M.C. Shaw, Trans. ASME, 74, 61 (1952)."
+        },
+        {
+          "num": "30",
+          "html": "\"Surfaces Temperature in Grinding\", by J.O. Outwater and M.C. Shaw, Trans. ASME 74, 73 (1952)"
+        },
+        {
+          "num": "31",
+          "html": "\"The Determination of Flow Stress From a Tensile Specimen\", by E.R. Marshall and M.C. Shaw, Trans. ASM 44, 7, (5), (1952)"
+        },
+        {
+          "num": "32",
+          "html": "\"The Mechanics of Three-Dimensional Cutting Operations\", by M.C. Shaw, N. H. Cook and P.A. Smith, Trans. ASME 74, 1055 (1952)"
+        }
+      ]
+    },
+    {
+      "volume": 5,
+      "scans": [
+        "shaw/manuscripts/vol-05-index-1.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 6,
+      "scans": [
+        "shaw/manuscripts/vol-06-index-1.png",
+        "shaw/manuscripts/vol-06-index-2.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 7,
+      "scans": [
+        "shaw/manuscripts/vol-07-index-1.png",
+        "shaw/manuscripts/vol-07-index-2.png",
+        "shaw/manuscripts/vol-07-index-3.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 8,
+      "scans": [
+        "shaw/manuscripts/vol-08-index-1.png",
+        "shaw/manuscripts/vol-08-index-2.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 9,
+      "scans": [
+        "shaw/manuscripts/vol-09-index-1.png",
+        "shaw/manuscripts/vol-09-index-2.png",
+        "shaw/manuscripts/vol-09-index-3.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 10,
+      "scans": [
+        "shaw/manuscripts/vol-10-index-1.png",
+        "shaw/manuscripts/vol-10-index-2.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 11,
+      "scans": [
+        "shaw/manuscripts/vol-11-index-1.png",
+        "shaw/manuscripts/vol-11-index-2.png",
+        "shaw/manuscripts/vol-11-index-3.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 12,
+      "scans": [
+        "shaw/manuscripts/vol-12-index-1.png",
+        "shaw/manuscripts/vol-12-index-2.png",
+        "shaw/manuscripts/vol-12-index-3.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 13,
+      "scans": [
+        "shaw/manuscripts/vol-13-index-1.png",
+        "shaw/manuscripts/vol-13-index-2.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 14,
+      "scans": [
+        "shaw/manuscripts/vol-14-index-1.png",
+        "shaw/manuscripts/vol-14-index-2.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 15,
+      "scans": [
+        "shaw/manuscripts/vol-15-index-1.png",
+        "shaw/manuscripts/vol-15-index-2.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 16,
+      "scans": [
+        "shaw/manuscripts/vol-16-index-1.png",
+        "shaw/manuscripts/vol-16-index-2.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 17,
+      "scans": [
+        "shaw/manuscripts/vol-17-index-1.png",
+        "shaw/manuscripts/vol-17-index-2.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 18,
+      "scans": [
+        "shaw/manuscripts/vol-18-index-1.png",
+        "shaw/manuscripts/vol-18-index-2.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 19,
+      "scans": [
+        "shaw/manuscripts/vol-19-index-1.png",
+        "shaw/manuscripts/vol-19-index-2.png",
+        "shaw/manuscripts/vol-19-index-3.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 20,
+      "scans": [
+        "shaw/manuscripts/vol-20-index-1.png",
+        "shaw/manuscripts/vol-20-index-2.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 21,
+      "scans": [
+        "shaw/manuscripts/vol-21-index-1.png",
+        "shaw/manuscripts/vol-21-index-2.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 22,
+      "scans": [
+        "shaw/manuscripts/vol-22-index-1.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 23,
+      "scans": [
+        "shaw/manuscripts/vol-23-index-1.png"
+      ],
+      "items": []
+    },
+    {
+      "volume": 24,
+      "scans": [
+        "shaw/manuscripts/vol-24-index-1.png"
+      ],
+      "items": []
+    }
+  ]
+}

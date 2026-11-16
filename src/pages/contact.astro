@@ -1,0 +1,216 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { SITE, href, rich } from '../lib/site';
+import home from '../data/home.json';
+
+const training = home.intro[4];
+---
+
+<Base
+  title="Contact"
+  description="How to reach the Biomedical Manufacturing and Design Lab at the University of Michigan, Ann Arbor."
+>
+  <PageHero
+    title="Contact"
+    crumbs={[{ label: 'Contact' }]}
+    lead="Our lab is located on the University of Michigan's North Campus in Ann Arbor."
+  />
+
+  <section class="section">
+    <div class="container layout">
+      <div class="info" data-reveal>
+        <p class="eyebrow">Our lab is located at</p>
+        <address>
+          {SITE.contact.addressLines.map((line) => (
+            <span>{line}</span>
+          ))}
+        </address>
+
+        <ul class="methods">
+          <li>
+            <a href={`mailto:${SITE.contact.email}`} data-spot>
+              <span class="ico">
+                <Icon name="mail" />
+              </span>
+              <span>
+                <span class="mono label">Email</span>
+                <span class="value">{SITE.contact.email}</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href={SITE.contact.phoneHref} data-spot>
+              <span class="ico">
+                <Icon name="phone" />
+              </span>
+              <span>
+                <span class="mono label">Phone</span>
+                <span class="value">{SITE.contact.phone}</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href={SITE.contact.mapUrl} target="_blank" rel="noopener noreferrer" data-spot>
+              <span class="ico">
+                <Icon name="pin" />
+              </span>
+              <span>
+                <span class="mono label">Directions</span>
+                <span class="value">Open in Google Maps</span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="map frame" data-reveal>
+        <iframe
+          src={SITE.contact.mapEmbedUrl}
+          title="Map showing the Herbert H. Dow Building, 2300 Hayward St, Ann Arbor"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark blueprint aurora" id="opportunities">
+    <div class="container opp" data-reveal>
+      <div>
+        <p class="eyebrow">Join us</p>
+        <h2 class="h-section">Opportunities</h2>
+      </div>
+      <div>
+        <p class="lead rich" set:html={rich(training)} />
+        <div class="actions">
+          <a class="btn btn--primary" href={`mailto:${SITE.contact.email}`}>
+            Email Professor {SITE.pi.name.split(' ').at(-1)} <Icon name="arrow-right" />
+          </a>
+          <a class="btn btn--ghost" href={href('/research')}>
+            See our research
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  address {
+    display: grid;
+    margin-top: 1.25rem;
+    font-style: normal;
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  address span + span {
+    margin-top: 0.35rem;
+    color: var(--ink-2);
+  }
+
+  .methods {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 2.25rem;
+  }
+
+  .methods a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition:
+      border-color 0.2s,
+      box-shadow 0.3s var(--ease),
+      transform 0.3s var(--ease);
+  }
+
+  .methods a:hover {
+    border-color: var(--blue-500);
+    box-shadow: var(--shadow-md);
+    transform: translateX(4px);
+  }
+
+  .ico {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--blue-800);
+    color: var(--maize);
+    flex: none;
+  }
+
+  .label {
+    display: block;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+
+  .value {
+    display: block;
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+
+  .map {
+    border-radius: var(--radius);
+  }
+
+  .map iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    min-height: 340px;
+    border: 0;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    background: var(--paper-2);
+  }
+
+  .opp {
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    gap: 2rem clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .opp .lead {
+    color: var(--on-dark);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 860px) {
+    .layout,
+    .opp {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

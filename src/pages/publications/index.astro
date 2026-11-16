@@ -1,0 +1,331 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import { image } from '../../lib/images';
+import { href } from '../../lib/site';
+import featured from '../../data/publications/featured.json';
+import journal from '../../data/publications/journal.json';
+import conference from '../../data/publications/conference.json';
+import patents from '../../data/publications/patents.json';
+import pending from '../../data/publications/pending.json';
+
+const count = (groups: { items: string[] }[]) => groups.reduce((n, g) => n + g.items.length, 0);
+const years = journal.map((g) => Number(g.label)).filter(Boolean);
+
+const collections = [
+  {
+    title: 'Journal Papers',
+    path: '/publications/journal-papers',
+    n: count(journal),
+    note: `${Math.min(...years)} to ${Math.max(...years)}, and earlier`,
+    icon: 'book',
+  },
+  {
+    title: 'Conference Papers',
+    path: '/publications/conference-papers',
+    n: count(conference),
+    note: 'Proceedings and presentations',
+    icon: 'users',
+  },
+  {
+    title: 'Patents',
+    path: '/publications/patents',
+    n: patents.awarded.length,
+    note: `Plus ${patents.licensed.length} inventions licensed to industry`,
+    icon: 'award',
+  },
+  {
+    title: 'Pending',
+    path: '/publications/pending',
+    n: pending.inPress.length + pending.underReview.length,
+    note: 'In press and under review',
+    icon: 'file',
+  },
+] as const;
+---
+
+<Base
+  title="Publications"
+  description="Journal papers, conference papers, patents and pending publications from the Biomedical Manufacturing and Design Lab."
+>
+  <PageHero
+    title="Publications"
+    crumbs={[{ label: 'Publications' }]}
+    lead="Recent papers, highlights, and the complete record of the lab's journal papers, conference papers, and patents."
+  />
+
+  <section class="section section--tight">
+    <div class="container">
+      <p class="more-label mono" data-reveal>
+        More publications can be found in the following links:
+      </p>
+      <ul class="collections">
+        {collections.map((c, i) => (
+          <li data-reveal style={`--reveal-i:${i}`}>
+            <a class="collection card" href={href(c.path)} data-spot>
+              <Icon name={c.icon} size={22} class="ico" />
+              <span class="n">{c.n}</span>
+              <h2>{c.title}</h2>
+              <p>{c.note}</p>
+              <Icon name="arrow-right" size={18} class="go" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <header class="section-head" data-reveal>
+        <div>
+          <p class="eyebrow">Latest work</p>
+          <h2 class="h-section">Recent Papers</h2>
+        </div>
+      </header>
+      <ul class="papers">
+        {featured.recent.map((paper, i) => {
+          const Tag = paper.href ? 'a' : 'div';
+          return (
+            <li data-reveal style={`--reveal-i:${i % 3}`}>
+              <Tag
+                class="paper"
+                href={paper.href ?? undefined}
+                target={paper.href ? '_blank' : undefined}
+                rel={paper.href ? 'noopener noreferrer' : undefined}
+              >
+                <div class="sheet">
+                  <Image src={image(paper.image)} alt="" width={720} loading="lazy" />
+                </div>
+                <h3>
+                  {paper.title}
+                  {paper.href && <Icon name="arrow-up-right" size={16} />}
+                </h3>
+              </Tag>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--dark blueprint">
+    <div class="container">
+      <header class="section-head" data-reveal>
+        <div>
+          <p class="eyebrow">Position and review papers</p>
+          <h2 class="h-section">Highlights</h2>
+        </div>
+      </header>
+      <ul class="highlights">
+        {featured.highlights.map((paper, i) => (
+          <li data-reveal style={`--reveal-i:${i}`}>
+            <a class="highlight" href={paper.href ?? undefined} target="_blank" rel="noopener noreferrer">
+              <div class="page">
+                <Image src={image(paper.image)} alt="" width={640} loading="lazy" />
+              </div>
+              <h3>
+                {paper.title}
+                <Icon name="arrow-up-right" size={18} />
+              </h3>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .more-label {
+    color: var(--muted);
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 1.25rem;
+  }
+
+  .collections {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .collection {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem;
+    transition:
+      transform 0.35s var(--ease),
+      box-shadow 0.35s var(--ease),
+      background 0.3s,
+      color 0.3s;
+  }
+
+  .collection :global(.ico) {
+    color: var(--blue-500);
+    transition: color 0.3s;
+  }
+
+  .collection .n {
+    margin-top: 1.75rem;
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    font-weight: 650;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--blue-800);
+    transition: color 0.3s;
+  }
+
+  .collection h2 {
+    margin-top: 0.6rem;
+    font-size: var(--step-1);
+  }
+
+  .collection p {
+    margin-top: 0.4rem;
+    font-size: 0.88rem;
+    color: var(--muted);
+    transition: color 0.3s;
+  }
+
+  .collection :global(.go) {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    transition: transform 0.3s var(--ease);
+  }
+
+  .collection:hover {
+    transform: translateY(-4px);
+    background: var(--blue-800);
+    color: #fff;
+    box-shadow: var(--shadow-md);
+  }
+
+  .collection:hover .n,
+  .collection:hover :global(.ico) {
+    color: var(--maize);
+  }
+
+  .collection:hover p {
+    color: var(--on-dark-muted);
+  }
+
+  .collection:hover :global(.go) {
+    transform: translateX(4px);
+  }
+
+  .papers {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.25rem 1.5rem;
+  }
+
+  .paper {
+    display: block;
+  }
+
+  .sheet {
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    transition:
+      box-shadow 0.35s var(--ease),
+      transform 0.35s var(--ease);
+  }
+
+  .sheet :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  a.paper:hover .sheet {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .paper h3,
+  .highlight h3 {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .paper h3 :global(svg),
+  .highlight h3 :global(svg) {
+    flex: none;
+    margin-top: 0.15rem;
+    color: var(--blue-500);
+  }
+
+  a.paper:hover h3 {
+    color: var(--blue-600);
+  }
+
+  .highlights {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+  }
+
+  .page {
+    aspect-ratio: 3 / 3.4;
+    overflow: hidden;
+    background: #fff;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.45s var(--ease);
+  }
+
+  .page :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .highlight:hover .page {
+    transform: translateY(-6px) rotate(-0.6deg);
+  }
+
+  .highlight h3 {
+    font-size: var(--step-1);
+  }
+
+  .highlight h3 :global(svg) {
+    color: var(--maize);
+  }
+
+  @media (max-width: 960px) {
+    .collections {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .papers {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 600px) {
+    .papers,
+    .highlights {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

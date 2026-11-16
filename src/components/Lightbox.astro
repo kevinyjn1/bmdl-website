@@ -1,0 +1,206 @@
+---
+/**
+ * Page-wide image viewer. Any link marked up as
+ *   <a href="large.jpg" data-lightbox data-caption="...">
+ * opens here; links inside the same [data-lightbox-group] can be stepped through.
+ * Without JavaScript the links simply open the image.
+ */
+import Icon from './Icon.astro';
+---
+
+<dialog class="lightbox" data-lightbox-dialog aria-label="Image viewer">
+  <button class="lb-btn lb-close" type="button" data-lb-close aria-label="Close">
+    <Icon name="close" size={22} />
+  </button>
+  <button class="lb-btn lb-prev" type="button" data-lb-prev aria-label="Previous image">
+    <Icon name="chevron-left" size={26} />
+  </button>
+  <figure>
+    <img data-lb-img alt="" />
+    <figcaption>
+      <span data-lb-caption></span>
+      <span class="mono" data-lb-count></span>
+    </figcaption>
+  </figure>
+  <button class="lb-btn lb-next" type="button" data-lb-next aria-label="Next image">
+    <Icon name="chevron-right" size={26} />
+  </button>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox-dialog]');
+  if (dialog) {
+    const img = dialog.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const caption = dialog.querySelector<HTMLElement>('[data-lb-caption]')!;
+    const count = dialog.querySelector<HTMLElement>('[data-lb-count]')!;
+    const prev = dialog.querySelector<HTMLButtonElement>('[data-lb-prev]')!;
+    const next = dialog.querySelector<HTMLButtonElement>('[data-lb-next]')!;
+    let items: HTMLAnchorElement[] = [];
+    let index = 0;
+
+    const show = (i: number) => {
+      index = (i + items.length) % items.length;
+      const link = items[index];
+      img.src = link.href;
+      img.alt = link.dataset.caption ?? link.querySelector('img')?.alt ?? '';
+      caption.textContent = link.dataset.caption ?? '';
+      count.textContent = items.length > 1 ? `${index + 1} / ${items.length}` : '';
+      const multiple = items.length > 1;
+      prev.hidden = !multiple;
+      next.hidden = !multiple;
+    };
+
+    document.addEventListener('click', (event) => {
+      const link = (event.target as Element).closest<HTMLAnchorElement>('a[data-lightbox]');
+      if (!link || event.metaKey || event.ctrlKey || event.shiftKey) return;
+      event.preventDefault();
+      const group = link.closest('[data-lightbox-group]') ?? document;
+      items = Array.from(group.querySelectorAll<HTMLAnchorElement>('a[data-lightbox]'));
+      show(items.indexOf(link));
+      dialog.showModal();
+    });
+
+    prev.addEventListener('click', () => show(index - 1));
+    next.addEventListener('click', () => show(index + 1));
+    dialog.querySelector('[data-lb-close]')!.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') show(index - 1);
+      if (event.key === 'ArrowRight') show(index + 1);
+    });
+    dialog.addEventListener('close', () => img.removeAttribute('src'));
+  }
+</script>
+
+<style>
+  .lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: clamp(1rem, 3vw, 2.5rem);
+    border: 0;
+    background: transparent;
+    color: var(--on-dark);
+  }
+
+  .lightbox[open] {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    animation: lb-in 0.25s var(--ease);
+  }
+
+  .lightbox::backdrop {
+    background: rgba(0, 10, 22, 0.94);
+  }
+
+  @keyframes lb-in {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+  }
+
+  figure {
+    grid-column: 2;
+    margin: 0;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    pointer-events: none;
+  }
+
+  figure img {
+    max-width: 100%;
+    max-height: calc(100dvh - 8rem);
+    min-height: 0;
+    object-fit: contain;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: var(--shadow-lg);
+    pointer-events: auto;
+  }
+
+  figcaption {
+    display: flex;
+    gap: 1.25rem;
+    align-items: baseline;
+    max-width: 70ch;
+    text-align: center;
+    font-size: 0.95rem;
+    pointer-events: auto;
+  }
+
+  figcaption .mono {
+    color: var(--on-dark-muted);
+    white-space: nowrap;
+  }
+
+  .lb-btn {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--line-dark);
+    transition: background 0.2s;
+  }
+
+  .lb-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .lb-btn[hidden] {
+    display: grid;
+    visibility: hidden;
+  }
+
+  .lb-prev {
+    grid-column: 1;
+  }
+
+  .lb-next {
+    grid-column: 3;
+  }
+
+  .lb-close {
+    position: absolute;
+    top: clamp(0.75rem, 2vw, 1.5rem);
+    right: clamp(0.75rem, 2vw, 1.5rem);
+    z-index: 2;
+  }
+
+  @media (max-width: 640px) {
+    .lightbox[open] {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr auto;
+    }
+
+    figure {
+      grid-column: 1 / -1;
+    }
+
+    .lb-prev,
+    .lb-next {
+      grid-row: 2;
+    }
+
+    .lb-prev {
+      justify-self: end;
+    }
+
+    .lb-next {
+      grid-column: 2;
+    }
+  }
+</style>

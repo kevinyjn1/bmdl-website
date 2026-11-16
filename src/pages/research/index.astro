@@ -1,0 +1,400 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Zoomable from '../../components/Zoomable.astro';
+import Icon from '../../components/Icon.astro';
+import { image } from '../../lib/images';
+import { href, plain, rich } from '../../lib/site';
+import research from '../../data/research.json';
+
+const isInternal = (url: string | null) => !!url && url.startsWith('/');
+---
+
+<Base
+  title="Research"
+  description="Research projects at the Biomedical Manufacturing and Design Lab: thrombectomy, atherectomy, silicone 3D printing, ceramic matrix composite grinding, custom orthoses, bone drilling, and more."
+>
+  <PageHero
+    title="Research Topics"
+    crumbs={[{ label: 'Research' }]}
+    lead="Grinding and polishing, drilling, and cutting of soft biomaterials are three machining processes in which we have a long tradition of excellence and impact in industry and healthcare."
+  >
+    <ul class="jump mono">
+      <li>
+        <a href="#projects">
+          Research projects <span>{String(research.projects.length).padStart(2, '0')}</span>
+        </a>
+      </li>
+      <li>
+        <a href="#past">
+          Past projects <span>{String(research.past.length).padStart(2, '0')}</span>
+        </a>
+      </li>
+      <li>
+        <a href="#position-papers">
+          Position papers <span>{String(research.positionPapers.length).padStart(2, '0')}</span>
+        </a>
+      </li>
+    </ul>
+  </PageHero>
+
+  <section class="section" id="projects">
+    <div class="container">
+      <header class="section-head" data-reveal>
+        <div>
+          <p class="eyebrow">Current work</p>
+          <h2 class="h-section">Research Projects</h2>
+        </div>
+      </header>
+
+      <div class="projects" data-lightbox-group>
+        {research.projects.map((project, i) => (
+          <article class="project" id={project.id}>
+            <div class="figure frame" data-reveal="wipe" style={`--natural:${image(project.image).width}px`}>
+              <Zoomable
+                src={image(project.image)}
+                alt={`Figure: ${project.title}`}
+                caption={project.title}
+                width={900}
+              />
+            </div>
+            <div class="body" data-reveal style="--reveal-i:2">
+              <span class="mono n">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{project.title}</h3>
+              {project.description.map((p) => (
+                <p class="desc rich" set:html={rich(p)} />
+              ))}
+              {project.links.length > 0 && (
+                <ul class="papers">
+                  {project.links.map((link) => {
+                    const url = link.match(/href="([^"]+)"/)?.[1]?.replace(/&amp;/g, '&');
+                    return (
+                      <li>
+                        {url ? (
+                          <a href={url} target="_blank" rel="noopener noreferrer">
+                            <Icon name="file" size={16} />
+                            <span>{plain(link)}</span>
+                            <Icon name="arrow-up-right" size={14} class="go" />
+                          </a>
+                        ) : (
+                          <span class="plain">
+                            <Icon name="file" size={16} />
+                            <span>{plain(link)}</span>
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface" id="past">
+    <div class="container">
+      <header class="section-head" data-reveal>
+        <div>
+          <p class="eyebrow">Archive</p>
+          <h2 class="h-section">Past Research Projects</h2>
+        </div>
+      </header>
+      <ul class="past">
+        {research.past.map((item, i) => (
+          <li data-reveal style={`--reveal-i:${i % 4}`}>
+            <a
+              class="past-card"
+              href={isInternal(item.href) ? href(item.href!) : (item.href ?? undefined)}
+              target={isInternal(item.href) ? undefined : '_blank'}
+              rel={isInternal(item.href) ? undefined : 'noopener noreferrer'}
+            >
+              <div class="past-img" data-spot>
+                <Image src={image(item.image)} alt="" width={520} loading="lazy" />
+              </div>
+              <h3>
+                {item.title}
+                <Icon name={isInternal(item.href) ? 'arrow-right' : 'arrow-up-right'} size={16} />
+              </h3>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--dark blueprint" id="position-papers">
+    <div class="container">
+      <header class="section-head" data-reveal>
+        <div>
+          <p class="eyebrow">Perspective</p>
+          <h2 class="h-section">Biomedical Manufacturing - Position Papers</h2>
+        </div>
+      </header>
+      <ul class="position">
+        {research.positionPapers.map((paper, i) => {
+          const url = paper.match(/href="([^"]+)"/)?.[1]?.replace(/&amp;/g, '&');
+          return (
+            <li data-reveal style={`--reveal-i:${i}`}>
+              <a href={url} target="_blank" rel="noopener noreferrer">
+                <Icon name="book" size={22} />
+                <span>{plain(paper)}</span>
+                <Icon name="arrow-up-right" size={18} class="go" />
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 2rem;
+  }
+
+  .jump a {
+    display: inline-flex;
+    gap: 0.7rem;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--line-dark);
+    border-radius: 999px;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .jump span {
+    color: var(--maize);
+  }
+
+  .jump a:hover {
+    background: var(--maize);
+    border-color: var(--maize);
+    color: var(--blue-900);
+  }
+
+  .jump a:hover span {
+    color: inherit;
+  }
+
+  .projects {
+    display: grid;
+    gap: clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .project {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.75rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .project:nth-child(even) .figure {
+    order: 2;
+  }
+
+  .figure {
+    padding: clamp(0.9rem, 2vw, 1.5rem);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.4s var(--ease);
+  }
+
+  .figure:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .figure :global(img) {
+    width: 100%;
+    max-width: calc(var(--natural) * 1.35);
+    max-height: 420px;
+    margin-inline: auto;
+    object-fit: contain;
+  }
+
+  .n {
+    display: block;
+    color: var(--maize-600);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .project h3 {
+    font-size: var(--step-2);
+  }
+
+  .desc {
+    margin-top: 1rem;
+    color: var(--ink-2);
+  }
+
+  .papers {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .papers a,
+  .papers .plain {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.8rem;
+    align-items: start;
+    padding: 0.8rem 0.25rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.95rem;
+    line-height: 1.45;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      padding 0.25s var(--ease);
+  }
+
+  .papers :global(svg) {
+    margin-top: 0.2rem;
+    color: var(--blue-500);
+  }
+
+  .papers :global(.go) {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .papers a:hover {
+    background: var(--surface);
+    color: var(--blue-700);
+    padding-inline: 0.75rem;
+  }
+
+  .papers a:hover :global(.go) {
+    opacity: 1;
+  }
+
+  .past {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .past-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    height: 100%;
+  }
+
+  .past-img {
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+    padding: 0.75rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition:
+      border-color 0.3s,
+      box-shadow 0.35s var(--ease);
+  }
+
+  .past-img :global(img) {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .past-card:hover .past-img {
+    border-color: var(--blue-500);
+    box-shadow: var(--shadow-md);
+  }
+
+  .past-card:hover .past-img :global(img) {
+    transform: scale(1.04);
+  }
+
+  .past-card h3 {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .past-card h3 :global(svg) {
+    flex: none;
+    margin-top: 0.15rem;
+    color: var(--blue-500);
+  }
+
+  .position {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .position a {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.5rem;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius);
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 600;
+    line-height: 1.25;
+    transition:
+      background 0.25s,
+      border-color 0.25s,
+      color 0.25s;
+  }
+
+  .position a :global(svg:first-child) {
+    color: var(--maize);
+  }
+
+  .position a:hover {
+    background: var(--maize);
+    border-color: var(--maize);
+    color: var(--blue-900);
+  }
+
+  .position a:hover :global(svg:first-child) {
+    color: inherit;
+  }
+
+  @media (max-width: 900px) {
+    .project {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .project:nth-child(even) .figure {
+      order: 0;
+    }
+
+    .past {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .position {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

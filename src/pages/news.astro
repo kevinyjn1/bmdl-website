@@ -1,0 +1,199 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Carousel from '../components/Carousel.astro';
+import NewsList from '../components/NewsList.astro';
+import Zoomable from '../components/Zoomable.astro';
+import { image } from '../lib/images';
+import { plain, rich } from '../lib/site';
+import news from '../data/news.json';
+
+// Group the timeline by year, newest first.
+const years = [...new Set(news.items.map((item) => item.date.slice(0, 4)))];
+const byYear = years.map((year) => ({ year, items: news.items.filter((item) => item.date.startsWith(year)) }));
+---
+
+<Base
+  title="News"
+  description="Recent news from the Biomedical Manufacturing and Design Lab at the University of Michigan."
+>
+  <PageHero
+    title="News"
+    crumbs={[{ label: 'News' }]}
+    lead="Defenses, awards, patents, startups, and milestones from the lab."
+  />
+
+  <section class="section section--dark blueprint">
+    <div class="container section-head">
+      <div data-reveal>
+        <p class="eyebrow">Recent news</p>
+        <h2 class="h-section">In pictures</h2>
+      </div>
+    </div>
+    <Carousel slides={news.slides} label="Recent news photos" />
+  </section>
+
+  <section class="section section--surface">
+    <div class="container features" data-lightbox-group>
+      {news.features.map((feature, i) => (
+        <article class="feature" data-reveal style={`--reveal-i:${i}`}>
+          <Zoomable src={image(feature.image)} alt={plain(feature.captions[0])} width={760} class="feature-img" />
+          <div class="feature-text">
+            {feature.captions.map((caption) => (
+              <p class="rich" set:html={rich(caption)} />
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section timeline">
+    <div class="container layout">
+      <aside class="years" aria-label="Jump to year">
+        <p class="eyebrow">BMDL news</p>
+        <h2 class="h-section">Timeline</h2>
+        <ul>
+          {byYear.map((group) => (
+            <li>
+              <a href={`#y${group.year}`}>
+                <span>{group.year}</span>
+                <span class="mono count">{group.items.length}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+      <div class="groups">
+        {byYear.map((group) => (
+          <section class="group" id={`y${group.year}`} aria-labelledby={`h${group.year}`}>
+            <h3 id={`h${group.year}`}>{group.year}</h3>
+            <NewsList items={group.items} />
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .feature :global(.feature-img) {
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--paper-2);
+  }
+
+  .feature :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .feature:hover :global(img) {
+    transform: scale(1.03);
+  }
+
+  .feature-text {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 1.1rem;
+    font-weight: 550;
+    line-height: 1.45;
+  }
+
+  .feature-text :global(strong) {
+    font-weight: inherit;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.9fr);
+    gap: 2.5rem clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .years {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+  }
+
+  .years ul {
+    margin-top: 1.75rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+    max-width: 16rem;
+  }
+
+  .years a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-weight: 600;
+    background: var(--surface);
+    transition:
+      border-color 0.2s,
+      background 0.2s,
+      color 0.2s;
+  }
+
+  .years a:hover {
+    border-color: var(--blue-800);
+    background: var(--blue-800);
+    color: #fff;
+  }
+
+  .count {
+    opacity: 0.6;
+  }
+
+  .group + .group {
+    margin-top: 3.5rem;
+  }
+
+  .group h3 {
+    font-size: var(--step-3);
+    color: var(--blue-800);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .group h3::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line-strong);
+  }
+
+  @media (max-width: 900px) {
+    .features {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .years {
+      position: static;
+    }
+
+    .years ul {
+      grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+      max-width: none;
+    }
+  }
+</style>
