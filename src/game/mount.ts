@@ -2,9 +2,20 @@
  * Lumen Run - wiring to the page.
  *
  * Connects the simulation (sim.ts) and the renderer (render.ts) to the markup in
- * components/LumenRun.astro: the frame loop, mouse, touch and keyboard input, the HUD, and the
- * title, pause and results cards.
+ * components/LumenRun.astro: the frame loop, mouse, touch and keyboard input, the HUD, the
+ * title, pause and results cards, and the online leaderboard (leaderboard.ts).
  */
+import {
+  LeaderboardError,
+  cleanName,
+  isEmail,
+  loadBoard,
+  postRun,
+  type Board,
+  type LeaderboardErrorCode,
+  type RunReport,
+  type Standing,
+} from './leaderboard.ts';
 import { Renderer } from './render.ts';
 import { Game, STEP, autopilot, type GameEvent } from './sim.ts';
 import { VIEW_H } from './world.ts';
@@ -13,6 +24,9 @@ import { VIEW_H } from './world.ts';
 type Mode = 'demo' | 'playing' | 'paused' | 'over';
 
 const BEST_KEY = 'bmdl:lumen-run:best';
+const NAME_KEY = 'bmdl:lumen-run:name';
+/** Rows shown on the leaderboard. */
+const BOARD_SIZE = 10;
 /** World units to millimetres for the distance readout (the vessel is drawn about 5 mm across). */
 const MM_PER_UNIT = 0.02;
 /** Steering speed with the keyboard, in world units per second. */
@@ -36,19 +50,33 @@ const clamp = (value: number, min: number, max: number) => Math.min(max, Math.ma
 const number = new Intl.NumberFormat('en-US');
 const newSeed = () => (Date.now() ^ Math.floor(Math.random() * 0x7fffffff)) >>> 0;
 
-function readBest(): number {
+/** What to tell the player when a score could not be posted. */
+const POST_ERRORS: Record<LeaderboardErrorCode, string> = {
+  name: 'Use 2 to 20 letters, digits or spaces for your name.',
+  'name-blocked': 'Please choose a different name.',
+  email: 'That email address does not look right.',
+  score: 'This run could not be verified, so it was not posted.',
+  busy: 'The leaderboard is busy. Try again in a minute.',
+  full: 'The leaderboard is not taking new scores right now.',
+  'bad-request': 'Could not post the score. Please try again.',
+  server: 'Could not post the score. Please try again.',
+  offline: 'Could not reach the leaderboard. Check your connection and try again.',
+};
+
+/** Read something this browser remembered. Storage can be unavailable (private browsing). */
+function recall(key: string): string {
   try {
-    return Number(localStorage.getItem(BEST_KEY)) || 0;
+    return localStorage.getItem(key) ?? '';
   } catch {
-    return 0;
+    return '';
   }
 }
 
-function writeBest(score: number): void {
+function remember(key: string, value: string): void {
   try {
-    localStorage.setItem(BEST_KEY, String(score));
+    localStorage.setItem(key, value);
   } catch {
-    // Storage can be unavailable (private browsing); the best score then lasts for this visit only.
+    // Without storage, the value simply lasts for this visit only.
   }
 }
 
@@ -72,6 +100,20 @@ export function mountLumenRun(root: HTMLElement): void {
   const overCard = part('over-card');
   const resumeButton = part<HTMLButtonElement>('resume');
   const againButton = part<HTMLButtonElement>('again');
+
+  // The leaderboard. Without a backend address the game simply has none.
+  const boardUrl = root.dataset.leaderboard ?? '';
+  const overViews = { result: part('over-result'), post: part('post-form'), posted: part('posted') };
+  const openPostButton = part<HTMLButtonElement>('open-post');
+  const postSubmit = part<HTMLButtonElement>('post-submit');
+  const nameInput = part<HTMLInputElement>('post-name');
+  const emailInput = part<HTMLInputElement>('post-email');
+  const postError = part('post-error');
+  const boardRows = part('board-rows');
+  const boardYou = part('board-you');
+  const boardNote = part('board-note');
+  const boardMeta = part('board-meta');
+  const rowTemplate = part<HTMLTemplateElement>('board-row');
   const startBest = part('start-best');
   const status = part('status');
 
@@ -81,8 +123,14 @@ export function mountLumenRun(root: HTMLElement): void {
   let mode: Mode = 'demo';
   let viewW = 960;
   let game = new Game(newSeed(), viewW);
-  let best = readBest();
+  let best = Number(recall(BEST_KEY)) || 0;
   let lastInjury: 'wall' | 'overheat' = 'wall';
+
+  /** The run that just ended, until it has been posted; and who posted, to highlight their row. */
+  let finishedRun: Omit<RunReport, 'name' | 'email'> | null = null;
+  let you = '';
+  let posting = false;
+  let boardRequest = 0;
 
   // Steering.
   let targetY = VIEW_H / 2;
@@ -166,7 +214,7 @@ export function mountLumenRun(root: HTMLElement): void {
     const isBest = score > best;
     if (isBest) {
       best = score;
-      writeBest(best);
+      remember(BEST_KEY, String(best));
       showBest();
     }
     const rank = RANKS.reduce((title, [threshold, name]) => (score >= threshold ? name : title), RANKS[0][1]);
@@ -183,12 +231,127 @@ export function mountLumenRun(root: HTMLElement): void {
     part('stat-clots').textContent = String(game.stats.clots);
     status.textContent = `${cause}. Final score ${number.format(score)}. Rank: ${rank}.`;
 
+    finishedRun = {
+      score,
+      distance: Math.round(game.scroll * MM_PER_UNIT),
+      duration: Math.round(game.time * 10) / 10,
+      cleared: Math.round(game.cleared * 100),
+      sweeps: game.stats.sweeps,
+      clots: game.stats.clots,
+    };
+    openPostButton.hidden = !boardUrl || score < 1;
+    showOver('result');
+    void refreshBoard();
+
     setMode('over');
     // Let the final hit play out before the results cover the scene.
     revealTimer = window.setTimeout(() => {
       overCard.hidden = false;
       againButton.focus({ preventScroll: true });
     }, 700);
+  }
+
+  // ---- leaderboard ---------------------------------------------------------------------------
+
+  /** The results card has three views: the result, the form to post it, and the confirmation. */
+  function showOver(view: keyof typeof overViews): void {
+    for (const [name, element] of Object.entries(overViews)) element.hidden = name !== view;
+  }
+
+  function boardRow(rank: number, name: string, score: number, index = 0): HTMLElement {
+    const row = rowTemplate.content.firstElementChild!.cloneNode(true) as HTMLElement;
+    row.style.setProperty('--i', String(index));
+    row.classList.toggle('is-top', rank <= 3);
+    row.classList.toggle('is-you', you !== '' && name.toLowerCase() === you);
+    row.querySelector('.pos')!.textContent = String(rank).padStart(2, '0');
+    row.querySelector('.who')!.textContent = name;
+    row.querySelector('.pts')!.textContent = number.format(score);
+    return row;
+  }
+
+  /** Draw the board. `standing` is given right after posting, to show where the player landed. */
+  function renderBoard(board: Board, standing?: Standing & { name: string }): void {
+    const rows = board.entries.map((entry, index) => boardRow(entry.rank, entry.name, entry.score, index));
+    boardRows.replaceChildren(...rows);
+    // Below the top of the board, the player still gets to see their own row.
+    if (standing) {
+      const listed = board.entries.some((entry) => entry.name.toLowerCase() === you);
+      boardYou.hidden = listed;
+      boardYou.replaceChildren(...(listed ? [] : [boardRow(standing.rank, standing.name, standing.best)]));
+    }
+    boardNote.textContent = rows.length ? '' : 'No scores yet. Be the first on the board.';
+    boardMeta.textContent =
+      board.total === 0 ? '' : board.total === 1 ? '1 player' : `${number.format(board.total)} players`;
+  }
+
+  async function refreshBoard(): Promise<void> {
+    if (!boardUrl) return;
+    const request = ++boardRequest;
+    try {
+      const board = await loadBoard(boardUrl, BOARD_SIZE);
+      // A newer request (or a posted score) has already drawn a fresher board.
+      if (request === boardRequest) renderBoard(board);
+    } catch {
+      if (request === boardRequest && !boardRows.children.length) {
+        boardNote.textContent = 'The leaderboard could not be loaded right now.';
+      }
+    }
+  }
+
+  function openPost(): void {
+    if (!finishedRun) return;
+    part('post-score').textContent = number.format(finishedRun.score);
+    if (!nameInput.value) nameInput.value = recall(NAME_KEY);
+    postError.textContent = '';
+    showOver('post');
+    nameInput.focus({ preventScroll: true });
+  }
+
+  function refuse(code: LeaderboardErrorCode): void {
+    postError.textContent = POST_ERRORS[code];
+    const field = code === 'email' ? emailInput : code === 'name' || code === 'name-blocked' ? nameInput : null;
+    nameInput.setAttribute('aria-invalid', String(field === nameInput));
+    emailInput.setAttribute('aria-invalid', String(field === emailInput));
+    field?.focus({ preventScroll: true });
+  }
+
+  async function submitPost(event: SubmitEvent): Promise<void> {
+    event.preventDefault();
+    if (!finishedRun || posting) return;
+    const name = cleanName(nameInput.value);
+    const email = emailInput.value.trim();
+    if (!name) return refuse('name');
+    if (email && !isEmail(email)) return refuse('email');
+
+    posting = true;
+    postSubmit.disabled = true;
+    postSubmit.textContent = 'Posting';
+    postError.textContent = '';
+    try {
+      const result = await postRun(boardUrl, { ...finishedRun, name, email }, BOARD_SIZE);
+      remember(NAME_KEY, name);
+      you = name.toLowerCase();
+      // A run can be posted once.
+      finishedRun = null;
+      openPostButton.hidden = true;
+      boardRequest++;
+      renderBoard(result, { ...result, name });
+
+      const detail = result.total > 1 ? `of ${number.format(result.total)} players` : 'You are the first on the board';
+      part('posted-rank').textContent = `#${number.format(result.rank)}`;
+      part('posted-detail').textContent = detail;
+      nameInput.setAttribute('aria-invalid', 'false');
+      emailInput.setAttribute('aria-invalid', 'false');
+      showOver('posted');
+      part('again-posted').focus({ preventScroll: true });
+      status.textContent = `Score posted. You are number ${result.rank} ${detail}.`;
+    } catch (error) {
+      refuse(error instanceof LeaderboardError ? error.code : 'offline');
+    } finally {
+      posting = false;
+      postSubmit.disabled = false;
+      postSubmit.textContent = 'Post score';
+    }
   }
 
   function announce(title: string, detail: string): void {
@@ -298,6 +461,13 @@ export function mountLumenRun(root: HTMLElement): void {
 
   part('start').addEventListener('click', startRun);
   againButton.addEventListener('click', startRun);
+  part('again-posted').addEventListener('click', startRun);
+  openPostButton.addEventListener('click', openPost);
+  part<HTMLFormElement>('post-form').addEventListener('submit', (event) => void submitPost(event));
+  part('post-back').addEventListener('click', () => {
+    showOver('result');
+    openPostButton.focus({ preventScroll: true });
+  });
   resumeButton.addEventListener('click', resume);
   part('pause').addEventListener('click', pause);
 
@@ -355,6 +525,12 @@ export function mountLumenRun(root: HTMLElement): void {
     },
     { threshold: 0.05 },
   ).observe(stage);
+
+  if (boardUrl) {
+    part('board').hidden = false;
+    boardNote.textContent = 'Loading scores';
+    void refreshBoard();
+  }
 
   showBest();
   setMode('demo');

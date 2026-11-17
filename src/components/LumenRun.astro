@@ -5,10 +5,10 @@
  */
 import Icon from './Icon.astro';
 import { MAX_INTEGRITY } from '../game/sim.ts';
-import { href } from '../lib/site';
+import { LEADERBOARD_URL, href } from '../lib/site';
 ---
 
-<div class="lumen-run" data-lumen-run>
+<div class="lumen-run" data-lumen-run data-leaderboard={LEADERBOARD_URL}>
   <div class="stage frame" data-lr="stage" data-mode="demo" tabindex="-1" role="group" aria-label="Lumen Run, a game">
     <canvas data-lr="canvas" aria-hidden="true"></canvas>
 
@@ -101,7 +101,7 @@ import { href } from '../lib/site';
     </div>
 
     <div class="panel" data-lr="over-card" hidden>
-      <div class="panel-body">
+      <div class="panel-body" data-lr="over-result">
         <p class="eyebrow" data-lr="cause">
           Run complete
         </p>
@@ -116,7 +116,7 @@ import { href } from '../lib/site';
         </p>
         <dl class="stats mono">
           <div>
-            <dt>Plaque cleared</dt>
+            <dt>Cleared</dt>
             <dd data-lr="stat-cleared"></dd>
           </div>
           <div>
@@ -124,11 +124,11 @@ import { href } from '../lib/site';
             <dd data-lr="stat-distance"></dd>
           </div>
           <div>
-            <dt>Clean sweeps</dt>
+            <dt>Sweeps</dt>
             <dd data-lr="stat-sweeps"></dd>
           </div>
           <div>
-            <dt>Clots retrieved</dt>
+            <dt>Clots</dt>
             <dd data-lr="stat-clots"></dd>
           </div>
         </dl>
@@ -136,8 +136,58 @@ import { href } from '../lib/site';
           <button class="btn btn--primary" type="button" data-lr="again">
             Play again <Icon name="arrow-right" />
           </button>
-          <a class="btn btn--ghost" href={href('/research#atherectomy')}>
-            The real research
+          <button class="btn btn--ghost" type="button" data-lr="open-post" hidden>
+            Post your score
+          </button>
+        </div>
+        <a class="research" href={href('/research#atherectomy')}>
+          See the real research <Icon name="arrow-right" size={14} />
+        </a>
+      </div>
+
+      <form class="panel-body post" data-lr="post-form" novalidate hidden>
+        <p class="eyebrow">Leaderboard</p>
+        <h2 class="title title-post">
+          Post <span data-lr="post-score">0</span> points
+        </h2>
+        <div class="fields">
+          <label class="field">
+            <span class="mono">Name</span>
+            <input data-lr="post-name" name="name" type="text" autocomplete="nickname" maxlength="20" required />
+          </label>
+          <label class="field">
+            <span class="mono">
+              Email <i>optional</i>
+            </span>
+            <input data-lr="post-email" name="email" type="email" autocomplete="email" maxlength="254" />
+          </label>
+        </div>
+        <p class="privacy">
+          Your name appears on the public leaderboard. Your email is stored privately by the lab and never shown.
+        </p>
+        <p class="form-error" data-lr="post-error" role="alert"></p>
+        <div class="actions">
+          <button class="btn btn--primary" type="submit" data-lr="post-submit">
+            Post score
+          </button>
+          <button class="btn btn--ghost" type="button" data-lr="post-back">
+            Back
+          </button>
+        </div>
+      </form>
+
+      <div class="panel-body" data-lr="posted" hidden>
+        <p class="eyebrow">Score posted</p>
+        <p class="final">
+          <b data-lr="posted-rank">#1</b>
+        </p>
+        <p class="rank" data-lr="posted-detail"></p>
+        <div class="actions posted-actions">
+          <button class="btn btn--primary" type="button" data-lr="again-posted">
+            Play again <Icon name="arrow-right" />
+          </button>
+          <a class="btn btn--ghost" href="#leaderboard">
+            See the leaderboard
           </a>
         </div>
       </div>
@@ -145,6 +195,28 @@ import { href } from '../lib/site';
 
     <p class="visually-hidden" role="status" data-lr="status"></p>
   </div>
+
+  <p class="fineprint mono">A game, not a simulator: the speeds, sizes and scores are made up.</p>
+
+  <section class="board" id="leaderboard" data-lr="board" aria-labelledby="lumen-run-board" hidden>
+    <header class="board-head">
+      <div>
+        <p class="eyebrow">Leaderboard</p>
+        <h2 id="lumen-run-board">Steadiest hands</h2>
+      </div>
+      <p class="board-meta mono" data-lr="board-meta"></p>
+    </header>
+    <ol class="board-rows" data-lr="board-rows"></ol>
+    <ul class="board-you" data-lr="board-you" aria-label="Your position" hidden></ul>
+    <p class="board-note mono" data-lr="board-note" role="status"></p>
+    <template data-lr="board-row">
+      <li class="board-row">
+        <span class="pos"></span>
+        <span class="who"></span>
+        <span class="pts"></span>
+      </li>
+    </template>
+  </section>
 </div>
 
 <script>
@@ -416,7 +488,7 @@ import { href } from '../lib/site';
     position: absolute;
     inset: 0;
     display: grid;
-    place-items: center;
+    place-items: safe center;
     padding: 1rem;
     background: radial-gradient(ellipse at center, rgba(0, 16, 31, 0.78), rgba(0, 16, 31, 0.5));
     backdrop-filter: blur(1.5px);
@@ -424,10 +496,6 @@ import { href } from '../lib/site';
     text-align: center;
     overflow-y: auto;
     animation: panel-in 0.4s var(--ease) both;
-  }
-
-  .panel[hidden] {
-    display: none;
   }
 
   @keyframes panel-in {
@@ -611,9 +679,265 @@ import { href } from '../lib/site';
     gap: 0.7rem;
   }
 
+  .research {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--on-dark-muted);
+    transition: color 0.2s;
+  }
+
+  .research:hover {
+    color: var(--maize);
+  }
+
+  /* ---- Posting a score ---- */
+
+  .post {
+    width: min(100%, 30rem);
+  }
+
+  .title-post {
+    margin-bottom: 1.1rem;
+    font-size: clamp(1.5rem, 4vw, 2.3rem);
+    line-height: 1.05;
+  }
+
+  .title-post span {
+    color: var(--maize);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    width: 100%;
+    text-align: left;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .field span {
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+  }
+
+  .field i {
+    margin-left: 0.35rem;
+    font-style: normal;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--line-dark);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.2;
+    transition:
+      border-color 0.2s,
+      background 0.2s;
+  }
+
+  .field input:focus-visible {
+    border-color: var(--maize);
+    background: rgba(255, 255, 255, 0.1);
+    outline: 2px solid color-mix(in srgb, var(--maize) 45%, transparent);
+    outline-offset: 1px;
+  }
+
+  .field input[aria-invalid='true'] {
+    border-color: #ff7a6b;
+  }
+
+  .privacy {
+    margin-top: 0.8rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--on-dark-muted);
+  }
+
+  .form-error {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ff8f82;
+  }
+
+  .form-error:not(:empty) {
+    margin-top: 0.6rem;
+  }
+
+  .post .actions {
+    margin-top: 1rem;
+  }
+
+  .posted-actions {
+    margin-top: 1.5rem;
+  }
+
+  .btn[disabled] {
+    opacity: 0.6;
+    cursor: progress;
+  }
+
+  .fineprint {
+    margin-top: 1.4rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+  }
+
+  /* ---- Leaderboard ---- */
+
+  .board {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    color: var(--on-dark);
+  }
+
+  .board-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .board-head h2 {
+    margin-top: 0.7rem;
+    font-size: var(--step-3);
+    color: #fff;
+  }
+
+  .board-meta,
+  .board-note {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+  }
+
+  /* Ten rows in two columns, reading down the first column and then the second. */
+  .board-rows {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(5, auto);
+    grid-auto-columns: 1fr;
+    gap: 0 clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .board-rows:empty {
+    display: none;
+  }
+
+  .board-row {
+    display: grid;
+    grid-template-columns: 2.2rem 1fr auto;
+    align-items: baseline;
+    gap: 0.9rem;
+    padding: 0.85rem 0.6rem;
+    border-bottom: 1px solid var(--line-dark);
+    animation: row-in 0.5s var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 40ms);
+  }
+
+  /* The first row of each column carries the top rule. */
+  .board-row:nth-child(5n + 1) {
+    border-top: 1px solid var(--line-dark);
+  }
+
+  @keyframes row-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  .pos {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--on-dark-muted);
+  }
+
+  .who {
+    overflow: hidden;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #fff;
+  }
+
+  .pts {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--on-dark);
+  }
+
+  .board-row.is-top .pos,
+  .board-row.is-top .pts {
+    color: var(--maize);
+  }
+
+  .board-row.is-you {
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--maize) 13%, transparent);
+    box-shadow: inset 2px 0 0 var(--maize);
+  }
+
+  /* The player's own row, shown under the list when they rank below it. */
+  .board-you {
+    margin-top: 0.9rem;
+  }
+
+  .board-you .board-row {
+    border: 0;
+  }
+
+  .board-note:not(:empty) {
+    padding: 1.1rem 0.6rem;
+    border-block: 1px solid var(--line-dark);
+  }
+
   @media (max-width: 640px) {
     .stage {
       aspect-ratio: 4 / 5;
+    }
+
+    .fields {
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+
+    .field input {
+      padding-block: 0.55rem;
+    }
+
+    .title-post {
+      margin-bottom: 0.7rem;
+    }
+
+    .board-rows {
+      grid-auto-flow: row;
+      grid-template-rows: none;
+    }
+
+    .board-row:nth-child(5n + 1):not(:first-child) {
+      border-top: 0;
     }
 
     .rules {
@@ -623,7 +947,13 @@ import { href } from '../lib/site';
     }
 
     .stats {
-      grid-template-columns: repeat(2, auto);
+      gap: 0.6rem 1.1rem;
+      margin: 0.9rem 0 1.1rem;
+      padding: 0.7rem 0;
+    }
+
+    .research {
+      margin-top: 0.8rem;
     }
   }
 </style>

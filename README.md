@@ -21,7 +21,7 @@ The site is then available at http://localhost:4321 and reloads as you edit.
 | `npm run build`        | Build the production site into `dist/`                |
 | `npm run preview`      | Serve the built site locally                          |
 | `npm run check`        | Type-check all pages, components and content          |
-| `npm test`             | Run the tests for the hidden game's rules             |
+| `npm test`             | Run the tests for the hidden game and its leaderboard |
 | `npm run format`       | Format the code with Prettier                         |
 | `npm run format:check` | Verify formatting without changing files (used in CI) |
 
@@ -104,18 +104,24 @@ and is deliberately left out of the navigation. Visitors can find it through:
 
 The code lives in `src/game/`, split so that each part can be changed on its own:
 
-| File          | What it holds                                                          |
-| ------------- | ---------------------------------------------------------------------- |
-| `world.ts`    | The endless vessel and its plaque, generated from a seed               |
-| `sim.ts`      | The rules: steering, grinding, heat, injuries, scoring, the demo pilot |
-| `render.ts`   | Drawing on the canvas, and effects such as sparks                      |
-| `mount.ts`    | The frame loop, mouse, touch and keyboard input, HUD and result cards  |
-| `sim.test.ts` | Tests that keep the game fair and reproducible (`npm test`)            |
+| File             | What it holds                                                          |
+| ---------------- | ---------------------------------------------------------------------- |
+| `world.ts`       | The endless vessel and its plaque, generated from a seed               |
+| `sim.ts`         | The rules: steering, grinding, heat, injuries, scoring, the demo pilot |
+| `render.ts`      | Drawing on the canvas, and effects such as sparks                      |
+| `mount.ts`       | The frame loop, mouse, touch and keyboard input, HUD and result cards  |
+| `sim.test.ts`    | Tests that keep the game fair and reproducible (`npm test`)            |
+| `leaderboard.ts` | Posting runs to the online leaderboard and reading the top scores      |
+
+The game has an optional online leaderboard: players can post a run with a name and, if they
+like, an email address. Scores are kept in a Google Sheet owned by the lab. It is switched off
+until it has been set up; [`leaderboard/README.md`](leaderboard/README.md) explains how, and
+how to remove entries.
 
 Difficulty is tuned with the constants at the top of `sim.ts` and the generator in `world.ts`.
 The markup and styles are in `components/LumenRun.astro`, the page in `pages/play.astro`, and
-the secret entrances in `components/EasterEgg.astro`. To remove the game, delete those files and
-`src/game/`, and take the `EasterEgg` component out of `layouts/Base.astro` along with the links
+the secret entrances in `components/EasterEgg.astro`. To remove the game, delete those files,
+`src/game/` and `leaderboard/`, and take the `EasterEgg` component out of `layouts/Base.astro` along with the links
 in `components/Footer.astro` and `pages/404.astro`.
 
 ## Deploying

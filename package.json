@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "node --test \"src/**/*.test.ts\"",
+    "test": "node --test \"src/**/*.test.ts\" \"leaderboard/**/*.test.mjs\"",
+    "leaderboard:dev": "node leaderboard/dev-server.mjs --seed",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "astro": "astro"

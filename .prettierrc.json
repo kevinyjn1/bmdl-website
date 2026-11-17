@@ -2,5 +2,18 @@
   "printWidth": 120,
   "singleQuote": true,
   "plugins": ["prettier-plugin-astro"],
-  "overrides": [{ "files": "*.astro", "options": { "parser": "astro" } }]
+  "overrides": [
+    {
+      "files": "*.astro",
+      "options": {
+        "parser": "astro"
+      }
+    },
+    {
+      "files": "*.gs",
+      "options": {
+        "parser": "babel"
+      }
+    }
+  ]
 }

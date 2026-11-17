@@ -26,6 +26,14 @@ export const SITE = {
   },
 } as const;
 
+/**
+ * The hidden game's online leaderboard: the web app URL of the Google Apps Script in
+ * leaderboard/Code.gs (leaderboard/README.md explains how to deploy it). While this is empty
+ * the game works as before, without a leaderboard. PUBLIC_LEADERBOARD_URL overrides it, which
+ * is how the local stand-in is used during development.
+ */
+export const LEADERBOARD_URL: string = import.meta.env.PUBLIC_LEADERBOARD_URL || '';
+
 export interface NavItem {
   label: string;
   path: string;

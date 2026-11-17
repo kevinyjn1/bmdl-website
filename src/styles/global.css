@@ -158,6 +158,11 @@ a {
   text-decoration: none;
 }
 
+/* The hidden attribute always wins, whatever display a class sets. */
+[hidden] {
+  display: none !important;
+}
+
 button {
   font: inherit;
   color: inherit;
