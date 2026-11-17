@@ -11,10 +11,12 @@ interface Props {
   profile: string | null;
   link: string | null;
   year?: number;
+  /** Further links for this person, listed under the card. */
+  links?: { label: string; href: string }[];
   size?: 'md' | 'sm';
 }
 
-const { name, image: photo, profile, link, year, size = 'md' } = Astro.props;
+const { name, image: photo, profile, link, year, links = [], size = 'md' } = Astro.props;
 const url = profile ? href(`/people/${profile}`) : link;
 const external = !profile && !!link;
 const Tag = url ? 'a' : 'div';
@@ -43,10 +45,31 @@ const px = size === 'md' ? 480 : 320;
     {url && <Icon name={external ? 'arrow-up-right' : 'arrow-right'} size={14} />}
   </p>
 </Tag>
+{links.map((extra) => (
+  <a class="extra mono" href={extra.href} target="_blank" rel="noopener noreferrer">
+    {extra.label} <Icon name="arrow-up-right" size={12} />
+  </a>
+))}
 
 <style>
   .person {
     display: block;
+  }
+
+  .extra {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.25rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+
+  .extra:hover {
+    color: var(--blue-700);
   }
 
   .portrait {

@@ -196,7 +196,13 @@
       "year": 2013,
       "image": "people/mathieu-davis.png",
       "profile": null,
-      "link": "https://www.exponent.com/professionals/d/davis-mathieu"
+      "link": "https://www.exponent.com/professionals/d/davis-mathieu",
+      "links": [
+        {
+          "label": "LinkedIn",
+          "href": "https://www.linkedin.com/in/mathieudavis/"
+        }
+      ]
     },
     {
       "name": "Tina Hsiao",

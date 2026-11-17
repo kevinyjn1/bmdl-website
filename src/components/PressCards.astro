@@ -1,0 +1,81 @@
+---
+/** Highlight cards for news stories published elsewhere about the lab (data/press.json). */
+import Icon from './Icon.astro';
+import { formatDate } from '../lib/site';
+
+interface Props {
+  items: { date: string; title: string; url: string }[];
+  /** Who published the stories, shown on each card. */
+  source: string;
+}
+
+const { items, source } = Astro.props;
+---
+
+<ul class="press-cards">
+  {items.map((item, i) => (
+    <li data-reveal style={`--reveal-i:${i}`}>
+      <a class="story card" href={item.url} target="_blank" rel="noopener noreferrer" data-spot>
+        <time class="mono" datetime={item.date}>
+          {formatDate(item.date)}
+        </time>
+        <h3>{item.title}</h3>
+        <span class="mono source">
+          {source} <Icon name="arrow-up-right" size={14} />
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .press-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 1.25rem;
+  }
+
+  .press-cards li {
+    display: grid;
+  }
+
+  .story {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 0.9rem;
+    padding: clamp(1.3rem, 2.6vw, 1.8rem);
+    transition:
+      transform 0.3s var(--ease),
+      box-shadow 0.3s var(--ease);
+  }
+
+  .story:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  time {
+    color: var(--blue-600);
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-size: var(--step-1);
+    line-height: 1.22;
+    color: var(--ink);
+  }
+
+  .source {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+  }
+
+  .story:hover .source {
+    color: var(--blue-700);
+  }
+</style>

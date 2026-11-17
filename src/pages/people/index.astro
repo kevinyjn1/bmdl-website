@@ -23,12 +23,15 @@ const currentCount = people.groups.reduce((n, g) => n + g.members.length, 0);
         <div>
           <p class="eyebrow">Principal investigator</p>
           <h2>{SITE.pi.name}</h2>
+          <p class="pi-title">{SITE.pi.title}</p>
           <p class="pi-role">
-            {SITE.pi.title}, {SITE.pi.institution}
+            {SITE.pi.college}, {SITE.pi.institution}
           </p>
           <ul class="chips">
             {SITE.pi.appointments.map((a) => (
-              <li>{a}</li>
+              <li>
+                {a.role}, {a.unit}
+              </li>
             ))}
           </ul>
         </div>
@@ -136,8 +139,18 @@ const currentCount = people.groups.reduce((n, g) => n + g.members.length, 0);
     font-size: var(--step-4);
   }
 
+  .pi-title {
+    margin-top: 0.9rem;
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--maize);
+  }
+
   .pi-role {
-    margin-top: 0.6rem;
+    margin-top: 0.3rem;
     color: var(--on-dark-muted);
   }
 

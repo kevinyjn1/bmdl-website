@@ -3,14 +3,24 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Carousel from '../components/Carousel.astro';
 import NewsList from '../components/NewsList.astro';
+import PressCards from '../components/PressCards.astro';
+import Icon from '../components/Icon.astro';
 import Zoomable from '../components/Zoomable.astro';
 import { image } from '../lib/images';
-import { plain, rich } from '../lib/site';
+import { escapeHtml, plain, rich } from '../lib/site';
 import news from '../data/news.json';
+import press from '../data/press.json';
 
 // Group the timeline by year, newest first.
 const years = [...new Set(news.items.map((item) => item.date.slice(0, 4)))];
 const byYear = years.map((year) => ({ year, items: news.items.filter((item) => item.date.startsWith(year)) }));
+
+// Stories about the lab published by the university: the newest as cards, the rest as a list.
+const HEADLINES = 3;
+const olderPress = press.items.slice(HEADLINES).map((item) => ({
+  date: item.date,
+  html: `<a href="${escapeHtml(item.url)}">${escapeHtml(item.title)}</a>`,
+}));
 ---
 
 <Base
@@ -22,6 +32,27 @@ const byYear = years.map((year) => ({ year, items: news.items.filter((item) => i
     crumbs={[{ label: 'News' }]}
     lead="Defenses, awards, patents, startups, and milestones from the lab."
   />
+
+  <section class="section press" id="press">
+    <div class="container">
+      <div class="section-head">
+        <div data-reveal>
+          <p class="eyebrow">In the news</p>
+          <h2 class="h-section">Coverage from Michigan Engineering</h2>
+        </div>
+        <p class="lead" data-reveal>
+          Stories about the lab, its startups and Professor Shih, published by {press.source.label}.
+        </p>
+      </div>
+      <PressCards items={press.items.slice(0, HEADLINES)} source={press.source.label} />
+      <div class="press-more">
+        <NewsList items={olderPress} />
+        <a class="link-arrow" href={press.source.url} target="_blank" rel="noopener noreferrer" data-reveal>
+          Related news on Professor Shih's faculty page <Icon name="arrow-up-right" />
+        </a>
+      </div>
+    </div>
+  </section>
 
   <section class="section section--dark blueprint">
     <div class="container section-head">
@@ -77,6 +108,17 @@ const byYear = years.map((year) => ({ year, items: news.items.filter((item) => i
 </Base>
 
 <style>
+  .press-more {
+    display: grid;
+    gap: 1.75rem;
+    justify-items: start;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+
+  .press-more :global(.news-list) {
+    width: 100%;
+  }
+
   .features {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

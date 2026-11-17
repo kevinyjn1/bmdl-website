@@ -33,6 +33,7 @@ code. Text fields that contain links are small snippets of HTML.
 | To change...                        | Edit...                                                                  |
 | ----------------------------------- | ------------------------------------------------------------------------ |
 | News items, news photos             | `src/data/news.json` (newest first; `date` is `YYYY-MM` or `YYYY-MM-DD`) |
+| Stories published by the university | `src/data/press.json` (newest first; title, date and link)               |
 | Current members and alumni          | `src/data/people.json`                                                   |
 | A member's profile page             | `src/content/profiles/<name>.md` (Markdown)                              |
 | Research projects                   | `src/data/research.json`                                                 |
@@ -43,6 +44,7 @@ code. Text fields that contain links are small snippets of HTML.
 | Featured papers on Publications     | `src/data/publications/featured.json`                                    |
 | Home page intro text and lab photos | `src/data/home.json`                                                     |
 | Prof. Milton Shaw archive           | `src/data/shaw/*.json`                                                   |
+| Professor Shih's titles             | `src/lib/site.ts`                                                        |
 | Address, email, phone, menu         | `src/lib/site.ts`                                                        |
 
 The numbers shown around the site (papers, patents, alumni, and so on) are counted from these

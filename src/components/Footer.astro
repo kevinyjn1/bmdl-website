@@ -26,11 +26,13 @@ const year = new Date().getFullYear();
             <Icon name="arrow-up-right" size={16} />
           </a>
         </p>
-        <p>{SITE.pi.title}</p>
+        <p class="pi-title">{SITE.pi.title}</p>
         <p>{SITE.pi.institution}</p>
         <ul class="appointments">
           {SITE.pi.appointments.map((a) => (
-            <li>{a}</li>
+            <li>
+              {a.role}, {a.unit}
+            </li>
           ))}
         </ul>
       </div>
@@ -166,6 +168,10 @@ const year = new Date().getFullYear();
 
   .pi-name a:hover {
     color: var(--maize);
+  }
+
+  .pi-title {
+    color: var(--on-dark);
   }
 
   .appointments {

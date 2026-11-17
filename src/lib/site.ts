@@ -8,9 +8,16 @@ export const SITE = {
     'The Biomedical Manufacturing and Design Lab (BMDL) at the University of Michigan: biomedical manufacturing, semiconductor manufacturing, machining, and manufacturing education.',
   pi: {
     name: 'Albert Shih',
-    title: 'Professor',
+    // His titles, as listed on his College of Engineering faculty page (profileUrl below).
+    // `title` is the named professorship; `appointments` are the others, in the page's order.
+    title: 'Yoram Koren Collegiate Professor of Engineering',
+    college: 'College of Engineering',
     institution: 'University of Michigan - Ann Arbor',
-    appointments: ['Mechanical Engineering', 'Biomedical Engineering', 'Institute of Gerontology'],
+    appointments: [
+      { role: 'Professor', unit: 'Mechanical Engineering' },
+      { role: 'Professor', unit: 'Biomedical Engineering' },
+      { role: 'Faculty Member', unit: 'Institute of Gerontology' },
+    ],
     profileUrl: 'https://me.engin.umich.edu/people/faculty/albert-shih/',
     scholarUrl: 'https://scholar.google.com/citations?user=b43PE-UAAAAJ&hl=en',
   },
@@ -91,6 +98,11 @@ export function rich(html: string): string {
 }
 
 /** Plain text of an HTML snippet (for alt text, search indexes, etc.). */
+/** Make plain text safe to place inside HTML (the opposite of `plain`). */
+export function escapeHtml(text: string): string {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 export function plain(html: string): string {
   return html
     .replace(/<[^>]+>/g, '')

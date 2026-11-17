@@ -6,11 +6,13 @@ import Marquee from '../components/Marquee.astro';
 import Zoomable from '../components/Zoomable.astro';
 import Carousel from '../components/Carousel.astro';
 import NewsList from '../components/NewsList.astro';
+import PressCards from '../components/PressCards.astro';
 import Icon from '../components/Icon.astro';
 import { image } from '../lib/images';
 import { SITE, formatDate, href, plain, rich } from '../lib/site';
 import home from '../data/home.json';
 import news from '../data/news.json';
+import press from '../data/press.json';
 import people from '../data/people.json';
 import research from '../data/research.json';
 import journal from '../data/publications/journal.json';
@@ -172,6 +174,19 @@ const focusAreas = [
   </section>
 
   <section class="section news">
+    <div class="container headlines">
+      <div class="section-head">
+        <div data-reveal>
+          <p class="eyebrow">In the news</p>
+          <h2 class="h-section">Making headlines</h2>
+        </div>
+        <a class="link-arrow" href={href('/news#press')} data-reveal>
+          All coverage <Icon name="arrow-right" />
+        </a>
+      </div>
+      <PressCards items={press.items.slice(0, 3)} source={press.source.label} />
+    </div>
+
     <div class="container news-grid">
       <div class="news-head" data-reveal>
         <p class="eyebrow">Recent news</p>
@@ -634,6 +649,10 @@ const focusAreas = [
   }
 
   /* ---------- News ---------- */
+  .headlines {
+    margin-bottom: clamp(3.5rem, 8vw, 6rem);
+  }
+
   .news-grid {
     display: grid;
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
