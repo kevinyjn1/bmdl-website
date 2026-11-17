@@ -1,0 +1,151 @@
+{
+  "source": "https://me.engin.umich.edu/people/faculty/albert-shih/",
+  "degrees": [
+    {
+      "degree": "Ph.D.",
+      "school": "Purdue University",
+      "year": 1991
+    },
+    {
+      "degree": "M.S.",
+      "school": "National Cheng Kung University",
+      "year": 1986
+    },
+    {
+      "degree": "B.S.",
+      "school": "National Cheng Kung University",
+      "year": 1984
+    }
+  ],
+  "interests": [
+    "Manufacturing",
+    "Semiconductor manufacturing",
+    "Biomedical device design",
+    "Biomedical manufacturing",
+    "Computed tomography for inspection",
+    "Neurovascular devices",
+    "Precision machining of advanced engineering materials",
+    "Additive manufacturing",
+    "Cyber-physical manufacturing systems for assistive technology"
+  ],
+  "areas": [
+    "Biomechanics & Biosystems Engineering",
+    "Design",
+    "Manufacturing",
+    "Mechatronics & Robotics"
+  ],
+  "honors": [
+    {
+      "year": "2026",
+      "title": "Rexford E. Hall Innovation Excellence Award, College of Engineering"
+    },
+    {
+      "year": "2025",
+      "title": "Purdue Outstanding Aerospace Engineer, School of Aeronautics and Astronautics Engineering, Purdue University"
+    },
+    {
+      "year": "2024",
+      "title": "ASME Manufacturing Engineering Division Outstanding Service Award"
+    },
+    {
+      "year": "2022",
+      "title": "Yushan Scholar, Ministry of Education, Taiwan"
+    },
+    {
+      "year": "2021",
+      "title": "ASME William T. Ennor Manufacturing Technology Award"
+    },
+    {
+      "year": "2021",
+      "title": "The 20 Most Influential Professors in Smart Manufacturing, Smart Manufacturing, SME"
+    },
+    {
+      "year": "2019-2020",
+      "title": "Top Reviewer, International Journal of Machine Tools and Manufacture"
+    },
+    {
+      "year": "2020",
+      "title": "SME Education Award"
+    },
+    {
+      "year": "2019",
+      "title": "CIRP Fellow"
+    },
+    {
+      "year": "2019",
+      "title": "Master’s Mentorship Award, Rackham Graduate School, University of Michigan"
+    },
+    {
+      "year": "2018",
+      "title": "SME Frederick Taylor Research Medal"
+    },
+    {
+      "year": "2017",
+      "title": "ASME Blackall Machine Tool and Gage Award"
+    },
+    {
+      "year": "2016",
+      "title": "ASME Swanson Fellowship"
+    },
+    {
+      "year": "2014",
+      "title": "ASME Milton Shaw Manufacturing Research Medal"
+    },
+    {
+      "year": "2014",
+      "title": "Best Paper Award, International Conference of Manufacturing Technology Engineers"
+    },
+    {
+      "year": "2012",
+      "title": "Best Paper Award, International Conference on Frontiers of Design and Manufacturing"
+    },
+    {
+      "year": "2012",
+      "title": "Best Paper Award, American Society of Mechanical Engineers"
+    },
+    {
+      "year": "2011",
+      "title": "Research Excellence Award, College of Engineering, The University of Michigan"
+    },
+    {
+      "year": "2010",
+      "title": "Faculty Recognition Award, University of Michigan"
+    },
+    {
+      "year": "2010",
+      "title": "Best Paper Award, International Conference on Computing, Communications and Control Technologies"
+    },
+    {
+      "year": "2009",
+      "title": "US Fulbright Scholar"
+    },
+    {
+      "year": "2009",
+      "title": "Fellow, Society of Manufacturing Engineers"
+    },
+    {
+      "year": "2008",
+      "title": "Fellow, American Society of Mechanical Engineers"
+    },
+    {
+      "year": "2006",
+      "title": "CRLT Gilbert Whitaker Fund for the Improvement of Teaching"
+    },
+    {
+      "year": "2006-present",
+      "title": "International Adjunct Professor, National Cheng Kung University"
+    },
+    {
+      "year": "2004",
+      "title": "Ralph R. Teetor Educational Award, Society of Automotive Engineers"
+    },
+    {
+      "year": "2000",
+      "title": "CAREER Award, National Science Foundation"
+    },
+    {
+      "year": "1999",
+      "title": "BOSS Award, American Society of Mechanical Engineers"
+    }
+  ]
+}

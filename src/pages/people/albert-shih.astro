@@ -1,0 +1,345 @@
+---
+/**
+ * Profile of the lab's principal investigator: his titles (lib/site.ts) and his education,
+ * research interests and honors (data/pi.json), all as listed on his U-M faculty page.
+ */
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import { SITE, href } from '../../lib/site';
+import pi from '../../data/pi.json';
+
+const { pi: person, contact } = SITE;
+const years = pi.honors.map((honor) => parseInt(honor.year, 10));
+const span = `${Math.min(...years)} to ${Math.max(...years)}`;
+---
+
+<Base
+  title={person.name}
+  description={`${person.name}, ${person.title} at the ${person.institution}: appointments, education, research interests and honors.`}
+>
+  <PageHero
+    title={person.name}
+    crumbs={[{ label: 'People', path: '/people' }, { label: person.name }]}
+    lead={`${person.title}, ${person.institution}`}
+  />
+
+  <section class="section">
+    <div class="container layout">
+      <aside class="card side">
+        <div class="block">
+          <h2 class="label mono">Appointments</h2>
+          <ul class="appointments">
+            <li>
+              <b>{person.title}</b>
+              <span>{person.college}</span>
+            </li>
+            {person.appointments.map((a) => (
+              <li>
+                <b>{a.role}</b>
+                <span>{a.unit}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="block">
+          <h2 class="label mono">Education</h2>
+          <ul class="degrees">
+            {pi.degrees.map((d) => (
+              <li>
+                <span class="mono year">{d.year}</span>
+                <span>
+                  <b>{d.degree}</b> {d.school}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="block">
+          <h2 class="label mono">Contact</h2>
+          <ul class="contact">
+            <li>
+              <a href={`mailto:${contact.email}`}>
+                <Icon name="mail" size={16} />
+                {contact.email}
+              </a>
+            </li>
+            <li>
+              <a href={person.profileUrl} target="_blank" rel="noopener noreferrer">
+                <Icon name="arrow-up-right" size={16} /> Faculty profile
+              </a>
+            </li>
+            <li>
+              <a href={person.scholarUrl} target="_blank" rel="noopener noreferrer">
+                <Icon name="arrow-up-right" size={16} /> Google Scholar
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <div class="main">
+        <div data-reveal>
+          <p class="eyebrow">Principal investigator</p>
+          <h2 class="h-section">Research interests</h2>
+        </div>
+        <ul class="interests">
+          {pi.interests.map((interest, i) => (
+            <li class="interest card" data-reveal data-spot style={`--reveal-i:${i % 3}`}>
+              <span class="mono n">{String(i + 1).padStart(2, '0')}</span>
+              {interest}
+            </li>
+          ))}
+        </ul>
+
+        <div class="areas" data-reveal>
+          <h3 class="label mono">Research areas</h3>
+          <ul>
+            {pi.areas.map((area) => (
+              <li class="tag">{area}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="more" data-reveal>
+          <a class="btn btn--outline" href={href('/research')}>
+            The lab's research <Icon name="arrow-right" />
+          </a>
+          <a class="link-arrow" href={href('/people')}>
+            <Icon name="arrow-left" /> All people
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark blueprint" id="honors">
+    <div class="container">
+      <div class="section-head">
+        <div data-reveal>
+          <p class="eyebrow">Recognition</p>
+          <h2 class="h-section">Honors and awards</h2>
+        </div>
+        <p class="lead" data-reveal>
+          {pi.honors.length} honors, {span}.
+        </p>
+      </div>
+      <ol class="honors">
+        {pi.honors.map((honor) => (
+          <li>
+            <span class="mono when">{honor.year}</span>
+            <span>{honor.title}</span>
+          </li>
+        ))}
+      </ol>
+      <p class="source mono">
+        As listed on his
+        <a href={pi.source} target="_blank" rel="noopener noreferrer">
+          U-M Mechanical Engineering faculty page
+        </a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .side {
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+    display: grid;
+    gap: 1.75rem;
+    padding: 1.6rem;
+  }
+
+  .label {
+    margin-bottom: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .appointments,
+  .degrees,
+  .contact {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .appointments li {
+    display: grid;
+    gap: 0.1rem;
+    font-size: 0.93rem;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+
+  .appointments b {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* The named professorship leads the list. */
+  .appointments li:first-child {
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .appointments li:first-child b {
+    font-family: var(--font-display);
+    font-size: 1.12rem;
+    line-height: 1.25;
+    color: var(--blue-800);
+  }
+
+  .degrees li {
+    display: grid;
+    grid-template-columns: 2.9rem 1fr;
+    gap: 0.6rem;
+    align-items: baseline;
+    font-size: 0.93rem;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+
+  .degrees .year {
+    color: var(--blue-600);
+  }
+
+  .degrees b {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .contact a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-weight: 550;
+    font-size: 0.93rem;
+    color: var(--blue-700);
+    overflow-wrap: anywhere;
+  }
+
+  .contact a:hover {
+    color: var(--blue-500);
+  }
+
+  .interests {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+    gap: 0.9rem;
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .interest {
+    display: grid;
+    align-content: start;
+    gap: 0.55rem;
+    padding: 1.15rem 1.25rem 1.3rem;
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .interest .n {
+    font-weight: 500;
+    color: var(--blue-600);
+  }
+
+  .areas {
+    margin-top: 2.25rem;
+  }
+
+  .areas ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .more {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+    margin-top: 2.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Honors read down two columns on wide screens. */
+  .honors {
+    columns: 2;
+    column-gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .honors li {
+    display: grid;
+    grid-template-columns: 6.6rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.9rem 0;
+    border-top: 1px solid var(--line-dark);
+    line-height: 1.45;
+    break-inside: avoid;
+  }
+
+  .honors .when {
+    color: var(--maize);
+    white-space: nowrap;
+  }
+
+  .source {
+    margin-top: 2.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+  }
+
+  .source a {
+    color: var(--on-dark);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--maize) 70%, transparent);
+    text-underline-offset: 3px;
+  }
+
+  .source a:hover {
+    color: var(--maize);
+  }
+
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .side {
+      position: static;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .honors {
+      columns: 1;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .honors li {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+  }
+</style>

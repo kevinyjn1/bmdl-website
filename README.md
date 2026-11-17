@@ -45,6 +45,7 @@ code. Text fields that contain links are small snippets of HTML.
 | Home page intro text and lab photos | `src/data/home.json`                                                     |
 | Prof. Milton Shaw archive           | `src/data/shaw/*.json`                                                   |
 | Professor Shih's titles             | `src/lib/site.ts`                                                        |
+| His degrees, interests and honors   | `src/data/pi.json`                                                       |
 | Address, email, phone, menu         | `src/lib/site.ts`                                                        |
 
 The numbers shown around the site (papers, patents, alumni, and so on) are counted from these
