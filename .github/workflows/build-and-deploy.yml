@@ -30,6 +30,7 @@ jobs:
       - run: npm ci
       - run: npm run format:check
       - run: npm run check
+      - run: npm test
       - name: Look up the GitHub Pages address
         id: pages
         if: github.ref == 'refs/heads/main'

@@ -21,6 +21,7 @@ The site is then available at http://localhost:4321 and reloads as you edit.
 | `npm run build`        | Build the production site into `dist/`                |
 | `npm run preview`      | Serve the built site locally                          |
 | `npm run check`        | Type-check all pages, components and content          |
+| `npm test`             | Run the tests for the hidden game's rules             |
 | `npm run format`       | Format the code with Prettier                         |
 | `npm run format:check` | Verify formatting without changing files (used in CI) |
 
@@ -74,6 +75,7 @@ src/
   components/     Reusable pieces: header, footer, carousel, lightbox, hero scene, ...
   content/        Markdown pages (member profiles, research topic pages)
   data/           Site content as JSON
+  game/           Lumen Run, the hidden game (rules, drawing, input, tests)
   layouts/        The page shell shared by every page
   lib/            Site settings and small helpers
   pages/          One file per page / route
@@ -88,13 +90,41 @@ src/
   `styles/global.css` and `layouts/Base.astro`.
 - All motion is disabled for visitors whose system is set to reduce motion.
 
+### The hidden game
+
+The site has an easter egg: **Lumen Run**, a small arcade game at `/play` in which the visitor
+steers an atherectomy burr through an artery, grinding calcified plaque without overheating the
+burr or touching the vessel wall. It is based on the lab's atherectomy and thrombectomy research
+and is deliberately left out of the navigation. Visitors can find it through:
+
+- the small wheel next to the copyright line in the footer,
+- the link on the "page not found" page,
+- the Konami code (up up down down left right left right B A) on any page,
+- clicking the grinding wheel on the home page five times in a row.
+
+The code lives in `src/game/`, split so that each part can be changed on its own:
+
+| File          | What it holds                                                          |
+| ------------- | ---------------------------------------------------------------------- |
+| `world.ts`    | The endless vessel and its plaque, generated from a seed               |
+| `sim.ts`      | The rules: steering, grinding, heat, injuries, scoring, the demo pilot |
+| `render.ts`   | Drawing on the canvas, and effects such as sparks                      |
+| `mount.ts`    | The frame loop, mouse, touch and keyboard input, HUD and result cards  |
+| `sim.test.ts` | Tests that keep the game fair and reproducible (`npm test`)            |
+
+Difficulty is tuned with the constants at the top of `sim.ts` and the generator in `world.ts`.
+The markup and styles are in `components/LumenRun.astro`, the page in `pages/play.astro`, and
+the secret entrances in `components/EasterEgg.astro`. To remove the game, delete those files and
+`src/game/`, and take the `EasterEgg` component out of `layouts/Base.astro` along with the links
+in `components/Footer.astro` and `pages/404.astro`.
+
 ## Deploying
 
 The site is live at https://kevinyjn1.github.io/bmdl-website/.
 
 Every push to `main` is published automatically by the
 [Build and deploy](.github/workflows/build-and-deploy.yml) workflow: it checks formatting and
-types, builds the site, and publishes the result to GitHub Pages. Pull requests run the same
+types, runs the tests, builds the site, and publishes the result to GitHub Pages. Pull requests run the same
 checks without publishing.
 
 To serve it from a custom domain, add the domain under **Settings > Pages** in the GitHub

@@ -6,6 +6,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Lightbox from '../components/Lightbox.astro';
+import EasterEgg from '../components/EasterEgg.astro';
 import { SITE } from '../lib/site';
 
 interface Props {
@@ -48,6 +49,7 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : un
     </main>
     <Footer />
     <Lightbox />
+    <EasterEgg />
 
     <script>
       // Scroll-reveal: elements marked [data-reveal] animate in once when they enter the viewport.

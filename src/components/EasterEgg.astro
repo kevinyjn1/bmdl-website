@@ -1,0 +1,204 @@
+---
+/**
+ * The secret ways into the hidden game (pages/play.astro). Besides the small wheel in the
+ * footer and the link on the 404 page, a visitor can unlock it on any page with the Konami
+ * code (up up down down left right left right B A), or on the home page by clicking the
+ * grinding wheel five times in quick succession. Either slides up a card linking to the game.
+ */
+import Icon from './Icon.astro';
+import { href } from '../lib/site';
+---
+
+<aside class="egg" data-egg aria-label="Hidden game" hidden>
+  <svg class="wheel" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
+    <circle class="grit" cx="24" cy="24" r="19"></circle>
+    <circle class="rim" cx="24" cy="24" r="12.5"></circle>
+    <circle class="hub" cx="24" cy="24" r="3"></circle>
+  </svg>
+  <div class="text">
+    <p class="k mono">Easter egg unlocked</p>
+    <p class="t">
+      You found <b>Lumen Run</b>, the lab's hidden game.
+    </p>
+  </div>
+  <a class="btn btn--primary" href={href('/play')}>
+    Play <Icon name="arrow-right" />
+  </a>
+  <button class="close" type="button" data-egg-close aria-label="Dismiss">
+    <Icon name="close" size={16} />
+  </button>
+</aside>
+<p class="visually-hidden" role="status" data-egg-status></p>
+
+<script>
+  const egg = document.querySelector<HTMLElement>('[data-egg]');
+  const status = document.querySelector<HTMLElement>('[data-egg-status]');
+  // Nothing to unlock on the game's own page.
+  const onGamePage = /\/play\/?$/.test(location.pathname);
+
+  if (egg && status && !onGamePage) {
+    const reveal = () => {
+      if (!egg.hidden) return;
+      egg.hidden = false;
+      status.textContent = 'Easter egg unlocked: Lumen Run, the hidden game. A link to play it has appeared.';
+    };
+    const dismiss = () => {
+      egg.hidden = true;
+      status.textContent = '';
+    };
+    egg.querySelector('[data-egg-close]')?.addEventListener('click', dismiss);
+
+    // The Konami code, typed anywhere on the page.
+    const konami = 'ArrowUp ArrowUp ArrowDown ArrowDown ArrowLeft ArrowRight ArrowLeft ArrowRight KeyB KeyA';
+    const length = konami.split(' ').length;
+    const typed: string[] = [];
+    window.addEventListener('keydown', (event) => {
+      if (event.code === 'Escape') {
+        dismiss();
+        return;
+      }
+      typed.push(event.code);
+      if (typed.length > length) typed.shift();
+      if (typed.join(' ') === konami) {
+        typed.length = 0;
+        reveal();
+      }
+    });
+
+    // Five quick clicks (or taps) on the grinding wheel in the home page hero.
+    const wheel = document.querySelector<HTMLElement>('[data-hero-stage]');
+    if (wheel) {
+      let clicks: number[] = [];
+      document.addEventListener('click', (event) => {
+        const box = wheel.getBoundingClientRect();
+        const inside =
+          event.clientX >= box.left &&
+          event.clientX <= box.right &&
+          event.clientY >= box.top &&
+          event.clientY <= box.bottom;
+        if (!inside) return;
+        const now = performance.now();
+        clicks = clicks.filter((time) => now - time < 2500);
+        clicks.push(now);
+        if (clicks.length >= 5) {
+          clicks = [];
+          reveal();
+        }
+      });
+    }
+  }
+</script>
+
+<style>
+  .egg {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    z-index: 150;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.9rem 1rem;
+    width: min(27rem, calc(100vw - 2rem));
+    padding: 1rem 2.6rem 1rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--maize) 55%, transparent);
+    border-radius: var(--radius);
+    background: var(--blue-900);
+    color: var(--on-dark);
+    box-shadow: var(--shadow-lg);
+    animation: egg-in 0.6s var(--ease) both;
+  }
+
+  .egg[hidden] {
+    display: none;
+  }
+
+  @keyframes egg-in {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem) scale(0.96);
+    }
+  }
+
+  .wheel {
+    animation: egg-spin 6s linear infinite;
+  }
+
+  @keyframes egg-spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  .grit {
+    fill: none;
+    stroke: var(--maize);
+    stroke-width: 5;
+    stroke-dasharray: 2.2 3.1;
+  }
+
+  .rim {
+    fill: none;
+    stroke: var(--on-dark-muted);
+    stroke-width: 1.2;
+  }
+
+  .hub {
+    fill: var(--maize);
+  }
+
+  .k {
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--maize);
+  }
+
+  .t {
+    margin-top: 0.2rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .t b {
+    color: #fff;
+  }
+
+  .close {
+    position: absolute;
+    top: 0.45rem;
+    right: 0.45rem;
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    color: var(--on-dark-muted);
+    transition:
+      color 0.2s,
+      background 0.2s;
+  }
+
+  .close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+
+  @media (max-width: 480px) {
+    .egg {
+      grid-template-columns: auto 1fr;
+    }
+
+    .egg .btn {
+      grid-column: 1 / -1;
+      justify-content: center;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Quick taps on the hero wheel count towards the easter egg instead of zooming the page. */
+  [data-hero-stage] {
+    touch-action: manipulation;
+  }
+</style>

@@ -111,6 +111,13 @@ const year = new Date().getFullYear();
       />
       <p class="copyright mono">
         &copy; {year} {SITE.short}
+        {/* A quiet way into the hidden game; see components/EasterEgg.astro for the others. */}
+        <a class="arcade" href={href('/play')} aria-label="Lumen Run, a hidden game">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <circle class="grit" cx="12" cy="12" r="9" />
+            <circle class="hub" cx="12" cy="12" r="2" />
+          </svg>
+        </a>
       </p>
     </div>
   </div>
@@ -233,7 +240,50 @@ const year = new Date().getFullYear();
   }
 
   .copyright {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     color: var(--on-dark-muted);
+  }
+
+  .arcade {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    color: var(--on-dark-muted);
+    opacity: 0.55;
+    transition:
+      color 0.25s,
+      opacity 0.25s;
+  }
+
+  .arcade .grit {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-dasharray: 1.6 2.17;
+  }
+
+  .arcade .hub {
+    fill: currentColor;
+  }
+
+  .arcade:hover,
+  .arcade:focus-visible {
+    color: var(--maize);
+    opacity: 1;
+  }
+
+  .arcade:hover svg {
+    animation: arcade-spin 1.2s linear infinite;
+  }
+
+  @keyframes arcade-spin {
+    to {
+      transform: rotate(1turn);
+    }
   }
 
   @media (max-width: 900px) {
