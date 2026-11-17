@@ -12,6 +12,8 @@ export const SITE = {
     // `title` is the named professorship; `appointments` are the others, in the page's order.
     title: 'Yoram Koren Collegiate Professor of Engineering',
     college: 'College of Engineering',
+    // His portrait from the same faculty page, under src/assets/img/.
+    photo: 'people/albert-shih.jpg',
     institution: 'University of Michigan - Ann Arbor',
     appointments: [
       { role: 'Professor', unit: 'Mechanical Engineering' },

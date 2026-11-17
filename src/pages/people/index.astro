@@ -1,8 +1,10 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
+import { Image } from 'astro:assets';
 import PersonCard from '../../components/PersonCard.astro';
 import Icon from '../../components/Icon.astro';
+import { image } from '../../lib/images';
 import { SITE, href } from '../../lib/site';
 import people from '../../data/people.json';
 
@@ -20,6 +22,15 @@ const currentCount = people.groups.reduce((n, g) => n + g.members.length, 0);
   <section class="section">
     <div class="container">
       <article class="pi blueprint aurora on-dark" data-reveal>
+        <Image
+          class="pi-photo"
+          src={image(SITE.pi.photo)}
+          alt={`Portrait of ${SITE.pi.name}`}
+          width={405}
+          height={405}
+          fit="cover"
+          loading="eager"
+        />
         <div>
           <p class="eyebrow">Principal investigator</p>
           <h2>{SITE.pi.name}</h2>
@@ -129,7 +140,7 @@ const currentCount = people.groups.reduce((n, g) => n + g.members.length, 0);
   /* Titles on the left, links on the right; the left side wraps rather than pushing the links down. */
   .pi {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: end;
     gap: 2rem 3rem;
     padding: clamp(1.75rem, 4vw, 3rem);
@@ -137,6 +148,17 @@ const currentCount = people.groups.reduce((n, g) => n + g.members.length, 0);
     background: radial-gradient(ellipse 60% 120% at 100% 0%, rgba(42, 109, 179, 0.5), transparent 60%), var(--blue-900);
     color: var(--on-dark);
     overflow: hidden;
+  }
+
+  .pi-photo {
+    align-self: center;
+    width: clamp(7.5rem, 14vw, 11rem);
+    height: auto;
+    aspect-ratio: 1;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius);
+    object-fit: cover;
+    box-shadow: var(--shadow-lg);
   }
 
   .pi h2 {
@@ -280,9 +302,23 @@ const currentCount = people.groups.reduce((n, g) => n + g.members.length, 0);
     display: none;
   }
 
-  @media (max-width: 860px) {
+  @media (max-width: 1040px) {
+    .pi {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .pi-links {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 620px) {
     .pi {
       grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pi-photo {
+      justify-self: start;
     }
   }
 

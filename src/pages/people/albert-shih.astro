@@ -3,9 +3,11 @@
  * Profile of the lab's principal investigator: his titles (lib/site.ts) and his education,
  * research interests and honors (data/pi.json), all as listed on his U-M faculty page.
  */
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import Icon from '../../components/Icon.astro';
+import { image } from '../../lib/images';
 import { SITE, href } from '../../lib/site';
 import pi from '../../data/pi.json';
 
@@ -27,54 +29,64 @@ const span = `${Math.min(...years)} to ${Math.max(...years)}`;
   <section class="section">
     <div class="container layout">
       <aside class="card side">
-        <div class="block">
-          <h2 class="label mono">Appointments</h2>
-          <ul class="appointments">
-            <li>
-              <b>{person.title}</b>
-              <span>{person.college}</span>
-            </li>
-            {person.appointments.map((a) => (
+        <Image
+          class="portrait"
+          src={image(person.photo)}
+          alt={`Portrait of ${person.name}`}
+          widths={[360, 720]}
+          sizes="(min-width: 900px) 340px, 92vw"
+          loading="eager"
+        />
+        <div class="side-body">
+          <div class="block">
+            <h2 class="label mono">Appointments</h2>
+            <ul class="appointments">
               <li>
-                <b>{a.role}</b>
-                <span>{a.unit}</span>
+                <b>{person.title}</b>
+                <span>{person.college}</span>
               </li>
-            ))}
-          </ul>
-        </div>
-        <div class="block">
-          <h2 class="label mono">Education</h2>
-          <ul class="degrees">
-            {pi.degrees.map((d) => (
+              {person.appointments.map((a) => (
+                <li>
+                  <b>{a.role}</b>
+                  <span>{a.unit}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="block">
+            <h2 class="label mono">Education</h2>
+            <ul class="degrees">
+              {pi.degrees.map((d) => (
+                <li>
+                  <span class="mono year">{d.year}</span>
+                  <span>
+                    <b>{d.degree}</b> {d.school}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="block">
+            <h2 class="label mono">Contact</h2>
+            <ul class="contact">
               <li>
-                <span class="mono year">{d.year}</span>
-                <span>
-                  <b>{d.degree}</b> {d.school}
-                </span>
+                <a href={`mailto:${contact.email}`}>
+                  <Icon name="mail" size={16} />
+                  {contact.email}
+                </a>
               </li>
-            ))}
-          </ul>
-        </div>
-        <div class="block">
-          <h2 class="label mono">Contact</h2>
-          <ul class="contact">
-            <li>
-              <a href={`mailto:${contact.email}`}>
-                <Icon name="mail" size={16} />
-                {contact.email}
-              </a>
-            </li>
-            <li>
-              <a href={person.profileUrl} target="_blank" rel="noopener noreferrer">
-                <Icon name="arrow-up-right" size={16} /> Faculty profile
-              </a>
-            </li>
-            <li>
-              <a href={person.scholarUrl} target="_blank" rel="noopener noreferrer">
-                <Icon name="arrow-up-right" size={16} /> Google Scholar
-              </a>
-            </li>
-          </ul>
+              <li>
+                <a href={person.profileUrl} target="_blank" rel="noopener noreferrer">
+                  <Icon name="arrow-up-right" size={16} /> Faculty profile
+                </a>
+              </li>
+              <li>
+                <a href={person.scholarUrl} target="_blank" rel="noopener noreferrer">
+                  <Icon name="arrow-up-right" size={16} /> Google Scholar
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </aside>
 
@@ -153,6 +165,19 @@ const span = `${Math.min(...years)} to ${Math.max(...years)}`;
   .side {
     position: sticky;
     top: calc(var(--header-h) + 1.5rem);
+    overflow: hidden;
+  }
+
+  .portrait {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--blue-900);
+  }
+
+  .side-body {
     display: grid;
     gap: 1.75rem;
     padding: 1.6rem;
