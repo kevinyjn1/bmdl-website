@@ -90,14 +90,29 @@ src/
 
 ## Deploying
 
+The site is live at https://kevinyjn1.github.io/bmdl-website/.
+
+Every push to `main` is published automatically by the
+[Build and deploy](.github/workflows/build-and-deploy.yml) workflow: it checks formatting and
+types, builds the site, and publishes the result to GitHub Pages. Pull requests run the same
+checks without publishing.
+
+To serve it from a custom domain, add the domain under **Settings > Pages** in the GitHub
+repository. The workflow reads the address from there, so no code change is needed.
+
+### Hosting it somewhere else
+
 `npm run build` writes the complete site to `dist/`; upload that folder to any static host
-(U-M web hosting, GitHub Pages, Netlify, Cloudflare Pages, ...).
+(U-M web hosting, Netlify, Cloudflare Pages, ...). Tell the build where the site will live with
+two environment variables:
 
-Before the first deployment, set the production address in `astro.config.mjs`:
+| Variable    | Meaning                                                 | Example                     |
+| ----------- | ------------------------------------------------------- | --------------------------- |
+| `SITE_URL`  | Origin the site is served from                          | `https://example.umich.edu` |
+| `BASE_PATH` | Sub-path, only if it is not served from the domain root | `/bmdl`                     |
 
-```js
-site: 'https://your-domain.example',
-// base: '/sub-path', // only if the site is not served from the domain root
+```bash
+SITE_URL=https://example.umich.edu npm run build
 ```
 
 Page addresses match the previous Google Sites structure (`/news`, `/people`,
