@@ -28,11 +28,13 @@ export const SITE = {
 
 /**
  * The hidden game's online leaderboard: the web app URL of the Google Apps Script in
- * leaderboard/Code.gs (leaderboard/README.md explains how to deploy it). While this is empty
- * the game works as before, without a leaderboard. PUBLIC_LEADERBOARD_URL overrides it, which
- * is how the local stand-in is used during development.
+ * leaderboard/Code.gs (leaderboard/README.md explains how to deploy it). Set it to an empty
+ * string to switch the leaderboard off; the game then works without one. PUBLIC_LEADERBOARD_URL
+ * overrides it, which is how the local stand-in is used during development.
  */
-export const LEADERBOARD_URL: string = import.meta.env.PUBLIC_LEADERBOARD_URL || '';
+export const LEADERBOARD_URL: string =
+  import.meta.env.PUBLIC_LEADERBOARD_URL ||
+  'https://script.google.com/macros/s/AKfycbyN5m0x9RGA5lXtXCq-sKaicKjEKsuLYtu5-8eggrcSvZhhjeeJ7NNlHukV19yYt_M9/exec';
 
 export interface NavItem {
   label: string;
