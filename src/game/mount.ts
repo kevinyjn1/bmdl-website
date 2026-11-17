@@ -10,7 +10,9 @@ import {
   cleanName,
   isEmail,
   loadBoard,
+  nextToBeat,
   postRun,
+  rankFor,
   type Board,
   type LeaderboardErrorCode,
   type RunReport,
@@ -25,8 +27,9 @@ type Mode = 'demo' | 'playing' | 'paused' | 'over';
 
 const BEST_KEY = 'bmdl:lumen-run:best';
 const NAME_KEY = 'bmdl:lumen-run:name';
-/** Rows shown on the leaderboard. */
+/** Rows shown on the leaderboard, and on the short list on the start screen. */
 const BOARD_SIZE = 10;
+const TOP_SIZE = 5;
 /** World units to millimetres for the distance readout (the vessel is drawn about 5 mm across). */
 const MM_PER_UNIT = 0.02;
 /** Steering speed with the keyboard, in world units per second. */
@@ -111,6 +114,11 @@ export function mountLumenRun(root: HTMLElement): void {
   const postError = part('post-error');
   const boardRows = part('board-rows');
   const boardYou = part('board-you');
+  const topCard = part('top-card');
+  const topRows = part('top-rows');
+  const topNote = part('top-note');
+  const chase = part('chase');
+  const wouldRank = part('would-rank');
   const boardNote = part('board-note');
   const boardMeta = part('board-meta');
   const rowTemplate = part<HTMLTemplateElement>('board-row');
@@ -127,6 +135,8 @@ export function mountLumenRun(root: HTMLElement): void {
   let lastInjury: 'wall' | 'overheat' = 'wall';
 
   /** The run that just ended, until it has been posted; and who posted, to highlight their row. */
+  /** The leaderboard as last loaded; null until it has arrived. */
+  let board: Board | null = null;
   let finishedRun: Omit<RunReport, 'name' | 'email'> | null = null;
   let you = '';
   let posting = false;
@@ -147,7 +157,7 @@ export function mountLumenRun(root: HTMLElement): void {
   let revealTimer = 0;
 
   /** What the HUD currently shows, so the DOM is only touched when a value changes. */
-  const shown = { score: -1, multiplier: 0, integrity: -1, distance: -1, hot: false };
+  const shown = { score: -1, multiplier: 0, integrity: -1, distance: -1, hot: false, chase: '' };
 
   const toWorldY = (clientY: number) => {
     const rect = canvas.getBoundingClientRect();
@@ -229,7 +239,7 @@ export function mountLumenRun(root: HTMLElement): void {
     part('stat-distance').textContent = distance;
     part('stat-sweeps').textContent = String(game.stats.sweeps);
     part('stat-clots').textContent = String(game.stats.clots);
-    status.textContent = `${cause}. Final score ${number.format(score)}. Rank: ${rank}.`;
+    status.textContent = `${cause}. Final score ${number.format(score)}. Level: ${rank}.`;
 
     finishedRun = {
       score,
@@ -240,6 +250,7 @@ export function mountLumenRun(root: HTMLElement): void {
       clots: game.stats.clots,
     };
     openPostButton.hidden = !boardUrl || score < 1;
+    showWouldRank(score);
     showOver('result');
     void refreshBoard();
 
@@ -270,18 +281,54 @@ export function mountLumenRun(root: HTMLElement): void {
   }
 
   /** Draw the board. `standing` is given right after posting, to show where the player landed. */
-  function renderBoard(board: Board, standing?: Standing & { name: string }): void {
-    const rows = board.entries.map((entry, index) => boardRow(entry.rank, entry.name, entry.score, index));
+  function renderBoard(next: Board, standing?: Standing & { name: string }): void {
+    board = next;
+    const rows = next.entries.map((entry, index) => boardRow(entry.rank, entry.name, entry.score, index));
     boardRows.replaceChildren(...rows);
     // Below the top of the board, the player still gets to see their own row.
     if (standing) {
-      const listed = board.entries.some((entry) => entry.name.toLowerCase() === you);
+      const listed = next.entries.some((entry) => entry.name.toLowerCase() === you);
       boardYou.hidden = listed;
       boardYou.replaceChildren(...(listed ? [] : [boardRow(standing.rank, standing.name, standing.best)]));
     }
     boardNote.textContent = rows.length ? '' : 'No scores yet. Be the first on the board.';
     boardMeta.textContent =
-      board.total === 0 ? '' : board.total === 1 ? '1 player' : `${number.format(board.total)} players`;
+      next.total === 0 ? '' : next.total === 1 ? '1 player' : `${number.format(next.total)} players`;
+
+    // The same scores, in short form, on the start screen.
+    const top = next.entries.slice(0, TOP_SIZE);
+    topRows.replaceChildren(...top.map((entry) => boardRow(entry.rank, entry.name, entry.score)));
+    topNote.textContent = top.length ? '' : 'No scores yet. Yours could be the first.';
+    topCard.hidden = false;
+
+    shown.chase = '';
+    if (finishedRun) showWouldRank(finishedRun.score);
+  }
+
+  /** On the results card: where this run would land if it were posted. */
+  function showWouldRank(score: number): void {
+    const known = board !== null && score >= 1;
+    wouldRank.hidden = !known;
+    if (!board || !known) return;
+    const rank = rankFor(board, score);
+    const last = board.entries.at(-1);
+    wouldRank.textContent =
+      rank !== null
+        ? `This run would rank #${number.format(rank)}`
+        : `Top ${board.entries.length} starts at ${number.format(last?.score ?? 0)}`;
+  }
+
+  /** In the HUD: the leaderboard score the player is closing in on. */
+  function updateChase(score: number): void {
+    const target = board ? nextToBeat(board, score) : null;
+    const leading = !!board && board.entries.length > 0 && !target;
+    const key = !board || board.entries.length === 0 ? 'none' : target ? `#${target.rank}` : 'leading';
+    if (key === shown.chase) return;
+    shown.chase = key;
+    chase.hidden = key === 'none';
+    part('chase-label').textContent = leading ? 'Leaderboard' : 'Next to beat';
+    part('chase-name').textContent = leading ? 'You lead the board' : target ? `#${target.rank} ${target.name}` : '';
+    part('chase-score').textContent = target ? number.format(target.score) : '';
   }
 
   async function refreshBoard(): Promise<void> {
@@ -376,6 +423,7 @@ export function mountLumenRun(root: HTMLElement): void {
       shown.score = score;
       scoreEl.textContent = number.format(score);
     }
+    updateChase(score);
     if (game.multiplier !== shown.multiplier) {
       const grew = game.multiplier > shown.multiplier && shown.multiplier > 0;
       shown.multiplier = game.multiplier;

@@ -39,6 +39,15 @@ import { LEADERBOARD_URL, href } from '../lib/site';
       <p class="hud-distance">
         <b data-lr="distance">0</b> mm
       </p>
+      <p class="hud-chase" data-lr="chase" hidden>
+        <span class="k" data-lr="chase-label">
+          Next to beat
+        </span>
+        <span class="chase-line">
+          <b data-lr="chase-name"></b>
+          <span data-lr="chase-score"></span>
+        </span>
+      </p>
     </div>
 
     <p class="banner" data-lr="banner" aria-hidden="true">
@@ -53,7 +62,7 @@ import { LEADERBOARD_URL, href } from '../lib/site';
       </svg>
     </button>
 
-    <div class="panel" data-lr="start-card">
+    <div class="panel start" data-lr="start-card">
       <div class="panel-body">
         <p class="eyebrow">BMDL arcade</p>
         <h2 class="title">
@@ -88,6 +97,15 @@ import { LEADERBOARD_URL, href } from '../lib/site';
           </span>
         </p>
       </div>
+      <aside class="top" data-lr="top-card" aria-label="Top scores" hidden>
+        <p class="top-label mono">Leaderboard</p>
+        <h3>Top scores</h3>
+        <ol class="top-rows" data-lr="top-rows"></ol>
+        <p class="top-note" data-lr="top-note"></p>
+        <a class="top-more mono" href="#leaderboard">
+          Full leaderboard <Icon name="arrow-right" size={12} />
+        </a>
+      </aside>
     </div>
 
     <div class="panel" data-lr="paused-card" hidden>
@@ -112,8 +130,9 @@ import { LEADERBOARD_URL, href } from '../lib/site';
           </span>
         </p>
         <p class="rank">
-          Rank <b data-lr="rank"></b>
+          Level <b data-lr="rank"></b>
         </p>
+        <p class="would mono" data-lr="would-rank" hidden></p>
         <dl class="stats mono">
           <div>
             <dt>Cleared</dt>
@@ -403,6 +422,42 @@ import { LEADERBOARD_URL, href } from '../lib/site';
     font-variant-numeric: tabular-nums;
   }
 
+  /* Bottom right: the leaderboard score the player is closing in on. */
+  .hud-chase {
+    grid-column: 3;
+    grid-row: 2;
+    align-self: end;
+    justify-self: end;
+    text-align: right;
+  }
+
+  .hud-chase .k {
+    margin-bottom: 0.2rem;
+  }
+
+  .chase-line {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--on-dark);
+  }
+
+  .chase-line b {
+    max-width: 14ch;
+    overflow: hidden;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .chase-line span {
+    color: var(--maize);
+    font-variant-numeric: tabular-nums;
+  }
+
   .pause {
     position: absolute;
     top: clamp(0.6rem, 1.8vw, 1rem);
@@ -508,6 +563,80 @@ import { LEADERBOARD_URL, href } from '../lib/site';
     display: grid;
     justify-items: center;
     width: min(100%, 46rem);
+  }
+
+  /* The start screen: the title on the left and, when there is room, the top scores beside it. */
+  .start {
+    display: flex;
+    align-items: center;
+    justify-content: safe center;
+    gap: clamp(2rem, 5vw, 4.5rem);
+  }
+
+  .start .panel-body {
+    flex: 0 1 36rem;
+  }
+
+  .top {
+    flex: 0 0 17.5rem;
+    padding: 1.2rem 1.3rem 1.1rem;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius);
+    background: rgba(0, 16, 31, 0.6);
+    text-align: left;
+  }
+
+  .top-label {
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--maize);
+  }
+
+  .top h3 {
+    margin: 0.35rem 0 0.8rem;
+    font-size: 1.35rem;
+    color: #fff;
+  }
+
+  .top-rows .board-row {
+    grid-template-columns: 1.6rem 1fr auto;
+    gap: 0.6rem;
+    padding: 0.5rem 0.15rem;
+    font-size: 0.9rem;
+  }
+
+  .top-rows .board-row .pts {
+    font-size: 0.82rem;
+  }
+
+  .top-note {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--on-dark-muted);
+  }
+
+  .top-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.9rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+    transition: color 0.2s;
+  }
+
+  .top-more:hover {
+    color: var(--maize);
+  }
+
+  /* On narrower screens the leaderboard below the game is already in view. */
+  @media (max-width: 899px) {
+    .top {
+      display: none;
+    }
   }
 
   .title {
@@ -646,6 +775,17 @@ import { LEADERBOARD_URL, href } from '../lib/site';
   .rank b {
     margin-left: 0.3rem;
     font-weight: 600;
+    color: var(--maize);
+  }
+
+  .would {
+    margin-top: 0.55rem;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid color-mix(in srgb, var(--maize) 55%, transparent);
+    border-radius: 999px;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--maize);
   }
 

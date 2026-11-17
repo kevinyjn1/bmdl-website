@@ -65,6 +65,25 @@ const ERROR_CODES: readonly string[] = [
 ];
 const TIMEOUT = 15_000;
 
+/**
+ * Where a run with this score would land on the board. Equal scores rank behind the one that
+ * was there first. Returns null when the score falls below every entry we were sent and the
+ * board has more players further down, so the exact rank is not known.
+ */
+export function rankFor(board: Board, score: number): number | null {
+  const ahead = board.entries.filter((entry) => entry.score >= score).length;
+  if (ahead < board.entries.length || board.total <= board.entries.length) return ahead + 1;
+  return null;
+}
+
+/** The entry to chase from this score: the lowest one still ahead. Null when nobody is ahead. */
+export function nextToBeat(board: Board, score: number): BoardEntry | null {
+  for (let i = board.entries.length - 1; i >= 0; i--) {
+    if (board.entries[i].score > score) return board.entries[i];
+  }
+  return null;
+}
+
 /** Tidy a display name. Returns '' when it is not one the leaderboard accepts. */
 export function cleanName(value: string): string {
   const name = value.normalize('NFC').replace(/\s+/g, ' ').trim();
