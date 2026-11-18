@@ -89,8 +89,8 @@ const focusAreas = [
       </div>
 
       <div class="stage" data-hero-stage aria-hidden="true">
-        <p class="hud hud-tl mono">
-          <b>Fig. 01</b> Abrasive grinding, particle view
+        <p class="hud hud-tl mono" data-hud-caption>
+          <b>Fig. 01</b> Diamond grinding, particle view
         </p>
         <p class="hud hud-tr mono">
           <span class="dot"></span>Live
@@ -101,7 +101,7 @@ const focusAreas = [
         </p>
         <p class="hud hud-br mono">
           <span>
-            <b data-hud-count>0</b> particles
+            <b data-hud-count>0</b> diamond grains
           </span>
           <span>
             <b data-hud-speed>0</b> rpm
@@ -288,9 +288,14 @@ const focusAreas = [
     align-items: center;
   }
 
+  /* The headline is sized against its own column, so its longest line always fits. */
+  .hero-copy {
+    container-type: inline-size;
+  }
+
   .hero h1 {
     margin-top: 1.4rem;
-    font-size: var(--step-5);
+    font-size: min(var(--step-5), 13.6cqi);
     font-weight: 700;
     line-height: 1;
     letter-spacing: -0.035em;
@@ -420,6 +425,7 @@ const focusAreas = [
   /* The stage the particle scene is centred on, with drawing-style annotations. */
   .stage {
     position: relative;
+    container-type: inline-size;
     align-self: stretch;
     min-height: clamp(420px, 44vw, 600px);
   }
@@ -518,6 +524,24 @@ const focusAreas = [
     bottom: 0.9rem;
     display: flex;
     gap: 1.25rem;
+  }
+
+  /* On a narrow stage the two bottom annotations no longer fit side by side: stack them. */
+  @container (max-width: 560px) {
+    .hud-bl {
+      bottom: 2.4rem;
+    }
+
+    .hud-br {
+      left: 0.25rem;
+      right: auto;
+    }
+  }
+
+  @container (max-width: 420px) {
+    .hud-tl {
+      max-width: 60%;
+    }
   }
 
   .photo {
@@ -762,7 +786,7 @@ const focusAreas = [
     }
 
     .stage {
-      min-height: 470px;
+      min-height: clamp(470px, 68vw, 560px);
     }
 
     .news-head {
@@ -786,20 +810,6 @@ const focusAreas = [
 
     .stat:nth-child(n + 3) {
       border-top: 1px solid var(--line-dark);
-    }
-
-    .hud-tl {
-      max-width: 60%;
-    }
-
-    /* Stack the two bottom annotations so they stay clear of the wheel. */
-    .hud-bl {
-      bottom: 2.4rem;
-    }
-
-    .hud-br {
-      left: 0.25rem;
-      right: auto;
     }
 
     .welcome {

@@ -87,8 +87,9 @@ src/
 
 ### Motion
 
-- `components/HeroScene.astro` is the interactive particle scene on the home page (a grinding
-  wheel throwing sparks). It is dependency-free Canvas 2D and pauses when off screen.
+- `components/HeroScene.astro` is the interactive particle scene on the home page (a diamond
+  grinding wheel, its rim set with faceted diamond grit, throwing chips off a workpiece). It is
+  dependency-free Canvas 2D and pauses when off screen.
 - Scroll reveals, the cursor spotlight on cards, and page transitions are defined in
   `styles/global.css` and `layouts/Base.astro`.
 - All motion is disabled for visitors whose system is set to reduce motion.
