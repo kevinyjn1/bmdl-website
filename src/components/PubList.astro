@@ -18,13 +18,7 @@ const anchor = (label: string) => 'y-' + label.toLowerCase().replace(/[^a-z0-9]+
     <label class="search">
       <Icon name="search" size={18} />
       <span class="visually-hidden">Search {noun}</span>
-      <input
-        type="search"
-        placeholder="Search by title, author, journal..."
-        autocomplete="off"
-        spellcheck="false"
-        data-search
-      />
+      <input type="search" placeholder="Title, author, journal" autocomplete="off" spellcheck="false" data-search />
     </label>
     <p class="status mono" aria-live="polite" data-status>
       {total} {noun}

@@ -32,8 +32,8 @@
   --line-dark: rgba(255, 255, 255, 0.13);
 
   /* Type */
-  --font-display: 'Bricolage Grotesque Variable', 'Inter Variable', system-ui, sans-serif;
-  --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', 'IBM Plex Sans Variable', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --step--1: clamp(0.82rem, 0.8rem + 0.1vw, 0.875rem);
@@ -106,7 +106,9 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
+  /* Drafting dots: faint engineering paper under every light section. */
+  background: radial-gradient(circle at 1px 1px, rgba(0, 39, 76, 0.1) 1px, transparent 1.3px) 0 0 / 24px 24px
+    var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: var(--step-0);
