@@ -90,6 +90,11 @@ src/
 - `components/HeroScene.astro` is the interactive particle scene on the home page (a diamond
   grinding wheel, its rim set with faceted diamond grit, throwing chips off a workpiece). It is
   dependency-free Canvas 2D and pauses when off screen.
+- The same scene plays the opening of the home page: sparks from the wheel fly across and settle
+  into the letters of the lab's name, which then firms up into the real headline. It plays once
+  per visit (a flag in the browser's session storage), is skipped for visitors who prefer reduced
+  motion, and the headline shows itself after a few seconds if anything goes wrong. The
+  choreography, with its tests, is in `lib/forge.ts`.
 - Scroll reveals, the cursor spotlight on cards, and page transitions are defined in
   `styles/global.css` and `layouts/Base.astro`.
 - All motion is disabled for visitors whose system is set to reduce motion.

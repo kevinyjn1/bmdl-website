@@ -34,6 +34,9 @@ const stats = [
   { value: people.alumni.length, label: 'Lab alumni', path: '/people#alumni' },
 ];
 
+// The research the hero figure is drawn from: the lab's two diamond grinding projects.
+const grinding = ['atherectomy', 'sic-grinding'].flatMap((id) => research.projects.filter((p) => p.id === id));
+
 const focusAreas = [
   { n: '01', title: 'Biomedical manufacturing', html: biomedical },
   { n: '02', title: 'Semiconductor manufacturing', html: semiconductor },
@@ -44,21 +47,33 @@ const focusAreas = [
 
 <Base>
   <section class="hero blueprint on-dark" data-hero>
+    <script is:inline>
+      // Decided before the headline is painted: on the first visit of a session, sparks from
+      // the grinding wheel write the lab's name (components/HeroScene.astro).
+      try {
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !sessionStorage.getItem('bmdl:forged'))
+          document.currentScript.parentElement.classList.add('is-sparking');
+      } catch {
+        // No storage, no opening: the headline arrives the plain way.
+      }
+    </script>
     <HeroScene />
     <div class="container hero-grid">
       <div class="hero-copy">
         <p class="eyebrow intro" style="--i:0">
           University of Michigan &middot; Ann Arbor
         </p>
-        <h1>
+        <h1 data-hero-title>
           <span class="line" style="--i:0">
-            <span>Biomedical</span>
+            <span data-hero-line>Biomedical</span>
           </span>
           <span class="line" style="--i:1">
-            <span class="hl">Manufacturing</span>
+            <span class="hl" data-hero-line>
+              Manufacturing
+            </span>
           </span>
           <span class="line" style="--i:2">
-            <span>and Design Lab</span>
+            <span data-hero-line>and Design Lab</span>
           </span>
         </h1>
         <p class="lead intro" style="--i:5">
@@ -88,26 +103,36 @@ const focusAreas = [
         </a>
       </div>
 
-      <div class="stage" data-hero-stage aria-hidden="true">
-        <p class="hud hud-tl mono" data-hud-caption>
-          <b>Fig. 01</b> Diamond grinding, particle view
-        </p>
-        <p class="hud hud-tr mono">
-          <span class="dot"></span>Live
-        </p>
-        <p class="hud hud-bl mono hint">
-          <span class="for-mouse">Hover the wheel to push the speed</span>
-          <span class="for-touch">Tap the wheel to push the speed</span>
-        </p>
-        <p class="hud hud-br mono">
-          <span>
-            <b data-hud-count>0</b> diamond grains
-          </span>
-          <span>
-            <b data-hud-speed>0</b> rpm
-          </span>
-        </p>
-      </div>
+      <figure class="figure">
+        <div class="stage" data-hero-stage>
+          <p class="hud hud-tl mono" data-hud-caption>
+            <b>Fig. 01</b> Diamond grinding, particle view
+          </p>
+          <p class="hud hud-tr mono" aria-hidden="true">
+            <span class="dot"></span>Live
+          </p>
+          <p class="hud hud-bl mono hint" aria-hidden="true">
+            <span class="for-mouse">Hover the wheel to push the speed</span>
+            <span class="for-touch">Tap the wheel to push the speed</span>
+          </p>
+          <p class="hud hud-br mono" aria-hidden="true">
+            <span>
+              <b data-hud-count>0</b> diamond grains
+            </span>
+            <span>
+              <b data-hud-speed>0</b> rpm
+            </span>
+          </p>
+        </div>
+        <figcaption class="figure-links mono">
+          <span>The research behind it</span>
+          {grinding.map((project) => (
+            <a href={href(`/research#${project.id}`)}>
+              {project.short} <Icon name="arrow-right" size={14} />
+            </a>
+          ))}
+        </figcaption>
+      </figure>
     </div>
 
     <div class="container">
@@ -344,6 +369,30 @@ const focusAreas = [
     }
   }
 
+  /* The opening (components/HeroScene.astro). On the first visit of a session the headline
+     stays out of sight until sparks from the wheel have written it, and the text below waits
+     its turn. Should the scene never get to it, the headline shows itself. */
+  .hero.is-sparking h1 .line > span {
+    opacity: 0;
+    animation: headline-failsafe 0.6s linear 7s forwards;
+  }
+
+  .hero.is-sparking .intro:not(.eyebrow) {
+    animation-delay: calc(var(--i) * 110ms + 1.65s);
+  }
+
+  .hero.is-forged h1 .line > span {
+    opacity: 1;
+    animation: none;
+    transition: opacity 0.7s var(--ease);
+  }
+
+  @keyframes headline-failsafe {
+    to {
+      opacity: 1;
+    }
+  }
+
   @keyframes line-rise {
     from {
       transform: translateY(110%) rotate(4deg);
@@ -425,10 +474,55 @@ const focusAreas = [
   }
 
   /* The stage the particle scene is centred on, with drawing-style annotations. */
+  .figure {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    min-width: 0;
+    margin: 0;
+  }
+
+  /* Under the figure: where to read the research it is drawn from. */
+  .figure-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 1.5rem;
+    margin-top: 0.6rem;
+    padding-left: 0.25rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+    animation: intro-fade 1s var(--ease) 1.5s both;
+  }
+
+  .figure-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-block: 0.55rem;
+    color: var(--on-dark);
+    transition: color 0.2s;
+  }
+
+  .figure-links a :global(svg) {
+    color: var(--maize);
+    transition: transform 0.3s var(--ease);
+  }
+
+  .figure-links a:hover {
+    color: var(--maize);
+  }
+
+  .figure-links a:hover :global(svg) {
+    transform: translateX(3px);
+  }
+
   .stage {
     position: relative;
     container-type: inline-size;
-    align-self: stretch;
+    flex: 1;
     min-height: clamp(420px, 44vw, 600px);
   }
 

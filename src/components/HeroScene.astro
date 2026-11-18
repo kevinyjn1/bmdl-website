@@ -15,6 +15,12 @@
  * dependencies. The loop pauses when the hero is off screen or the tab is hidden, and
  * visitors who prefer reduced motion get a single still frame.
  *
+ * The opening. When the hero is marked .is-sparking (the page decides that before first paint,
+ * once per visit), the wheel also writes the headline: sparks fly from where it meets the
+ * workpiece and settle into the letters of the lines marked [data-hero-line], and then the hero
+ * is marked .is-forged so the page can fade the real text in over them. The choreography is in
+ * lib/forge.ts; finding the letter shapes and drawing the sparks is here.
+ *
  * Expects to live inside an element marked [data-hero] that also contains a
  * [data-hero-stage] element: the scene is centred on that stage, and kept clear of the
  * stage's caption ([data-hud-caption]) if it has one.
@@ -22,8 +28,11 @@
 ---
 
 <canvas class="hero-scene" data-hero-scene aria-hidden="true"></canvas>
+<canvas class="hero-forge" data-hero-forge aria-hidden="true"></canvas>
 
 <script>
+  import { TIMING, planSparks, sparkPosition, type Point, type Spark, type Target } from '../lib/forge.ts';
+
   const canvas = document.querySelector<HTMLCanvasElement>('[data-hero-scene]');
   const host = canvas?.closest<HTMLElement>('[data-hero]');
   const stage = host?.querySelector<HTMLElement>('[data-hero-stage]');
@@ -272,16 +281,39 @@
     let start = 0;
     let last = 0;
 
+    // The opening (see the last part of this script).
+    const ASSEMBLY_RUSH = 1.9;
+    const FORGED_KEY = 'bmdl:forged';
+    const title = host.querySelector<HTMLElement>('[data-hero-title]');
+    const forgeCanvas = host.querySelector<HTMLCanvasElement>('[data-hero-forge]');
+    const forgeCtx = forgeCanvas?.getContext('2d');
+    const forging = !reduceMotion && host.classList.contains('is-sparking');
+    let sparks: Spark[] | null = null;
+    let tones: string[] = [];
+    let forgeFrom = 0; // the scene time the opening is counted from
+    let forgeBox = ''; // where the headline was when its letters were sampled
+    const here: Point = { x: 0, y: 0 };
+    const trail: Point = { x: 0, y: 0 };
+
     const draw = (time: number, still = false) => {
-      if (!start) start = last = time;
+      if (!start) {
+        start = last = time;
+        // A page that has sat unseen in a background tab has shown its headline already.
+        if (sparks && time > 5000) endForge(false);
+      }
       const t = still ? 60 : (time - start) / 1000;
       const dt = still ? 0 : Math.min(0.05, (time - last) / 1000);
       last = time;
 
-      // The wheel spins up once it has assembled.
-      const spinUp = still ? 0 : clamp01((t - 1.5) / 1.8);
+      // The wheel spins up once it has assembled. When it has the headline to write it comes
+      // together faster, and runs hard for as long as it is throwing those sparks.
+      const ta = forging ? t * ASSEMBLY_RUSH : t;
+      const spinUp = still ? 0 : forging ? clamp01((t - 0.3) / 0.6) : clamp01((t - 1.5) / 1.8);
+      const tf = t - forgeFrom;
+      const writing = sparks !== null && tf > TIMING.ignite - 0.3 && tf < TIMING.lastLanding - 0.25;
       if (boost && time > boostUntil && boostUntil) boost = false;
-      omega += ((boost ? BOOST_SPEED : IDLE_SPEED) * spinUp - omega) * Math.min(1, dt * 2.4);
+      const speed = writing ? BOOST_SPEED * 0.8 : (boost ? BOOST_SPEED : IDLE_SPEED) * spinUp;
+      omega += (speed - omega) * Math.min(1, dt * 2.4);
       phi += omega * dt;
       yaw += (yawTarget - yaw) * Math.min(1, dt * 3.5);
       pitch += (pitchTarget - pitch) * Math.min(1, dt * 3.5);
@@ -305,7 +337,7 @@
 
       // Workpiece: ripples travel outward from the contact point.
       for (const p of plate) {
-        const k = easeOut(clamp01((t - p.delay) / 1.4));
+        const k = easeOut(clamp01((ta - p.delay) / 1.4));
         if (k <= 0) continue;
         const away = 1 - k;
         const ripple = 0.04 * Math.sin(p.d * 7 - t * (2 + omega * 1.3)) * Math.exp(-p.d * 0.85) * heat;
@@ -318,7 +350,7 @@
       }
 
       // A fixed protractor ring around the wheel, like a gauge on a drawing.
-      ctx.globalAlpha = 0.2 * easeOut(clamp01((t - 1) / 1.2));
+      ctx.globalAlpha = 0.2 * easeOut(clamp01((ta - 1) / 1.2));
       ctx.strokeStyle = '#9fbfe6';
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -335,7 +367,7 @@
       // The body of the wheel, drawn faintly so the particles stay in charge: two glassy faces,
       // and between them the band that holds the grit, lit from the same side as the crystals.
       const light = LIGHT_ANGLE + (yaw - REST_YAW) * 4 + (pitch - REST_PITCH) * 4;
-      const built = easeOut(clamp01((t - 1.2) / 1.6));
+      const built = easeOut(clamp01((ta - 1.2) / 1.6));
       if (built > 0) {
         const SEGMENTS = 72;
         ctx.fillStyle = '#6fa6e6';
@@ -379,7 +411,7 @@
       const drawPoints = (points: WheelPoint[], color: string, alpha: number) => {
         ctx.fillStyle = color;
         for (const p of points) {
-          const k = easeOut(clamp01((t - p.delay) / 1.5));
+          const k = easeOut(clamp01((ta - p.delay) / 1.5));
           if (k <= 0) continue;
           const away = 1 - k;
           const a = p.a + phi;
@@ -407,7 +439,7 @@
       ctx.fillStyle = ctx.strokeStyle = ICE;
       let maize = false;
       for (const p of diamonds) {
-        const k = easeOut(clamp01((t - p.delay) / 1.5));
+        const k = easeOut(clamp01((ta - p.delay) / 1.5));
         if (k <= 0) continue;
         if (p.maize !== maize) {
           maize = p.maize;
@@ -552,11 +584,186 @@
       }
       ctx.globalAlpha = 1;
 
+      if (sparks) drawForge(tf);
+
       if (hudSpeed && time - hudTick > 120) {
         hudTick = time;
         hudSpeed.textContent = Math.round(omega * 800).toLocaleString('en-US');
       }
     };
+
+    // ---- The opening: sparks from the wheel write the headline ----
+
+    /** Show the real headline and drop the sparks. `seen` says whether the opening was played. */
+    function endForge(seen: boolean) {
+      sparks = null;
+      host!.classList.add('is-forged');
+      forgeCanvas?.remove();
+      if (!seen) return;
+      try {
+        sessionStorage.setItem(FORGED_KEY, '1');
+      } catch {
+        // Storage is unavailable (private browsing, say): the opening simply plays again.
+      }
+    }
+
+    /** Where the headline is within the hero, to notice when it has moved under the sparks. */
+    const titleBox = () => {
+      const box = title?.getBoundingClientRect();
+      const hostRect = host.getBoundingClientRect();
+      return box
+        ? [box.left - hostRect.left, box.top - hostRect.top, box.width, box.height].map(Math.round).join()
+        : '';
+    };
+
+    /** Points inside the letters of the headline, in the hero's own coordinates. */
+    const sampleHeadline = (lines: HTMLElement[], wanted: number): Target[] => {
+      const hostRect = host.getBoundingClientRect();
+      const boxes = lines.map((line) => line.getBoundingClientRect());
+      const left = Math.min(...boxes.map((box) => box.left)) - 4;
+      const top = Math.min(...boxes.map((box) => box.top)) - 4;
+      const w = Math.ceil(Math.max(...boxes.map((box) => box.right)) - left) + 4;
+      const h = Math.ceil(Math.max(...boxes.map((box) => box.bottom)) - top) + 4;
+      const sheet = document.createElement('canvas');
+      sheet.width = w;
+      sheet.height = h;
+      const pen = sheet.getContext('2d', { willReadFrequently: true });
+      if (!pen || w < 8 || h < 8) return [];
+
+      pen.textBaseline = 'alphabetic';
+      const range = document.createRange();
+      lines.forEach((line, index) => {
+        const style = getComputedStyle(line);
+        pen.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+        // Each line is drawn in its own shade of red, which is how a point knows its line.
+        pen.fillStyle = `rgb(${(index + 1) * 40}, 0, 0)`;
+        // An empty inline box sits on the baseline: that is the height to draw the letters at.
+        const probe = document.createElement('span');
+        probe.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+        line.prepend(probe);
+        const baseline = probe.getBoundingClientRect().top;
+        probe.remove();
+        // Letter by letter, each where the browser put it, so spacing and kerning match exactly.
+        const walker = document.createTreeWalker(line, NodeFilter.SHOW_TEXT);
+        for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+          const text = node.textContent ?? '';
+          for (let i = 0; i < text.length; i++) {
+            if (!text[i].trim()) continue;
+            range.setStart(node, i);
+            range.setEnd(node, i + 1);
+            const box = range.getBoundingClientRect();
+            if (box.width) pen.fillText(text[i], box.left - left, baseline - top);
+          }
+        }
+      });
+
+      const pixels = pen.getImageData(0, 0, w, h).data;
+      let inked = 0;
+      for (let i = 3; i < pixels.length; i += 16) if (pixels[i] > 110) inked += 4;
+      if (!inked) return [];
+      // A jittered grid, spaced so that about as many points as wanted fall inside the letters.
+      const step = Math.max(2, Math.sqrt(inked / wanted));
+      const targets: Target[] = [];
+      for (let y = step / 2; y < h; y += step) {
+        for (let x = step / 2; x < w; x += step) {
+          const px = Math.min(w - 1, Math.max(0, Math.round(x + (rand() - 0.5) * step * 0.5)));
+          const py = Math.min(h - 1, Math.max(0, Math.round(y + (rand() - 0.5) * step * 0.5)));
+          const at = (py * w + px) * 4;
+          if (pixels[at + 3] <= 110) continue;
+          targets.push({
+            x: px + left - hostRect.left,
+            y: py + top - hostRect.top,
+            line: Math.min(lines.length, Math.max(1, Math.round(pixels[at] / 40))) - 1,
+          });
+        }
+      }
+      return targets;
+    };
+
+    const prepareForge = async () => {
+      const lines = [...host.querySelectorAll<HTMLElement>('[data-hero-line]')];
+      if (!title || !lines.length || !forgeCanvas || !forgeCtx) return endForge(false);
+      // Wait for the headline's font, but not for long: a slow network must not hold the name up.
+      await Promise.race([document.fonts.ready, new Promise((done) => setTimeout(done, 1500))]);
+      const box = title.getBoundingClientRect();
+      // Skip it when there is nobody to watch: the page has been open a while already, or the
+      // headline is out of view (a reload part-way down the page, say).
+      if (performance.now() > 4000 || box.bottom < 0 || box.top > window.innerHeight) return endForge(false);
+
+      const targets = sampleHeadline(lines, compact ? 1800 : 4000);
+      if (targets.length < 50) return endForge(false);
+      tones = lines.map((line) => getComputedStyle(line).color);
+
+      // The sparks leave the wheel where it meets the workpiece. Where the wheel is out of sight
+      // (stacked below the headline on a phone), they come in from the side of the screen.
+      const hostRect = host.getBoundingClientRect();
+      cosY = Math.cos(yaw);
+      sinY = Math.sin(yaw);
+      cosP = Math.cos(pitch);
+      sinP = Math.sin(pitch);
+      project(0, 0.02, 0);
+      const onScreen = sx > 0 && sx < width && sy + hostRect.top > 0 && sy + hostRect.top < window.innerHeight - 24;
+      const source = onScreen ? { x: sx, y: sy } : { x: width + 30, y: box.bottom - hostRect.top + 50 };
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      forgeCanvas.width = Math.round(width * dpr);
+      forgeCanvas.height = Math.round(height * dpr);
+      forgeCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      forgeBox = titleBox();
+      // Counted from the start of the scene, or from now if the font took its time.
+      const now = start ? (performance.now() - start) / 1000 : 0;
+      forgeFrom = Math.max(0, now - (TIMING.ignite - 0.2));
+      // Line by line, so the colour changes only a few times per frame.
+      sparks = planSparks(targets, source, rand).sort((a, b) => a.line - b.line);
+    };
+
+    function drawForge(tf: number) {
+      if (!sparks || !forgeCtx) return;
+      if (tf >= TIMING.firm) host!.classList.add('is-forged');
+      if (tf >= TIMING.end) return endForge(true);
+      const pen = forgeCtx;
+      pen.clearRect(0, 0, width, height);
+      if (tf < TIMING.ignite) return;
+      pen.globalCompositeOperation = 'lighter';
+      pen.lineCap = 'round';
+      // Once the real text is fading in, the sparks fade out over it.
+      const fade = 1 - clamp01((tf - TIMING.firm - 0.1) / (TIMING.end - TIMING.firm - 0.15));
+
+      // Landed sparks: grains of grit in the colour of their line, flaring as they touch down.
+      let line = -1;
+      for (const spark of sparks) {
+        if (tf < spark.arrive) continue;
+        if (spark.line !== line) {
+          line = spark.line;
+          pen.fillStyle = tones[line] ?? ICE;
+        }
+        const flare = Math.max(0, 1 - (tf - spark.arrive) / 0.3);
+        const half = spark.size * (0.62 + 0.6 * flare);
+        pen.globalAlpha = fade * clamp01(0.8 + 0.2 * flare + 0.14 * Math.sin(tf * 9 + spark.twinkle));
+        pen.beginPath();
+        pen.moveTo(spark.tx, spark.ty - half);
+        pen.lineTo(spark.tx + half, spark.ty);
+        pen.lineTo(spark.tx, spark.ty + half);
+        pen.lineTo(spark.tx - half, spark.ty);
+        pen.fill();
+      }
+
+      // Sparks still in the air: white hot, each trailing a short streak.
+      pen.fillStyle = pen.strokeStyle = '#fff3c9';
+      for (const spark of sparks) {
+        if (tf < spark.depart || tf >= spark.arrive) continue;
+        sparkPosition(spark, tf, here);
+        sparkPosition(spark, tf - 0.045, trail);
+        pen.globalAlpha = 0.5;
+        pen.lineWidth = spark.size * 0.85;
+        pen.beginPath();
+        pen.moveTo(trail.x, trail.y);
+        pen.lineTo(here.x, here.y);
+        pen.stroke();
+        pen.globalAlpha = 1;
+        pen.fillRect(here.x - spark.size * 0.65, here.y - spark.size * 0.65, spark.size * 1.3, spark.size * 1.3);
+      }
+    }
 
     // ---- Run loop ----
     let frame = 0;
@@ -574,10 +781,14 @@
     layout();
     if (reduceMotion) draw(0, true);
     else resume();
+    if (forging) prepareForge();
+    else forgeCanvas?.remove();
 
     new ResizeObserver(() => {
       layout();
       if (reduceMotion) draw(0, true);
+      // The letters were sampled where the headline stood: if it has moved, show the real one.
+      if (sparks && titleBox() !== forgeBox) endForge(true);
     }).observe(host);
     new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
@@ -640,6 +851,16 @@
     pointer-events: none;
     /* Keep the headline side calm: the scene fades out toward the left edge. */
     mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.28) 34%, #000 58%);
+  }
+
+  /* The sparks of the opening fly over the page content, so this layer sits above it. */
+  .hero-forge {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
   }
 
   @media (max-width: 960px) {
