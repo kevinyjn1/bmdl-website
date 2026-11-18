@@ -38,7 +38,7 @@
         "<a href=\"https://www.sciencedirect.com/science/article/abs/pii/S0007850617300902\">Experiment and smooth particle hydrodynamics simulation of debris size in atherectomy</a>",
         "<a href=\"http://www.sciencedirect.com/science/article/pii/S0007850616300129\">Grinding wheel motion, force, temperature, and material removal in rotational atherectomy of calcified plaque</a>"
       ],
-      "image": "research/atherectomy-grinding-of-calcified-plaque.png"
+      "image": "research/atherectomy-grinding-of-calcified-plaque.jpg"
     },
     {
       "id": "silicone-3d-printing",
@@ -60,7 +60,7 @@
       "links": [
         "<a href=\"https://www.sciencedirect.com/science/article/pii/S0007850623001099\">Experiment and smooth particle hydrodynamic modeling of single-grain diamond scribing of silicon carbide fiber reinforced silicon carbide (SiCf/SiC)</a>"
       ],
-      "image": "research/grinding-of-silicon-carbide-fiber-reinforced-silicon-carbide.png"
+      "image": "research/grinding-of-silicon-carbide-fiber-reinforced-silicon-carbide.jpg"
     },
     {
       "id": "custom-orthoses",
